@@ -1,0 +1,749 @@
+@import "reset.css";
+@import "prettyPhoto.css";
+@import "jquery.jscrollpane.css";
+
+/* Getting the new tags to behave */
+article, aside, audio, canvas, command, datalist, details, embed, figcaption, figure, footer, header, hgroup, keygen, meter, nav, output, progress, section, source, video{ display: block; }
+mark, rp, rt, ruby, summary, time{ display: inline }
+
+/* Left & Right alignment */
+
+.left { float:left;}
+.right { float:right;}
+.clear {clear:both;}
+.table {display:table;}
+.wrapper {width:100%; overflow:hidden;}
+.relative {position:relative;}
+.absolute {position:absolute;}
+
+/* Global properties ======================================================== */
+body, html { width:100%; height:100%;}
+
+body { 
+/*   background:#3d5006;   */
+  background:url(../images/SDC10565.jpg) 30% 30% no-repeat; 
+  border:0; 
+  font: 12px Arial, Helvetica, sans-serif; 
+  color:#161616 ; 
+  line-height:18px; 
+  min-width:1000px; 
+  position:relative; 
+  overflow:hidden;
+  min-height: 100%;
+}
+
+.spinner { 
+  position:absolute; 
+  z-index:99; 
+  background:url(../images/WordsSpinner.gif) 50% 50% no-repeat #000000;
+  width:100%; 
+  height:100%; 
+  top:0; 
+  left:0
+}
+
+.infoSpinner {
+	display: none;
+	z-index:99; 
+	position:absolute;
+	margin-left: 450px;
+	margin-top: -120px;
+	width:100px; 
+  	height:100px;
+	background:url(../images/mainSpinner.gif) 50% 50% no-repeat;
+}
+
+.extra {
+  min-width:1000px;
+  min-height:100%; 
+  height:auto !important; 
+  height:655px; 
+  margin: 0 auto 0px; 
+  overflow:hidden; 
+  position:relative; 
+  z-index:10; 
+}
+
+
+.main1 { 
+  width:100%;
+/*   background:#21610B;  */
+  height:655px; 
+  position:relative; 
+  z-index:1;
+}
+
+.main2 { 
+  width:1000px; 
+  background:black;  
+  opacity:0.9;
+  box-shadow: 0px 0px 30px black;
+  height:630px; 
+  position:absolute; 
+  left:50%; 
+  margin-left:-500px; 
+  top:55%;  
+  margin-top:-340px;  
+  z-index:2;
+}
+
+.infoBox {
+	position: fixed;
+	display: none;
+	width: 150px;
+	height: 50px;
+	margin-top: 10px;
+	margin-left: 15px;
+	border-radius: 5px;
+	border-width: 2px;
+	border-color: grey;
+	background-color: grey;
+}
+.infoBox p {
+	padding: 0px 5px 0px 5px;
+	font-size: 10px;
+	font-weight: bold;
+	color: black;
+}
+
+header{ width:1000px; position:absolute; left:0; top:63px; z-index:9; text-align:center; }
+
+.logo { display:inline-block;text-decoration:none;}
+.logo .txt1 { 
+  font-family:'BebasNeueRegular'; 
+  font-size:79px; 
+  line-height:89px; 
+  color:#fffcf3; 
+  text-decoration:none; 
+  text-transform:uppercase;
+}
+.logo .txt2 { 
+  font-family:'BebasNeueRegular'; 
+  font-size:24px; 
+  line-height:24px; 
+  color:#fff; 
+  text-decoration:none; 
+  text-transform:uppercase;
+}
+
+.grad1 { 
+	width:806px; 
+	height:591px; 
+	background:url(../images/grad1.png) 0 0 no-repeat; 
+	position:absolute; 
+	left:135px; 
+	top:-150px; 
+	z-index:1;
+}
+
+
+/* ============================= main menu ====================== */
+
+.menu {
+	height:90px; 
+	position:absolute; 
+	left:60px; 
+	top:530px; 
+	z-index:2;
+}
+
+#menu { 
+	position:relative;
+}
+
+#menu > li { 
+	display:block; 
+	height:80px; 
+	float:left; 
+	position:relative; 
+	margin-left:10px;
+}
+
+#menu > li > a {
+	display: inline-block; 
+	width:125px;  
+	height:-80px; 
+	/*margin-top: -50px;*/
+	text-decoration:none; 
+	text-align:center; 
+	overflow:visible; 
+	padding:0 15px; 
+	position:relative; 
+}
+#menu > li > a > .image { 
+	display: block;
+	width:100%; 
+	height:50px; 
+	/*margin-top:-5px;*/
+}
+#menu > li > a > .image img {
+	width:50px; 
+	height:50px;
+	float:center; 
+	}
+#menu > li > .shadow {
+	display:block; 
+	float:center; 
+	z-index:1; 
+	width:100%; 
+	height:25px; 
+	-moz-border-radius: 10px;
+	border-radius: 10px; 
+	background:#abc127; 
+	/*box-shadow:inset 0 0 50px #abc127; */
+	position:absolute; 
+	left:0px; 
+	top:56px;
+}
+#menu > li > a .txt1 { 
+	display:block; 
+	position:relative; 
+	height:25px; 
+	z-index:2; 
+	left:0; 
+	top:10px; 
+	font-family:'ChantelliAntiquaRegular'; 
+	text-align:center; 
+	font-size:16px; 
+	color:#f3ffc7; 
+	text-shadow:0px 0px 5px #000;
+}
+#menu > li > a .over { 
+	display:block; 
+	width:100%; 
+	/*height:150px; */
+	position:absolute; 
+	left:0; 
+	top:0; 
+	z-index:1;
+	/*background:#ffad00;*/
+}
+
+#menu > li > a:hover , #menu > li.active > a, #menu > li.sfHover > a { text-decoration:none; color:#e6f775;}
+
+
+/*============================== mid text =======================*/
+.mid {
+	display:inline-block;
+	overflow:hidden;
+	position:absolute;
+	width:900px;
+	height:230px;
+	top:280px;
+	left:50px;
+	background:white;
+	opacity:0.3;
+	border-radius: 10px;
+}
+.slider-wrapper { 
+
+	margin-top:290px;
+	margin-left: 540px;
+}
+.theme-default #slider {
+/* 	margin:auto auto auto auto;  */
+	box-shadow:0px 0px 20px black;
+    width:400px; /* Make sure your images are the same size */
+    height:200px; /* Make sure your images are the same size */
+
+}
+
+/* ============================= main layout ====================== */
+.bx-title {
+	/*background: #ffad00;*/
+	height: 25px;
+	width: 190px;
+	margin-left: 12px;
+	border-radius: 5px;
+	margin-top: 3px;
+}
+.bx-title p {
+	color:black;
+	font-family:'BebasNeueRegular'; 
+	font-size:20px; 
+	padding: 4px; 
+}
+
+/*==============*/
+#tabs{
+  overflow: hidden;
+  width: 100%;
+  margin-top: 5px;
+  margin-left: 2px;
+  padding: 0;
+  list-style: none;
+  /*box-shadow: 5px 5px 5px black;*/
+}
+
+#tabs li{
+  float: left;
+  width:95px;
+  margin: 0 11px 0 0;
+}
+
+#tabs a{
+  position: relative;
+  width:95px;
+  background: #ccc;
+  /*background-image: linear-gradient(to bottom, #fff, #ddd);  */
+  padding: 10px 5px;
+  float: left;
+  font-size: 15px;
+  /*font-weight: bold;*/
+  font-family:'BebasNeueRegular';
+  text-decoration: none;
+  color: black;
+  /*text-shadow: 0 1px 0 rgba(255,255,255,.8);*/
+  border-radius: 5px;
+  box-shadow: 0 2px 2px rgba(0,0,0,.4);
+}
+
+#tabs a:hover,
+#tabs a:hover::after,
+#tabs a:focus,
+#tabs a:focus::after{
+  background: #ffad00;
+  width:95px;
+}
+
+#tabs a:focus{
+  outline: 0;
+  width:95px;
+}
+
+#tabs a::after{
+  /*contentE:'';*/
+  /*position:absolute;*/
+  z-index: 1;
+  top: 0;
+  /*right: px;  */
+  bottom: 0;
+  width: 95px;
+  background: #ffad00;
+  background-image: linear-gradient(to bottom, #fff, #ddd);  
+  box-shadow: 2px 2px 2px rgba(0,0,0,.4);
+  transform: skew(10deg);
+  border-radius: 0 5px 0 0;  
+}
+
+#tabs #current a,
+#tabs #current a::after{
+  background: #ffad00;
+  width:95px;
+  z-index: 3;
+}
+
+#contentE
+{
+    /*background: #fff;*/
+    background-color: rgba(0, 0, 0, 1);
+	background: rgba(0, 0, 0, 1);
+    padding: 3px;
+    width:95%;
+    margin-left: 2px;
+    top: 2px;
+    height: 240px;
+    position: relative;
+    z-index: 2;	
+    border-radius: 5px 5px 5px 5px;
+    /*box-shadow: 4px 2px 1px black;*/
+}
+
+
+
+/*==================*/
+
+#content { 
+	position:absolute; 
+	left:8px; 
+	top:164px; 
+	z-index:10;
+}
+#content > ul { }
+#content > ul > li  {
+	width:985px; 
+	height:350px; 
+	background:url(../images/content_bg.png) 0 0 no-repeat; 
+	position:absolute;
+}
+
+.leftbox { 
+	display: inline-block; 
+	height:60px;
+	width:200px; 
+	position:absolute; 
+	left:10px; 
+	top:-40px; 
+	z-index:2; 
+	background:#abc127; 
+	white-space:nowrap; 
+	text-decoration:none;
+}
+.leftbox .leftover { 
+	display:block;
+	width:100%; 
+	height:100%; 
+	position:absolute; 
+	left:0; 
+	top:0; 
+	z-index:1; 
+	background:#ffad00;
+}
+
+.leftbox .x1 { 
+	display:block; 
+	width:100%; 
+	height:100%; 
+	position:absolute; 
+	left:0; 
+	top:0; 
+	z-index:0; 
+	/*background: url(../images/close.png) right center no-repeat; */
+}
+.leftbox .txt1 { 
+	display:block; 
+	position:relative; 
+	z-index:3; 
+	font-family:'BebasNeueRegular'; 
+	font-size:18px; 
+	line-height:22px; 
+	color:#000; 
+	text-decoration:none; 
+	text-transform:uppercase; 
+	padding:0 20px 0 15px; 
+}
+/* ================= In Graph ================ */
+
+.total-box { 
+	display: none;
+	border-radius:3px;
+	height:40px;
+	width:180px; 
+	position:absolute; 
+	left:780px; 
+	top:240px; 
+	z-index:2; 
+	/*background:black; */
+}
+.total-box p{
+	padding:1px 25px;
+	font-family:'ChantelliAntiquaRegular';
+	/*text-transform:lowercase; */
+	color: black;
+	font-size: 17px;
+}
+
+.graph-name { 
+	/*display: none;*/
+	opacity: 0.9;
+	border-radius:5px;
+	/*box-shadow: -2px -2px 3px 3px grey;*/
+	height:25px;
+	width:540px; 
+	position:absolute; 
+	left:250px; 
+	top:15px; 
+	z-index:2; 
+	background: url(../images/graph_name.png) no-repeat;
+}
+.graph-name p{
+	display: none;
+	/*font-weight: bold;*/
+	margin-left: 15px;
+	/*margin-top: 3px;*/
+	font-family:'BebasNeueRegular';
+	text-transform:uppercase; 
+	color: black;
+	line-height:28px;
+	text-decoration:none;
+	/*background-color: white;*/
+	font-size: 22px;
+}
+#container {
+	margin-top: 5px;
+}
+
+.midBox {
+	width: 640px;
+	height: 340px;
+	margin-left: 250px;
+	margin-top: -35px;
+	background: url("../images/CampusAerial.jpg") center bottom no-repeat;
+}
+
+#s1 {
+	margin-top: -10px;
+	margin-left: -20px;
+	position: relative;
+}
+.pics { height: 232px; width: 232px; padding:0; margin:0; overflow: hidden }
+.pics img { height: 200px; width: 200px; /*padding: 15px;*/ border: 10px solid #ccc; background-color: #eee; top:0; left:0 }
+/* ================= butttons ================ */
+#buttons{
+	width: 250px;
+	height: 35px;
+	margin-left: 292px;
+	background: url(../images/buttons_bg.png) no-repeat;;
+	border-radius: 3px;
+	/*box-shadow: 2px 2px 5px grey;	*/
+}
+#today, #week, #month, #year {
+	font-weight: bold;
+	margin-left: 8px;
+	margin-top: 5px;
+	font-size: 10px;
+}
+.pri {
+	width:20;
+	height: 40px;
+	background-color:blue;
+}
+#list1 {
+	display: inline-block !important;
+	margin-left: 10px;
+	margin-top: 5px;
+}
+#list1 .dd-select
+{
+	display: inline-block !important;
+}
+#list2 {
+	display: inline-block !important;
+	margin-left: 10px;
+	margin-top: 5px;
+}
+#list2 .dd-select
+{
+	display: inline-block !important;
+}
+/* ================= navigation ================= */
+.ui-menu { 
+	width: 150px;
+	height: 150px; 
+}
+/* ================= tooltip ================= */
+#tooltip {
+    position:absolute;
+    z-index:9999;
+    color:#fff;
+    font-size:10px;
+    width:180px;    
+}
+ 
+#tooltip .tipHeader {
+    height:8px;
+    background:url(../images/tipHeader.gif) no-repeat;
+}
+ 
+/* IE hack */
+*html #tooltip .tipHeader {margin-bottom:-6px;}
+ 
+#tooltip .tipBody {
+    background-color:#000;
+    padding:5px 5px 5px 15px;
+}
+ 
+#tooltip .tipFooter {
+    height:8px;
+    background:url(../images/tipFooter.gif) no-repeat;
+}
+/*=====================================================*/
+
+.close { 
+	display: inline-block; 
+	height:39px; 
+	position:absolute; 
+	right:10px; 
+	top:-20px; 
+	z-index:2; 
+	background:#ffad00; 
+	white-space:nowrap; 
+	text-decoration:none;
+}
+.close .over { 
+	display:block; 
+	width:100%; 
+	height:100%; 
+	position:absolute; 
+	left:0; 
+	top:0; 
+	z-index:1; 
+	background:#abc127; 
+}
+.close .x1 { 
+	display:block; 
+	width:100%; 
+	height:100%; 
+	position:absolute; 
+	left:0; 
+	top:0; 
+	z-index:2; 
+	background: url(../images/close.png) right center no-repeat; 
+}
+.close .txt1 { 
+	display:block; 
+	position:relative; 
+	z-index:3; 
+	font-family:'BebasNeueRegular'; 
+	font-size:22px; 
+	line-height:39px; 
+	color:#000; 
+	text-decoration:none; 
+	text-transform:uppercase; 
+	padding:0 40px 0 15px; 
+}
+
+
+.box { 
+	width:1000px;
+	height:315px; 
+	position:relative; 
+	z-index:1; 
+	padding:40px 42px 0 43px; 
+	overflow:hidden;
+}
+
+.el {
+	display: none;
+	/*position:relative;*/
+	width: 740px;
+	height: 330px;
+	margin-left: 190px;
+	margin-top: -33px; 
+	/*padding:40px 42px 0 43px; */
+	border-radius:3px;
+	box-shadow: 5px 5px 5px black;
+	background-color: rgba(0, 0, 0, 1);
+	background: rgba(0, 0, 0, 1);
+	opacity: 1 !important;
+}
+.col0,.col1,.col1E, .col2, .col3, .col4, .col5, .col6, .col7, .col8, .col9, .col10, .col11, .col12   { float:left;}
+
+.col0 { 
+	width:1px; 
+	height:350px; 
+	background: url(../images/col0.png) 0 0 repeat-y; 
+	/*margin-left:60px; */
+	/*margin-right:0px; */
+	margin-top:-45px;
+}
+
+
+.col1E{ 
+	width:215px;
+	height: 330px;
+	margin-left: -35px;
+	margin-top: -30px;
+	background: white;
+	box-shadow: 2px 2px 2px 2px grey;
+	border-radius: 5px;
+	/*background-color: rgba(0, 0, 0, 1);
+	background: rgba(0, 0, 0, 1);*/
+}
+.col1{ 
+    width:250px; 
+    /*margin-left:10px;*/
+}
+.col2{ 
+    width:550px; 
+    margin-left:10px;
+}
+.col3{ 
+	width:170px;
+	height: 230px; 
+	margin-top: 14px;
+	background: url(../images/col3-img1.jpg) 0 0 repeat-y;
+	box-shadow: 2px 2px 5px grey;
+	border-radius: 5px;
+}
+.col4{ width:600px;}
+.col5{ width:240px;}
+.col6{ width:620px;}
+.col7{ width:220px;}
+.col8{ width:290px;}
+.col9{ width:420px;}
+
+
+
+
+.pad_left1{ padding-left:10px;}
+.pad_left2{ padding-left:20px;}
+.pad_left3{ padding-left:30px;}
+.pad_left4{ padding-left:40px;}
+.pad_left5{ padding-left:50px;}
+.pad_left6{ padding-left:60px;}
+
+
+
+
+a{ color:#698c0f; text-decoration: underline; outline:none}
+a:hover{ text-decoration: none}
+
+h2{ font-family:'BebasNeueRegular';font-weight:normal; font-size:24px; color:#000; line-height:24px; padding:0px 0 25px 0;  }
+h3{ display:block; font-size:12px; color:#ffad00; line-height:20px; text-transform:uppercase;}
+
+
+.upper { text-transform:uppercase;}
+
+.color1{ color:#637616;}
+
+
+.text { padding:0 0 5px; display:block;}
+
+.line1 { height:1px; background: url(../images/line1_px.png) 0 0 repeat-x; margin:15px 0;}
+
+.radius1{border-radius:3px; -moz-border-radius:3px; -webkit-border-radius:3px;}
+
+
+.img1 {margin-bottom:20px;margin-right:20px;}
+.img2 {margin-right:20px; }
+.img3 {margin-bottom:20px;}
+
+.button1{ display:inline-block; height:18px; line-height:18px;  position:relative; text-decoration:none; margin-top:10px; margin-bottom:10px; font-size:18px; font-family:'BebasNeueRegular'; color:#3d5006; text-transform:uppercase; white-space:nowrap; letter-spacing:0px; background:url(../images/button1.png) 0 2px no-repeat; padding-left:15px;}
+.button1:hover { color:#ffad00;}
+
+.time1{ width:43px; height:43px;border-radius:43px; -moz-border-radius:43px; -webkit-border-radius:43px; background:#ffad00; text-align:center; font-family:'BebasNeueRegular'; font-size:24px; color:#000; line-height:27px; margin-right:20px;}
+.time1 span{ font-family:Arial, Helvetica, sans-serif; font-size:10px; text-transform:uppercase; line-height:10px;}
+
+.ul1 > li { line-height:30px; background:url(../images/li_line1.png) 0 0 repeat-x;}
+.ul1 > li:first-child{ background:none;}
+.ul1 > li a{ display:block; text-decoration:none; color:#637616; font-weight:bold; text-transform:uppercase; background:url(../images/li_st1.png) 0 10px no-repeat; padding-left:20px;}
+.ul1 > li a:hover{ text-decoration:none; color:#ffad00; background:url(../images/li_st1_over.png) 0 10px no-repeat;}
+
+.gal1 { width:258px; padding-bottom:25px; float:left; margin-right:50px; }
+.gal1.last { margin-right:0px; }
+
+.photo1 {width:248px; height:146px;margin-bottom:25px;}
+.photo1 a img {border:5px solid #fff;}
+.photo1 a:hover img {border:5px solid #ffad00;}
+
+
+.google_map{
+
+	width: 420px;
+	height: 260px;
+	border-radius:0px;
+	background: #fff;
+	position:relative;
+	overflow:hidden; margin-bottom:20px;
+}
+
+/*===================== jScrollPane =====================*/
+
+.scroll-pane{width: 100%; height:380px; overflow: auto;}
+
+
+
+/* Generated by Font Squirrel (http://www.fontsquirrel.com)  */
+
+@font-face {
+    font-family: 'BebasNeueRegular';
+    src: url('bebasneue-webfont.eot');
+    src: url('bebasneue-webfont.eot?#iefix') format('embedded-opentype'),
+         url('bebasneue-webfont.woff') format('woff'),
+         url('bebasneue-webfont.ttf') format('truetype'),
+         url('bebasneue-webfont.svg#BebasNeueRegular') format('svg');
+    font-weight: normal;
+    font-style: normal;
+
+}
