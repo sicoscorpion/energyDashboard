@@ -82,7 +82,7 @@ var onErr = function(err,callback){
 
 function saveData(callback){
 	// process.chdir('/home/sico/data');
-	if (process.argv.length > 3) {
+	if (process.argv.length > 2) {
 		var dir = process.argv[2];
 		var numOfFiles = fs.readdirSync(dir).length;
 		var fileNew = process.argv[3];
@@ -91,7 +91,7 @@ function saveData(callback){
 		// console.log('Current directory: ' + process.cwd());
 
 	} else {
-		var dir = process.argv[2];
+		var dir = '/home/cslab/DATA/';
 		var numOfFiles = fs.readdirSync(dir).length;
 		console.log("Reading from automatically defined files");
 		incompleteFileToday = todayDate + "D_INCOMPLETE.csv";
