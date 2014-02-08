@@ -1,3 +1,8 @@
+/* 
+	Handle the Parsed & calculated data and set conditions for when they should be stored
+   	TODO usage
+*/
+
 var fs = require('fs'),
 	sys = require('sys'),
 	exec = require('child_process').exec,
@@ -9,13 +14,10 @@ var collections = ["dataHour", "dataDaily", "dataMonthly"];
 var db = require('mongojs').connect('dashboard', collections);
 
 
-// var db = new Db('test', new Server("127.0.0.1", 27017,
-//   {auto_reconnect: true, poolSize: 4}), {safe:false, native_parser: false});
-
 var BuildingsCodes = ["SEM", "SM2", "CRO", "EAT", "CHI", "UNH", "RHO", "SUB", "BAC", "WHI", "MAN",
 "CUT", "RRG", "HOR", "VML", "VM2", "DEN", "WMH", "WIL", "CAR", "HSH", "EMM", "ELL"];
 
-// Building object
+// Building objects
 function Building(date, time, code, status, consumption){
 	this.date = date;
 	this.time = time;
@@ -47,8 +49,6 @@ var	dayY = yesterday.getDate(),
 var yesterdayDate = dateable.format(yesterday, 'MMDDYYYY'); // Yesterday's date formatted;
 var yesterdayFile = yesterdayDate + "D.csv";
 var todayFile = todayDate + "D.csv";
-// console.log(todayFile);
-// console.log(day);
 
 function calcDate(year, month) {
 	var dd = new Date(year, month, 0);
@@ -76,8 +76,8 @@ var calc = require('./calculate.js');
 var fileExistSync = require('./existsSync.js');
 
 var onErr = function(err,callback){
- db.close();
- callback(err);
+	 db.close();
+	 callback(err);
 };
 
 function saveData(callback){
@@ -116,8 +116,6 @@ function saveData(callback){
 			fileOld = yesterdayFile;
 			console.log("Reading from Main File");
 		}
-		
-		// console.log('Current directory: ' + process.cwd());
 	}
 	if(numOfFiles >= 2){
 		var dataOld = fs.readFileSync('/home/cslab/DATA/' + fileOld, 'utf-8');
@@ -126,7 +124,7 @@ function saveData(callback){
 	} else {
 		console.log("Error ... Not enough files");
 	}
-	console.log(dir, numOfFiles);
+	console.log("Number of files in: " + dir + " is " + numOfFiles);
 	var dataNew = fs.readFileSync('/home/cslab/DATA/' + fileNew, 'utf-8');
 	var listNew = parse.parser(dataNew);
 	var dataHourly = calc.calcHourly(listNew, oldDt);
@@ -145,89 +143,64 @@ function saveData(callback){
 		var d = new Date(parseInt(fileYear), parseInt(fileMonth, 10) - 1, i);
 		d.setFullYear(fileYear);
 		monthArr[i-1] = dateable.format(d, 'MM/DD/YYYY');
-		// console.log(monthArr[i-1]);
 	};
 	
 	for (var i = 0; i < dataHourly.length; i++) {
 		
-			// save daily
+		// save daily
 		if (dataHourly[i].time) {
 			timeH = parseInt(String(dataHourly[i].time).slice(0,2));
-			// console.log(timeH, dataHourly[i].time);
 		}
 		
 		if(timeH === 23){
 			var dt = calc.calcDaily(dataHourly);
 			db.dataDaily.save(dt, function(err, results) {
-				// console.log("dataDaily Waiting .... ")
+				// ignoring duplicate key's error (Mongo:11000)
 				if (err || !results){
-					if (err) onErr(err, callback);
-					console.log("err: error saving data in dataDaily" + err);
+					if (err.code !== 11000){
+						onErr(err, callback); 	
+					}
 				}
 			});
 		};
-		// console.log(typeof(fileDay), typeof(end));
-		
-
-			// save hourly
+		// save hourly
 		var data = new Building(dataHourly[i].date, dataHourly[i].time, 
 			dataHourly[i].code, dataHourly[i].status, dataHourly[i].value);
 
 		db.dataHour.save(data, function(err, results) {
+			// ignoring duplicate key's error (Mongo:11000)
 			if (err || !results) {
-				if (err) onErr(err, callback); 
-				console.log("Data @: " + data.time + " Not saved because of error " + err);
+				if (err.code !== 11000){
+					onErr(err, callback); 	
+				}
 			}
-			// console.log("dataHourly Waiting ...");
-			// db.close();
 		});
 					
 	}
-	// console.log(timeH);
+	// save Monthly
 	if (parseInt(fileDay, 10) === end && timeH === 23) {
-		// var m = todayDate_db.slice(0,2);
-		// var y = todayDate_db.slice(6,10);
-		console.log(fileMonth, fileYear, BuildingsCodes.length);
+		// console.log(fileMonth, fileYear, BuildingsCodes.length);
 		for (var i = 0; i < BuildingsCodes.length; i++) {
-			// console.log(BuildingsCodes[i]);
 			calc.findMonthly(fileMonth, fileYear, monthArr, BuildingsCodes[i], end, function(result){
 				db.dataMonthly.save(result, function(err, results) {
 					if (err || !results) {
-						if (err) onErr(err, callback);
-						console.log("err: error saving data in dataDaily" + err);
+						if (err.code !== 11000){
+							onErr(err, callback); 	
+						}
 					}
 				});
 				// console.log(result);
 			});
 		}
 	}
-	// if (day === end && da.getHours() === 23) {
-	// 	var m = todayDate_db.slice(0,2);
-	// 	var y = todayDate_db.slice(6,10);
-	// 	for (var i = 0; i < BuildingsCodes.length; i++) {
-	// 		findMonthly("01", y, monthArr, BuildingsCodes[i], end, function(result){
-	// 			db.dataMonthly.save(result, function(err, results) {
-	// 				if (err || !results) {
-	// 					if (err) onErr(err, callback);
-	// 					console.log("err: error saving data in dataDaily" + err);
-	// 				}
-	// 			});
-	// 			// console.log(result.length);
-	// 		});
-	// 	};
-	// 	// console.log(m);
-	// }
-
-
-	console.log("SAVING ... ");
-
+	// Leaving time for all callbacks to finish
 	setTimeout(function(){
 		db.close();
 	}, 10000);
 	return "Done";
 	callback();
 }
-
+// To give the option to run the routine manually this function is called. UGLY : 
 saveData();
 
 

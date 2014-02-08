@@ -1,4 +1,8 @@
 
+/* 
+	calculate electricity consumption to be stored in db-Dashboard {dataHour, dataDaily, dataMonthly} 
+	TODO usage
+*/
 function Building(date, time, code, status, consumption){
 	this.date = date;
 	this.time = time;
@@ -34,7 +38,6 @@ module.exports = {
 				x--;
 			} 		
 		}	
-		// console.log(oldObjects);
 		return oldObjects;	
 	},
 
@@ -45,16 +48,12 @@ module.exports = {
 
 		for (var i = 0, x = 0; i < data.length; i++, x++) {
 			objects[x] = new Building();
-			
 			if (data[i].time === "00:00:00") {
-				// console.log("I am Here @ old");
 				if (!old) { 
 					objects[x].value = 0;
 				} else {
 					for (var m = 0; m < old.length; m++) {
-						// console.log("I am Here @ old" + m);
 						if(data[i].code === old[m].code){
-							// console.log("I am Here @ old" + data[i].code);
 							objects[x].value = (data[i].value - old[m].value) / 2;
 						}
 					}
@@ -65,7 +64,6 @@ module.exports = {
 					if (data[i].code === data[j].code){
 						if (data[i].value < data[j].value) {
 							objects[x].value = data[i].value;
-							// console.log("Reset value detected ... " + data[i].date);
 							break;
 						} else {
 							objects[x].value = data[i].value - data[j].value;
@@ -104,15 +102,12 @@ module.exports = {
 						accumValues[i] = accumValues[i] + data[j].value;
 					}
 				}
-				// console.log(data[j].date);
 			}
 			objects[i].date = new Date(x);
 			objects[i].time = "23:00:00";
 			objects[i].code = BuildingsCodes[i];
 			objects[i].status = "relaible";
 			objects[i].value = accumValues[i];
-
-			// console.log(objects[i]);
 			counter = 0;
 		}
 		return objects;
@@ -120,8 +115,6 @@ module.exports = {
 
 	findMonthly: function(month, year, monthArr, Buil, monthLength, callback) {
 		db.dataDaily.find({code: Buil}, function(err, data) {
-			// if (data === undefined)
-				// console.log(data);
 			var object = new BuildingMonths();
 			if (data !== undefined) {
 				
@@ -132,31 +125,14 @@ module.exports = {
 					if (String(data[i].date).slice(0,2) === month) {
 						accum += data[i].value;
 					}
-					// console.log("YES!", String(data[i].date).slice(0,2));
 				}
 				object.month = month;
 				object.year = year;
 				
 				object.status = "relaible";
 				object.value = accum;
-				// console.log(object);
-				
 			} 
 			callback(object, err);
-			// if (String(data.date).slice(0,2) === month) {	
-			// 	var object = new BuildingMonths();
-			// 	
-			// 	for (var i = 0; i <	monthLength; i++) {
-			// 		for (var j = 0; j < data.length; j++) {
-			// 			if (monthArr[i] === data[j].date) {
-			// 				accum += data[j].value;
-			// 				console.log(data[j]);
-			// 			}
-							
-			// 		}
-			// 	};
-				
-			// }
 		});
 	}
 

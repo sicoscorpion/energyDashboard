@@ -17,9 +17,9 @@ Highcharts.theme = {
 		borderColor: '#000000',
 		borderWidth: 2,
 		className: 'dark-container',
-		plotBackgroundColor: 'rgba(255, 255, 255, .1)',
-		plotBorderColor: '#CCCCCC',
-		plotBorderWidth: 1
+		// plotBackgroundColor: 'rgba(255, 255, 255, .1)',
+		// plotBorderColor: '#CCCCCC',
+		// plotBorderWidth: 1
 	},
 	title: {
 		style: {
@@ -75,8 +75,9 @@ Highcharts.theme = {
 	},
 	tooltip: {
 		backgroundColor: 'rgba(0, 0, 0, 0.75)',
+		borderColor: 'black',
 		style: {
-			color: '#F0F0F0'
+			color: '#F0F0F0',
 		}
 	},
 	toolbar: {
@@ -145,16 +146,16 @@ Highcharts.theme = {
 		}
 	},
 
-	exporting: {
-		buttons: {
-			exportButton: {
-				symbolFill: '#55BE3B'
-			},
-			printButton: {
-				symbolFill: '#7797BE'
-			}
-		}
-	},
+	// exporting: {
+	// 	buttons: {
+	// 		exportButton: {
+	// 			symbolFill: '#55BE3B'
+	// 		},
+	// 		printButton: {
+	// 			symbolFill: '#7797BE'
+	// 		}
+	// 	}
+	// },
 
 	// scroll charts
 	rangeSelector: {

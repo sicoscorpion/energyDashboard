@@ -1,3 +1,8 @@
+/* 
+    checks out (and assign if nessasary) the db-Dashboard schemas, and handle all the routing 
+    TODO usage
+*/
+
 var Mongoose = require('mongoose')
    , Schema = Mongoose.Schema;
 
@@ -10,7 +15,6 @@ var db_list = ['DH', 'DD', 'DM'];
 
 for (var i = 0; i < db_list.length; i++) {
     if (db_list[i] === "DM") {
-        console.log("DMMM")
         Mongoose.model(db_list[i], new Schema({
             month           :  String, 
             code            :  String,
@@ -40,9 +44,7 @@ module.exports = {
         var par1 = req.params.val;
         var val = par1.slice(0,2) + "/" + par1.slice(3,5) + "/" + par1.slice(6,10);
         var value = new Date(val);
-        console.log(value)
         var par2 = req.params.build;
-        console.log("Getting data for: ", todayDate);
         dataHour.find({date: value, code: par2}, function(err, data){
             if (err) {
                 console.log("ERR: ", __filename, "func: getPerHour");
@@ -59,9 +61,7 @@ module.exports = {
         var sunday = extras.getSunday(today);
         var sundayDate = dateable.format(sunday, 'MM/DD/YYYY'); // Today's date formated.
         var par1 = req.params.from;
-        console.log(par1);
         var par2 = req.params.to;
-        console.log(par2);
         var begin = par1.slice(0,2) + "/" + par1.slice(3,5) + "/" + par1.slice(6,10);
         var end = par2.slice(0,2) + "/" + par2.slice(3,5) + "/" + par2.slice(6,10);
         var begin = new Date(begin);
@@ -82,7 +82,6 @@ module.exports = {
         var sunday = extras.getSunday(today);
         var sundayDate = dateable.format(sunday, 'MM/DD/YYYY'); // Today's date formated.
         var par = req.params.build;
-        console.log(todayDate, sundayDate);
         dataDaily.find({date: {$gt:new Date(sundayDate), $lt:new Date(todayDate)}, code:par}, function(err, data){
             if (err) {
                 console.log("ERR: ", __filename, "func: getForWeek");
@@ -101,7 +100,6 @@ module.exports = {
         d.setHours(-1);
         var par = req.params.build;
         var lastDate = dateable.format(d, 'MM/DD/YYYY');
-        console.log(lastDate);
         dataDaily.find({date: {$gt: new Date(lastDate)}, code:par}, function(err, data){
             if (err) {
                 console.log("ERR: ", __filename, "func: getForMonth");
@@ -114,7 +112,6 @@ module.exports = {
 
     getForYear: function(req, res){
         var par = req.params.build;
-        console.log("Getting data for: TODO MONTH");
         dataMonthly.find({code:par}, function(err, data){
             if (err) {
                 console.log("ERR: ", __filename, "func: getForYear");

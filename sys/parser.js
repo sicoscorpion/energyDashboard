@@ -1,5 +1,7 @@
-// Raw data parsing
-
+/* 
+	Parse data from .csv files and prepare for calculations 
+	TODO usage
+*/
 
 function Building(date, time, code, status, consumption){
 	this.date = date;

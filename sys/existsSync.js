@@ -1,13 +1,8 @@
 /*
-  fileExistSync - Check if a file exist in NodeJS
-  Twitter: @FGRibreau / fgribreau.com
- 
+  fileExistSync - Check if a file existsSync
   Usage: 
     var fileExistSync = require('./fileExistSync');
-    
     var exist = fileExistSync('/var/folders/zm/jmjb49l172g6g/T/65b199');
-    
-  Support for Nodev0.6
 */
  
 var fs = require('fs');

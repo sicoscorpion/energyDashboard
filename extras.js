@@ -13,5 +13,3 @@ module.exports = {
 	    return date;
 	}
 }   
-
-console.log(todayDate);
