@@ -24,3 +24,13 @@ Usage
 
 Server Structure
 ================
+
+NodeJS modules
+==============
+  - expressJS (npm install express)
+  - mongooseJS (npm install mongoose)
+  - cronJS (npm install cron)
+  - mongoJS (npm install mongojs)
+  - ejs (npm install ejs)
+  - sys (npm install sys)
+  - dateable (npm install dateable)
