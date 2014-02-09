@@ -1080,7 +1080,6 @@ function buildElectricity(buildingTest) {
         console.log("Clicked", $(this).attr("rel"));
         bui = $(this).attr("rel");
         buil_loader("#contentE #tab1" , $(this).attr("rel"));
-         
     });
     $("#contentE #tab2 a").click(function(){
         // $("#spin").show();

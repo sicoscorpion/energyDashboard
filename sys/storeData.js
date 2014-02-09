@@ -159,7 +159,8 @@ function saveData(callback){
 				// console.log("dataDaily ", err, results)
 				if (err || !results){
 					if (err.code !== 11000){
-						onErr(err, callback); 	
+						onErr(err, callback); 
+						console.log("Error Inserting data: ", err)	
 					}
 				}
 			});
@@ -173,8 +174,9 @@ function saveData(callback){
 			// console.log("dataHour ", err, results)
 			if (err || !results) {
 				if (err.code !== 11000){
-					onErr(err, callback); 	
-				}
+					onErr(err, callback);
+					console.log("Error Inserting data: ", err)
+				} 
 			}
 		});
 					
@@ -187,11 +189,11 @@ function saveData(callback){
 				db.dataMonthly.insert(result, function(err, results) {
 					if (err || !results) {
 						if (err.code !== 11000){
-							onErr(err, callback); 	
+							onErr(err, callback);
+							console.log("Error Inserting data: ", err) 	
 						}
 					}
 				});
-				// console.log(result);
 			});
 		}
 	}

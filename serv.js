@@ -16,6 +16,7 @@ var express = require('express')
    , app = express()
    , dateable = require('dateable');
 
+var pkg = require('./package.json');
 var cont = require('./routes/controller.js');
 var cronJob = require('cron').CronJob;
 
@@ -77,7 +78,8 @@ app.get('/db/dataForYear/:build', cont.getForYear);
 
 app.get('/', function(req, res){   
     res.render('index.html', {
-        env: process.env.NODE_ENV
+        env: process.env.NODE_ENV,
+        ver: pkg.version
     });
 });
 
@@ -89,4 +91,4 @@ function errorHandler(client, conn) {
 
 app.listen(process.env.PORT);
 console.log("Acadia Energy Dashboard NodeJS server");
-console.log("Server listening on port", process.env.PORT, "in", process.env.NODE_ENV, "environment");
+console.log("Server listening on port", process.env.PORT, "in", process.env.NODE_ENV, "environment.", "version:", pkg.version);

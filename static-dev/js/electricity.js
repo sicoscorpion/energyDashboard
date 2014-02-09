@@ -1075,7 +1075,8 @@ function buildElectricity(buildingTest) {
 
     $(".elect li:first a").addClass("current");
     $("#contentE #tab1").show().jScrollPane({hideFocus:true, reinitialise: true});
-    $("#contentE #tab1 a").click(function(){
+    $("#contentE #tab1 a").on('click', function(){
+        $("#contentE #tab1 a").unbind('click');
         
         console.log("Clicked", $(this).attr("rel"));
         bui = $(this).attr("rel");
