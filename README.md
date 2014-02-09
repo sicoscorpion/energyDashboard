@@ -25,6 +25,14 @@ Usage
 
 Server Structure
 ================
+  - /sys
+    - /parser.js
+    - /existsSync.js <i>(TODO: merge with extras.js)/<i>
+    - /calculate.js
+    - /storeData.js <i>(main database feeder - see Populate database section)</i>
+  - /routes
+    - controller.js
+  - ....
 
 NodeJS modules
 ==============
