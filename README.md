@@ -33,3 +33,6 @@ NodeJS modules
   - ejs (npm install ejs)
   - sys (npm install sys)
   - dateable (npm install dateable)
+License
+=======
+  <a href="http://www.gnu.org/licenses/gpl.txt">GPL</a> 
