@@ -154,8 +154,9 @@ function saveData(callback){
 		
 		if(timeH === 23){
 			var dt = calc.calcDaily(dataHourly);
-			db.dataDaily.save(dt, function(err, results) {
+			db.dataDaily.insert(dt, function(err, results) {
 				// ignoring duplicate key's error (Mongo:11000)
+				// console.log("dataDaily ", err, results)
 				if (err || !results){
 					if (err.code !== 11000){
 						onErr(err, callback); 	
@@ -167,8 +168,9 @@ function saveData(callback){
 		var data = new Building(dataHourly[i].date, dataHourly[i].time, 
 			dataHourly[i].code, dataHourly[i].status, dataHourly[i].value);
 
-		db.dataHour.save(data, function(err, results) {
+		db.dataHour.insert(data, function(err, results) {
 			// ignoring duplicate key's error (Mongo:11000)
+			// console.log("dataHour ", err, results)
 			if (err || !results) {
 				if (err.code !== 11000){
 					onErr(err, callback); 	
@@ -182,7 +184,7 @@ function saveData(callback){
 		// console.log(fileMonth, fileYear, BuildingsCodes.length);
 		for (var i = 0; i < BuildingsCodes.length; i++) {
 			calc.findMonthly(fileMonth, fileYear, monthArr, BuildingsCodes[i], end, function(result){
-				db.dataMonthly.save(result, function(err, results) {
+				db.dataMonthly.insert(result, function(err, results) {
 					if (err || !results) {
 						if (err.code !== 11000){
 							onErr(err, callback); 	
