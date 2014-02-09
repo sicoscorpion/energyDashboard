@@ -32,7 +32,7 @@ Server Structure
     - /storeData.js <i>(main database feeder - see Populate database section)</i>
   - /routes
     - controller.js
-  ....
+  - ....
 
 NodeJS modules
 ==============
