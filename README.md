@@ -26,13 +26,13 @@ Server Structure
 
 NodeJS modules
 ==============
-  - expressJS (npm install express)
-  - mongooseJS (npm install mongoose)
-  - cronJS (npm install cron)
-  - mongoJS (npm install mongojs)
-  - ejs (npm install ejs)
-  - sys (npm install sys)
-  - dateable (npm install dateable)
+  - expressJS (npm install express)<br/>
+  - mongooseJS (npm install mongoose)<br/>
+  - cronJS (npm install cron)<br/>
+  - mongoJS (npm install mongojs)<br/>
+  - ejs (npm install ejs)<br/>
+  - sys (npm install sys)<br/>
+  - dateable (npm install dateable)<br/>
 License
 =======
   <a href="http://www.gnu.org/licenses/gpl.txt">GPL</a> 
