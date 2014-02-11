@@ -15,7 +15,7 @@ Usage
     Note: the paths, environment and port are alerady set in the file. Make sure they agree with the paths on the host      server. 
 
   - Nginx example configuration (File: nginx.conf)<br/>
-    Note: The NodeJS server is currently serving everything including static files. If youi decide to use Nginx      to     serv the static file comment the following in serv.js: <br/>
+    Note: The NodeJS server is currently serving everything including static files. If you decide to use Nginx to serv     the static file comment the following in serv.js: <br/>
       - app.use(express.static(__dirname + '/static-dev')); <br/>
       - app.use(express.static(__dirname + '/static'));<br/>
     The env variable will need to be shared with the Nginx configuration to properly serv the appropriate files (see          enviromment definitions for more information) <br/>
@@ -29,10 +29,19 @@ Usage
 
 Storing routine
 ===============
-  - Using Cron, saving routine is scheduled every hour on 10 minutes mark. 
+  - Using Cron, saving routine is scheduled every hour on the 10 minutes mark. 
   - sys/storeData.js is responsible for saving new sets of data periodically.
-  - $ node sys/storeData.js _DIR _NEWFL _OLDFL 
-    to store data manually in the database where: 
+  - The file runs automatically and reads from _DIR: /home/cslab/DATA if 2 or more files exist.
+    Note: the directory name is set in func: saveData() in storeData.js please change to the directory containing the       exported files from the JC system. 
+  - $ node sys/storeData.js _DIR _NEWFL _OLDFL<br/>
+    to store data manually in the database where:
+    - _DIR: is the directory containing the exported files from the JC system.
+    - _NEWFL: the file that needs to be proccessed in the form (mmddyyyy<b>D</b>.csv)
+    - _OLDFL: the file of the previous day in the same form as _NEWFL
+  - The current database used is called dashboard and the connection to it is assigned in 2 places:
+    - storeData.js (connection using mongojs)
+    - sev.js (connection using mongoose) 
+  - Currently no authentication is required for the datatbase connection (will change according to host config)
 
 Server Structure
 ================
