@@ -4,7 +4,7 @@
 
     version: 0.6 Beta 
     
-    Notes: To run this server refer to README
+    Notes: To run this server refer to README.md
 
     TODO usage
 
@@ -33,9 +33,9 @@ app.configure('development', function(){
     }));
     app.use(express.favicon());
     app.use(app.router);
-    app.set('views', __dirname + '/views-dev');
+    app.set('views', __dirname + '/views'); // change to /views-dev to serv development views
     app.engine('html', require('ejs').renderFile);
-    app.use(express.static(__dirname + '/static-dev'));
+    app.use(express.static(__dirname + '/static')); // change to /views-dev to serv development static files
 });
 
 app.configure('production', function(){
