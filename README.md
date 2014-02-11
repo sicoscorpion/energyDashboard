@@ -10,8 +10,12 @@ Usage
       <i>dir</i>: the root directory of the server <br/>
     Access @: http://localhost:4000
 
+  - Run using /etc/init.d/dahboard start/stop/restart (File: dashboard.bash)
+    copy dashboard.bash to /etc/init.d 
+    Note: the paths, environment and port are alerady set in the file. Make sure they agree with the paths on the host      server. 
+
   - Nginx example configuration (File: nginx.conf)<br/>
-    <b>Note:</b> The NodeJS server is currently serving everything including static files. If youi decide to use Nginx      to serv the static file comment the following in serv.js: <br/>
+    Note: The NodeJS server is currently serving everything including static files. If youi decide to use Nginx      to     serv the static file comment the following in serv.js: <br/>
       - app.use(express.static(__dirname + '/static-dev')); <br/>
       - app.use(express.static(__dirname + '/static'));<br/>
     The env variable will need to be shared with the Nginx configuration to properly serv the appropriate files (see          enviromment definitions for more information) <br/>
@@ -22,10 +26,13 @@ Usage
       (sbin/start dashboard ---- sbin/stop dashboard)<br/>
 
   - Monit example configuration (File: monitrc)
+
 Storing routine
 ===============
   - Using Cron, saving routine is scheduled every hour on 10 minutes mark. 
-  - 
+  - sys/storeData.js is responsible for saving new sets of data periodically.
+  - $ node sys/storeData.js _DIR _NEWFL _OLDFL 
+    to store data manually in the database where: 
 
 Server Structure
 ================
