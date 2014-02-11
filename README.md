@@ -22,17 +22,14 @@ Usage
       (sbin/start dashboard ---- sbin/stop dashboard)<br/>
 
   - Monit example configuration (File: monitrc)
+Storing routine
+===============
+  - Using Cron, saving routine is scheduled every hour on 10 minutes mark. 
+  - 
 
 Server Structure
 ================
-  - /sys
-    - /parser.js
-    - /existsSync.js <i>(TODO: merge with extras.js)/<i>
-    - /calculate.js
-    - /storeData.js <i>(main database feeder - see Populate database section)</i>
-  - /routes
-    - controller.js
-  - ....
+  SOON :)
 
 NodeJS modules
 ==============
