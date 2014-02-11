@@ -3,7 +3,7 @@ Acadia Energy Dashboard
 Acadia University Energy Dashboard Application
 Usage
 =====
-  - To run the NodeJS server use:<br/> 
+  - To run the NodeJS server manually use:<br/> 
       $ NODE_ENV=<i>development</i> PORT=<i>4000</i> /usr/local/bin/node <i>/usr/local/www</i>/serv.js <br/>
       <i>env</i>: development or production <br/>
       <i>port</i>: port choosen for the NODEJS server <br/>
@@ -12,13 +12,13 @@ Usage
 
   - Run using /etc/init.d/dahboard start/stop/restart (File: dashboard.bash)
     copy dashboard.bash to /etc/init.d 
-    Note: the paths, environment and port are alerady set in the file. Make sure they agree with the paths on the host      server. 
+    Note: the paths, environment and port are already set in the file. (change according to server config) 
 
   - Nginx example configuration (File: nginx.conf)<br/>
-    Note: The NodeJS server is currently serving everything including static files. If you decide to use Nginx to serv     the static file comment the following in serv.js: <br/>
+    Note: The NodeJS server is currently serving everything including static files. If you decide to use Nginx to serv      the static files comment the following in serv.js: <br/>
       - app.use(express.static(__dirname + '/static-dev')); <br/>
       - app.use(express.static(__dirname + '/static'));<br/>
-    The env variable will need to be shared with the Nginx configuration to properly serv the appropriate files (see          enviromment definitions for more information) <br/>
+    The env variable will need to be shared with the Nginx configuration to properly serv the appropriate set of static     files (see enviromment definitions for more information) <br/>
 
   - Upstart example configuration (File: dashboard). upstart can be used to:
     - Run NodeJS as a deamon<br/>
