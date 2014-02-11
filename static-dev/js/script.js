@@ -202,6 +202,7 @@ $(document).ready(function() {
 	setTimeout(function () {					
   		$('.spinner').fadeOut();
 		$('body').css({overflow:'inherit'});
+        // campusConsumption();
 		start();
         // showSplash();
         $('.infoBox').show("blind", 500);

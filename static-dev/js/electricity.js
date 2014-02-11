@@ -949,12 +949,22 @@ function loadFromMap(buildingTest) {
             $("#contentE #tab2").show().jScrollPane({hideFocus:true,  autoReinitialise: true});
         }
     }
-    
-        
-    
-
-
 }
+function campusConsumption() {
+    var total = 0;
+    for(var i = 0; i < codes.length; i++) {
+        var values = getHours(todayDate, codes[i]);
+        for (var j = 0; j < 47; j++) {
+            if(values[j] != null){
+                total += values[j];
+            } else {
+                values[j] = null;
+            }
+        }
+    }
+    console.log(total);
+}
+
 var tt_S = 0;
 function buildElectricity(buildingTest) {
     "use-strict";

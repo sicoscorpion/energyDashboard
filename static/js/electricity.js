@@ -174,6 +174,22 @@ $.fn.animateNumber = function(to) {
     var animation = setInterval(loop, 50);
 }
 
+function campusConsumption() {
+    var total = 0;
+    for(var i = 0; i < codes.length; i++) {
+        var values = getHours(todayDate, codes[i]);
+        for (var j = 0; j < 47; j++) {
+            if(values[j] != null){
+                total += values[j];
+            } else {
+                values[j] = null;
+            }
+        }
+    }
+    console.log(total);
+}
+
+
 var accum = 0
 function loadToday(date, code, building) {
     var values = getHours(date, code);
