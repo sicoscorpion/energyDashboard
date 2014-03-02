@@ -12,6 +12,8 @@ var extras = require('../extras.js');
 
 var list = ['dataHour', 'dataDaily', 'dataMonthly'];
 var db_list = ['DH', 'DD', 'DM'];
+var BuildingsCodes = ["SEM", "SM2", "CRO", "EAT", "CHI", "UNH", "RHO", "SUB", "BAC", "WHI", "MAN",
+"CUT", "RRG", "HOR", "VML", "VM2", "DEN", "WMH", "WIL", "CAR", "HSH", "EMM", "ELL"];
 
 for (var i = 0; i < db_list.length; i++) {
     if (db_list[i] === "DM") {
@@ -36,6 +38,38 @@ for (var i = 0; i < db_list.length; i++) {
 var dataHour = Mongoose.model('DH');
 var dataDaily = Mongoose.model('DD');
 var dataMonthly = Mongoose.model('DM');
+
+
+
+function calculateCampus() { return function (callback, errback) {
+    var today = new Date();
+    var todayDate = dateable.format(today, 'MM/DD/YYYY'); // Today's date formated.
+    
+    var total = 0;
+    // var h = extras.addZero(today.getHours()-1);
+    // var m = '00';
+    // var s = '00';
+    // var t_now = h + ':' + m  + ':' + s;
+    // console.log(t_now);
+    dataHour.find({date: todayDate}, function(err, data){
+        if (err) {
+            console.log("ERR: ", __filename, "func: campusConsumption");
+            console.log("Error getting data from dataHour: ", err);
+        }  else {
+            for (var i = 0; i < data.length; i++) {
+                for (var j = 0; j < BuildingsCodes.length; j++) {
+                    if (data[i].code === BuildingsCodes[j]) {
+                        total += data[i].value;
+                        // console.log(data[i].value);
+                    }
+                };
+                
+            };
+            callback(total);
+        }
+    });    
+}}
+
 
 module.exports = {
     getPerHour: function(req, res){
@@ -120,6 +154,14 @@ module.exports = {
                 res.json(data);
             }
         });
+    },
+
+    campusConsumption: function(req, res) {
+        calculateCampus()(function(data) {
+            // console.log(data);
+            res.json(data);
+        });
+        
     },
 
     testdb: function() {

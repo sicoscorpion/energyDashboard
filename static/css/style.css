@@ -590,7 +590,7 @@ background-image: linear-gradient(to right, #FFFFFF 0%, #EBEBEB 100%);
 	width:200px; 
 	position:absolute; 
 	left:600px; 
-	top:-85px; 
+	top:10px; 
 	z-index:2; 
 	background:whitesmoke; 
 	border: 2px rgb(79, 79, 79) solid;
@@ -760,8 +760,8 @@ background-image: linear-gradient(to right, #FFFFFF 0%, #EBEBEB 100%);
 .midBox img {
 	display: none;
 	margin-top: 10px;
-	margin-left: 245px;
-	width: 380px;
+	margin-left: 30px;
+	width: 580px;
 	border-radius: 5px;
 	box-shadow: 0px 2px 5px 3px black;
 }

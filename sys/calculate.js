@@ -1,4 +1,3 @@
-
 /* 
 	calculate electricity consumption to be stored in db-Dashboard {dataHour, dataDaily, dataMonthly} 
 	TODO usage
@@ -21,6 +20,9 @@ function BuildingMonths(month, year, code, status, consumption){
 
 var BuildingsCodes = ["SEM", "SM2", "CRO", "EAT", "CHI", "UNH", "RHO", "SUB", "BAC", "WHI", "MAN",
 "CUT", "RRG", "HOR", "VML", "VM2", "DEN", "WMH", "WIL", "CAR", "HSH", "EMM", "ELL"];
+
+var store = require('./storeData.js');
+var db = store.db;
 
 module.exports = {
 	getOld: function(oldData){

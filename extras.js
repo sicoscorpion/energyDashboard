@@ -11,5 +11,11 @@ module.exports = {
 	    if( day !== 1 ) 
 	        date.setHours(-24 * (day)); 
 	    return date;
+	},
+	addZero: function (i) {
+	    if (i < 10) {
+	      i="0" + i;
+	    }
+	    return i;
 	}
 }   

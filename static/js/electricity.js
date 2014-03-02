@@ -174,18 +174,29 @@ $.fn.animateNumber = function(to) {
     var animation = setInterval(loop, 50);
 }
 
-function campusConsumption() {
-    var total = 0;
-    for(var i = 0; i < codes.length; i++) {
-        var values = getHours(todayDate, codes[i]);
-        for (var j = 0; j < 47; j++) {
-            if(values[j] != null){
-                total += values[j];
-            } else {
-                values[j] = null;
-            }
+function getConsumption() {
+    "use strict";
+    var data = [];
+    $.ajax({
+        type: 'GET', 
+        dataType: 'json',
+        url: '/db/campusConsumption/',
+        async: false, 
+        success: function(msg){
+            data = msg;
         }
-    }
+    });
+    console.log(data);
+    return data;
+}
+
+function campusConsumption() {
+    var total = getConsumption();
+    // var counter = $("#total #num3");
+    // counter.animateNumber(total.toFixed(0));
+    $('#total').append('<span style="color:green">' + total + "</span> KWH so far today");
+    // $('#totalE').append('<span style="color:green">' + total + "</span> KWH so far today");
+    // $('#totalC').append('<span style="color:green">' + total + "</span> KWH so far today");
     console.log(total);
 }
 
@@ -807,7 +818,13 @@ var choiceList_acs = [
     {text: "Emmerson Hall", value: "EMM"},
     {text: "Elliott Hall", value: "ELL"},
     {text: "Carnegie Hall", value: "CAR"},
-    {text: "Manning Memorial Chapel", value: "MAN"}
+    {text: "Manning Memorial Chapel", value: "MAN"},
+    {text: "Biology Building", value: "BIO"},
+    {text: "Fountain Commons", value: "FOU"},
+    {text: "Harvey Denton Hall", value: "HDH"},
+    {text: "K. C. Irving Centre", value: "KCI"},
+    {text: "Patterson Hall", value: "PAT"},
+    {text: "Wheelock Dining Hall", value: "WHE"}
 ]
 var choiceList_res = [
     {text: "Eaton House", value: "EAT"},
@@ -815,7 +832,10 @@ var choiceList_res = [
     {text: "Dennis House", value: "DEN"},
     {text: "Crowell Tower", value: "CRO"},
     {text: "Seminary House", value: "SEM"},
-    {text: "Chipman House", value: "CHI"}
+    {text: "Chipman House", value: "CHI"},
+    {text: "Chase Court", value: "CHA"},
+    {text: "Roy Jodrey Hall", value: "RJH"},
+    {text: "War Memorial House", value: "WMH"}
 ]
 
 var state = false;
@@ -927,13 +947,13 @@ $(window).load(function(){
 
 });
 
-function loadFromMap(buildingTest) {
-    console.log(buildingTest.id);
+function loadFromMap(buil) {
+    console.log(buil);
     var build = "";
     for (var i = 0; i < choiceList_acs.length; i++)
     {
         var ch_la = choiceList_acs[i].value;
-        if (ch_la === buildingTest.id) { 
+        if (ch_la === buil.id) { 
             build = ch_la;
             console.log("loadFromMap: " + build);
             setTimeout(function(){
@@ -951,7 +971,7 @@ function loadFromMap(buildingTest) {
     for (var i = 0; i < choiceList_res.length; i++)
     {
         var ch_la = choiceList_res[i].value;
-        if (ch_la === buildingTest.id) { 
+        if (ch_la === buil.id) { 
             build = ch_la;
             console.log("loadFromMap: " + build);
             setTimeout(function(){
@@ -965,11 +985,6 @@ function loadFromMap(buildingTest) {
             $("#contentE #tab2").show().jScrollPane({hideFocus:true,  autoReinitialise: true});
         }
     }
-    
-        
-    
-
-
 }
 var tt_S = 0;
 function buildElectricity(buildingTest) {
@@ -1246,4 +1261,5 @@ function buildElectricity(buildingTest) {
     $('#yesterday').removeClass('ui-state-highlight');
     $('#week').removeClass('ui-state-highlight');
     $('#month').removeClass('ui-state-highlight');
+    campusConsumption();
 };

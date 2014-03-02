@@ -198,15 +198,17 @@ $(window).load(function() {
 
 
 
-$(document).ready(function() {	
+$(document).ready(function() {
 	setTimeout(function () {					
   		$('.spinner').fadeOut();
 		$('body').css({overflow:'inherit'});
 		start();
+        
         // showSplash();
         $('.infoBox').show("blind", 500);
-        $("#clockbox").animate({opacity : 0.9}, 400, 'easeInExpo');
+        $("#clockbox").animate({opacity : 1}, 400, 'easeInExpo');
         // $('.infoBox').show("fold", 500);
+
 	}, 6000);
     
     setTimeout(function() {
@@ -276,7 +278,7 @@ $(document).ready(function() {
     load_map();
     // $('.menu a').click(function(){
         // if ($(this).attr("href") === "#!/page_comparison") {
-            load_comparisons();
+    load_comparisons();
         // }
     // });  
 });

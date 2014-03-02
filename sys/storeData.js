@@ -9,10 +9,11 @@ var fs = require('fs'),
 	dateable = require('dateable');
 
 
+// TODO seperate db connections 
 var collections = ["dataHour", "dataDaily", "dataMonthly"];
 
 var db = require('mongojs').connect('dashboard', collections);
-
+exports.db = db;
 
 var BuildingsCodes = ["SEM", "SM2", "CRO", "EAT", "CHI", "UNH", "RHO", "SUB", "BAC", "WHI", "MAN",
 "CUT", "RRG", "HOR", "VML", "VM2", "DEN", "WMH", "WIL", "CAR", "HSH", "EMM", "ELL"];
