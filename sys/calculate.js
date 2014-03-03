@@ -118,16 +118,20 @@ module.exports = {
 	findMonthly: function(month, year, monthArr, Buil, monthLength, callback) {
 		db.dataDaily.find({code: Buil}, function(err, data) {
 			var object = new BuildingMonths();
+			var accum = 0;
 			if (data !== undefined) {
 				
 				object.code = Buil;
-				var accum = 0;
+				
 				for (var i = 0; i < data.length; i++)
 				{
-					if (String(data[i].date).slice(0,2) === month) {
+					// console.log(String(("0" + (data[i].date.getMonth() + 1)).slice(-2)), month)
+					if (String(("0" + (data[i].date.getMonth() + 1)).slice(-2)) === month) {
+						// console.log(data[i].value)
 						accum += data[i].value;
 					}
 				}
+				// console.log(accum, object.code)
 				object.month = month;
 				object.year = year;
 				

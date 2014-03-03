@@ -35,7 +35,7 @@ function load_map() {
 	    ["Chase Court", 45.086619,-64.365595, "CHA", "ACADEMIC/SERVICE", "NA"],
 	    ["Wheelock Dining Hall", 45.086672,-64.364227, "WHE", "ACADEMIC/SERVICE", "NA"],
 	    // ["K. C. Irving Centre", 45.08755,-64.368304, "KCI", "ACADEMIC/SERVICE"],
-	    // ["War Memorial House",  "WMH"],
+	    ["War Memorial House", 45.088656,-64.369023, "WMH", "NA"],
 	    // ["Willett House",  "WIL"],
 	    ["Huggins Science Hall", 45.089358,-64.368826, "HSH", "ACADEMIC/SERVICE"],
 	    // ["Emmerson Hall",  "EMM"],

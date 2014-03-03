@@ -169,7 +169,6 @@ function saveData(callback){
 		// save hourly
 		var data = new Building(dataHourly[i].date, dataHourly[i].time, 
 			dataHourly[i].code, dataHourly[i].status, dataHourly[i].value);
-
 		db.dataHour.insert(data, function(err, results) {
 			// ignoring duplicate key's error (Mongo:11000)
 			// console.log("dataHour ", err, results)
@@ -182,8 +181,10 @@ function saveData(callback){
 		});
 					
 	}
+	// console.log(parseInt(fileDay, 10), end);
 	// save Monthly
 	if (parseInt(fileDay, 10) === end && timeH === 23) {
+
 		// console.log(fileMonth, fileYear, BuildingsCodes.length);
 		for (var i = 0; i < BuildingsCodes.length; i++) {
 			calc.findMonthly(fileMonth, fileYear, monthArr, BuildingsCodes[i], end, function(result){

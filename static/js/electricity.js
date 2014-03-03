@@ -10,13 +10,8 @@ function getHours(d, b) {
         async: false, 
         success: function(msg){
             for (var i = 0, x = 0; i < msg.length; i++) {
-                // console.log(msg[i].date, d);
-                // t = msg[i].time.slice(3,5);
                 if (msg[i].code === b ){
-                    // if (x == 0)
                     data[x] = msg[i].value;
-                        // data[x].time = msg[i].time;
-                    // else data[x] = msg[i].value + data[x-1];
                     x++;
                     console.log("Getting Hours correctly");
                 }
@@ -57,23 +52,7 @@ function getDays(b, m, date){
                         }
                     } else continue;
                 } 
-                // else if (m === "d") {
-                //     if(msg[i].code === b){
-                //         // console.log(b);
-                //         for (var j = 0; j < thisMonth.length; j++) {
-                //             // if(j === 0)
-                //             //     data[j] =null;
-                //             if (msg[i].date === date) {
-                //                 data = msg[i].value;
-                //                 // console.log("TRUE", j, data[j]);
-                //             }
-                //             // console.log(data[0]);
-                //         }
-                //     } else continue;
-                // }
-
             }
-            // console.log(msg.length);
         }
     });
     console.log(data);
@@ -95,24 +74,17 @@ function getMonth(b, m){
             }
             for (var i = 0; i < msg.length; i++) {
                 if(msg[i].code === b){
-                    // console.log(b);
                     for (var j = 0; j < thisMonth.length; j++) {
-                        // if(j === 0)
-                        //     data[j] =null;
                         if (((new Date(msg[i].date)) - (new Date(thisMonth[j]))) == 0 ) {
                             data[j] = msg[i].value;
-                            // console.log("TRUE", j, data[j]);
                         }
                         else if (!data[j])
                             data[j] = null;
-                        // console.log(data[0]);
                     }
                 } else continue;
             }
-            // console.log(msg.length);
         }
     });
-    // console.log(data);
     return data;
 }
 
@@ -192,11 +164,7 @@ function getConsumption() {
 
 function campusConsumption() {
     var total = getConsumption();
-    // var counter = $("#total #num3");
-    // counter.animateNumber(total.toFixed(0));
     $('#total').append('<span style="color:green">' + total + "</span> KWH so far today");
-    // $('#totalE').append('<span style="color:green">' + total + "</span> KWH so far today");
-    // $('#totalC').append('<span style="color:green">' + total + "</span> KWH so far today");
     console.log(total);
 }
 
@@ -217,28 +185,16 @@ function loadToday(date, code, building) {
     var max = Math.max.apply(null,values);
     console.log("loading " + date +" for: ", code);
     console.log(values);
-    // $('.total-box p span').html('<b>' + accum + '</b<b><i>' + ' kwh so far today</b></i>');
-    // var counter = $("#num");
-    // counter.animateNumber(accum);
     $('#kwh').html('<b><i>kwh so far today</b></i>');
     $('#ghg').html('<b><i>kg of CO2 so far today</b></i>');
     $('.graph-name p').html(building);
-    // console.log(JSON.stringify(code));
     options.chart = {
         renderTo: 'container',
         width: 565,
         height: 335,
-        // borderColor: 'grey',
-        // borderWidth: 1,
-        // backgroundColor: '#FFFFFF',
         shadow: true,
-        // borderRadius: 10
-        // alignTicks: true
         defaultSeriesType: 'area'
     }
-    // options.plotOptions = {
-    //     lineColor: '#FFFFFF',
-    // }
     options.title = {
         align: 'left',
         text : "<b>Electricity Use (kw)</b> ",
@@ -259,7 +215,7 @@ function loadToday(date, code, building) {
                 // return Highcharts.dateFormat('%I%P', this.value);
             },
             style: {
-                // fontWeight: 'bold',
+                // fontWeight: 'bold'
                 color: 'black'
             },
             rotation: -45,
@@ -269,7 +225,6 @@ function loadToday(date, code, building) {
         endOnTick: false,
         startOnTick: false,
         enabled: true,
-        // tickPositions: ['12am', '02am'],
         minRange: 1800000
     }
     options.yAxis = {
@@ -277,7 +232,6 @@ function loadToday(date, code, building) {
         title: false,
         labels: {
             style: {
-                // fontWeight: 'bold',
                 color: 'black'
             }
         }
@@ -286,7 +240,6 @@ function loadToday(date, code, building) {
         formatter: function(){
             return Highcharts.dateFormat('%I:%M%p', this.x) + "<br/>" + "<b>" + this.y + "</b>" + " kw";
         },
-        // backgroundColor:'black',
         style: {
             color: 'black'
         }
@@ -295,13 +248,6 @@ function loadToday(date, code, building) {
         name: code, 
         data: values,
         color: '#ffad00',
-        // shadow: {
-        //     color: 'gray',
-        //     width: 5,
-        //     opacity: 0.15,
-        //     offsetY: -2,
-        //     offsetX: -2
-        // },
         marker: {
             enabled: false  
         },
@@ -337,8 +283,6 @@ function loadWeek(todayDate, code, building) {
     }
     console.log("loading Week for:", code);
     console.log(vl);
-    // var counter = $("#num");
-    // counter.animateNumber(accum);
     $('#kwh').html('<b><i>kwh so far this week</b></i>');
     $('#ghg').html('<b><i>kg of CO2 so far this week</b></i>');
     var max = Math.max.apply(null,vl);
@@ -347,9 +291,6 @@ function loadWeek(todayDate, code, building) {
         defaultSeriesType: 'column',
         width: 565,
         height: 335,
-        // borderColor: 'darkgreen',
-        // borderWidth: 1,
-        // backgroundColor: '#FFFFFF',
         shadow: true,
         animation: {
             duration: 1000
@@ -365,23 +306,17 @@ function loadWeek(todayDate, code, building) {
             color: 'black'
         }
     }
-    // options.plotOptions = {
-    //     lineColor: '#FFFFFF',
-    // }
     options.tooltip = {
         formatter: function(){
             return "<b>" + this.y + "</b>" + " kwh";
         },
-        // backgroundColor:'black',
         style: {
             color: 'black'
         }
     }
     options.xAxis = {
-        // type: 'datetime',
         labels: {
             style: {
-                // fontWeight: 'bold',
                 color: 'black'
             },
             rotation: -45,
@@ -392,15 +327,12 @@ function loadWeek(todayDate, code, building) {
         endOnTick: false,
         startOnTick: false,
         enabled: true
-        // tickPositions: ['12am', '02am'],
-        // minRange: 1800000
     }
     options.yAxis = {
         max: max * 1.2,
         title: false,
         labels: {
             style: {
-                // fontWeight: 'bold',
                 color: 'black'
             }
         }
@@ -413,13 +345,6 @@ function loadWeek(todayDate, code, building) {
         animation: false, 
         data: vl,
         color: '#ffad00',
-        // shadow: {
-        //     color: 'gray',
-        //     width: 5,
-        //     opacity: 0.15,
-        //     offsetY: -2,
-        //     offsetX: -2
-        // }   
         marker: {
             enabled: false  
         }              
@@ -461,8 +386,6 @@ function loadMonth(todayDate, code, building) {
     var max = Math.max.apply(Math, vMonth2);
     console.log(max);
     console.log("loading Month for: ", code);
-    // var counter = $("#num");
-    // counter.animateNumber(accum);
     $('#kwh').html('<b><i>kwh so far this month</b></i>');
     $('#ghg').html('<b><i>kg of CO2 so far this month</b></i>');
     options.chart = {
@@ -470,9 +393,6 @@ function loadMonth(todayDate, code, building) {
         defaultSeriesType: 'column',
         width: 565,
         height: 335,
-        // borderColor: 'darkgreen',
-        // borderWidth: 1,
-        // backgroundColor: '#FFFFFF',
         shadow: true
     }
     options.title = {
@@ -489,16 +409,13 @@ function loadMonth(todayDate, code, building) {
         formatter: function(){
             return "<b>" + this.y + "</b>" + " kwh";
         },
-        // backgroundColor:'black',
         style: {
             color: 'black'
         }
     }
     options.xAxis = {
-        // type: 'datetime',
         labels: {
             style: {
-                // fontWeight: 'bold',
                 color: 'black'
             },
             rotation: -45,
@@ -511,21 +428,10 @@ function loadMonth(todayDate, code, building) {
         endOnTick: true,
         startOnTick: true,
         enabled: true
-        // tickPositions: ['12am', '02am'],
-        // minRange: 1800000
     }
-    // options.plotOptions = {
-    //     lineColor: '#FFFFFF',
-    // }
     options.yAxis = {
         max: max * 1.2,
         title: false,
-        // labels: {
-        //     style: {
-        //         // fontWeight: 'bold',
-        //         color: 'black'
-        //     }
-        // }
     }
     options.lang = {
         loading: "loading..."
@@ -534,14 +440,7 @@ function loadMonth(todayDate, code, building) {
         name: code, 
         animation: false,       
         data: vMonth2,
-        color: '#ffad00',
-        // shadow: {
-        //     color: 'gray',
-        //     width: 5,
-        //     opacity: 0.15,
-        //     offsetY: -2,
-        //     offsetX: -2
-        // }                
+        color: '#ffad00',            
     }]
     return accum;
 }
@@ -558,13 +457,7 @@ function loadYear(code, building) {
     for (var j = 0; j < vl.length; j++) {
         accum += vl[j];
     };
-    // vl[parseInt(today.getMonth()+1)] = accum
-    // for (var i = 0; i < vl.length; i++) {
-    //     console.log(parseInt(today.getMonth()+1));
-    // };
     console.log("loading Year for:", code);
-    // var counter = $("#num");
-    // counter.animateNumber(accum);
     $('#kwh').html('<b><i>kwh so far this year</b></i>');
     $('ghg').html('<b><i>kg of CO2 so far this year</b></i>');
     var max = Math.max.apply(null,vl);
@@ -573,9 +466,6 @@ function loadYear(code, building) {
         defaultSeriesType: 'column',
         width: 565,
         height: 335,
-        // borderColor: 'darkgreen',
-        // borderWidth: 1,
-        // backgroundColor: '#FFFFFF',
         shadow: true
     }
     options.title = {
@@ -588,23 +478,17 @@ function loadYear(code, building) {
             color: 'black'
         }
     }
-    // options.plotOptions = {
-    //     lineColor: '#FFFFFF',
-    // }
     options.tooltip = {
         formatter: function(){
             return "<b>" + this.y + "</b>" + " kwh";
         },
-        // backgroundColor:'black',
         style: {
             color: 'black'
         }
     }
     options.xAxis = {
-        // type: 'datetime',
         labels: {
             style: {
-                // fontWeight: 'bold',
                 color: 'black'
             },
             rotation: -45,
@@ -615,15 +499,12 @@ function loadYear(code, building) {
         endOnTick: false,
         startOnTick: false,
         enabled: true
-        // tickPositions: ['12am', '02am'],
-        // minRange: 1800000
     }
     options.yAxis = {
         max: max * 1.2,
         title: false,
         labels: {
             style: {
-                // fontWeight: 'bold',
                 color: 'black'
             }
         }
@@ -635,14 +516,7 @@ function loadYear(code, building) {
         name: code,
         animation: false, 
         data: vl,
-        color: '#ffad00',
-        // shadow: {
-        //     color: 'gray',
-        //     width: 5,
-        //     opacity: 0.15,
-        //     offsetY: -2,
-        //     offsetX: -2
-        // }                 
+        color: '#ffad00',              
     }]
     return accum;
 }
@@ -678,8 +552,6 @@ var options = {
                 }
             }
         }
-
-        // enabled: true
     },
     loading: {
         hideDuration: 1000,
@@ -702,7 +574,6 @@ var options = {
                 },
                 style: {
                     color: '#000',
-                    // textDecoration: 'underline'
                 }
             }
         },
@@ -739,19 +610,13 @@ var buildings = ['University Hall', 'School of Education', 'Eaton House', 'Rhode
 
 function loadGraph(d, b){
     var total = 0;
-    // $('.total-box').hide("slide", 500);
-    // $('.ghg-box').hide("slide", 500);
     $('.graph-name p').show();
-    // $('.col3').hide("clip", 200);
-    
     console.log("called load graph");
     for (var i = 0; i < codes.length; i++) {
         if (d === "yesterday" && b === codes[i]) {
             total = loadToday(yesterdayDate, b, buildings[i]);
         }
         if (d === "today" && b === codes[i]) {
-            // $('.graph-name p').hide("clip", 500);
-            // $('.total-box').hide("bounce", 500);
             total = loadToday(todayDate, b, buildings[i]);
         }
         if (d === "week" && b === codes[i]) {
@@ -768,10 +633,7 @@ function loadGraph(d, b){
         }
     }
     var chart = new Highcharts.Chart(options);
-    chart.showLoading(); 
-    // $('.total-box').show("slide", 500);
-    // $('.ghg-box').show("slide", 500);
-    // $('.col3').show("clip", 200); 
+    chart.showLoading();
     setTimeout(function(){
         chart.hideLoading();    
     }, 1000);
@@ -844,14 +706,10 @@ function buil_loader(tab, code) {
     $('#container').animate({opacity:0});
     $('#noData').hide(); 
     $('.col3').hide();
-    // $('#r-img').animate({opacity:0.1});
-    // if (state == false){
-        $('.midBox').hide(100);
-        $('.col1E').animate({ 'margin-left': "-37px" }, 500);
-        $('.el').show();
-    // }
-    // var txt = data.selectedData.value;
-    
+    $('.midBox').hide(100);
+    $('.col1E').animate({ 'margin-left': "-37px" }, 500);
+    $('.el').show();
+
     for (var i = 0; i < codes_all.length; i++) {
         if (code === codes_all[i]) {
             console.log(code, codes_all[i])
@@ -863,12 +721,8 @@ function buil_loader(tab, code) {
     $('.total-box').hide();
     $('.builProfile').hide();
     $('#buttons').hide("drop", 100);
-    // $('#buttons-extra').hide("clip", 100);
     $('.graph-name').hide("drop", 200);
     $('#r-img').hide("clip", 200);
-    
-    // var target = $('.midBox');
-    // var spinner = new Spinner(opts).spin(target);
 
     console.log("CALLED buil_loader");
     setTimeout(function(){
@@ -892,10 +746,6 @@ function buil_loader(tab, code) {
         console.log(found)
         if (found == true) {
             var total = loadGraph("today", code);
-            // $('.graph-name').animate({opacity:1});
-            // $('#r-img').animate({opacity:1});
-            // alert(total);
-            // var spinner = new Spinner(opts).spin(target);
             state = true;
             
             $('.graph-name').show("clip");
@@ -928,10 +778,6 @@ function buil_loader(tab, code) {
         }
                
     }, 4000);
-    // setTimeout(function(){
-    //     $('.el').show("slow");
-    // }, 1500);
-    
     state = true;
 
     $('#today').addClass('ui-state-highlight');
@@ -941,11 +787,6 @@ function buil_loader(tab, code) {
     $('#year').removeClass('ui-state-highlight');
     $('#yesterday').removeClass('ui-state-highlight');
 }
-
-$(window).load(function(){
-    // $("#tab1, #tab2").jScrollPane();
-
-});
 
 function loadFromMap(buil) {
     console.log(buil);
@@ -995,9 +836,6 @@ function buildElectricity(buildingTest) {
     $('#week').button();
     $('#month').button();
     $('#year').button();
-
-    // $('#kwh').button();
-    // $('#ghg').button();
     $('.midBox').show("clip", 200);
     $('.col1E').animate({'margin-left': "-10px" });
     $('#switch').click(function() {
@@ -1022,18 +860,7 @@ function buildElectricity(buildingTest) {
         }
     });
     $('.buil_info').animate({opacity:0}, 100);
-    // $("#spin").bind("ajaxSend", function() {
-    //     $(this).show();
-    // }).bind("ajaxComplete", function() {
-    //     $(this).hide();
-    // }).bind("ajaxError", function() {
-    //     $(this).hide();
-    // });
-    // var currentTab = $();
-    
-    // $("#contentE").append("<p><b>Please select one of the above catagories</b></p>");
-    
-    
+
                                 
     var x = 0;
     $('#tabs').each(
@@ -1055,54 +882,13 @@ function buildElectricity(buildingTest) {
 
                         }
                         currentTab = $(this).addClass('current').attr('name');
-                        $("#contentE #" + currentTab).show().jScrollPane({hideFocus:true, autoReinitialise: true});
-                        // console.log(currentTab);
-                        return false;
+                        $("#contentE #" + currentTab).show().jScrollPane({hideFocus:true, autoReinitialise: true});                        return false;
                     });
                     $("#contentE #" + a.attr('name')).hide();
-                    // console.log(currentTab);
                 }
             );
         }
     );
-    // $(".elect li:first a").addClass("current");
-    // if (x == 0) {
-        // $("#contentE #tab1").show().jScrollPane({hideFocus:true, reinitialise: true});
-    // }
-      
-
-    // $("#contentE div").hide(); // Initially hide all content
-    
-
-    // // $("#contentE").append("<p><b>Please select one of the above catagories</b></p>");
-    // $("#tabs li:first").attr("id","current"); // Activate first tab
-    // $("#contentE div:first").show(); // Show first tab content
-    // // console.log($("#tabs li:first").attr('name'));  
-    // // $("#contentE div:first").jScrollPane().show().css('visibility', 'visible');
-
-    // // var tab = null;
-    // $('#tabs a').click(function() {
-    //     // e.preventDefault();
-         
-    //     if ($(this).closest("li").attr("id") == "current") { //detection for current tab
-    //         // $("#" + $(this).attr('name')).jScrollPane();
-    //         refreshNav();
-    //         console.log($(this).attr('name'));
-    //         return       
-    //     }
-    //     else {             
-    //         $("#contentE div").hide(); //Hide all content
-    //         $("#tabs li").attr("id",""); //Reset id's
-    //         $(this).parent().attr("id","current"); // Activate this
-    //         $('#' + $(this).attr('name')).show(); // Show content for current tab
-    //         // $("#" + $(this).attr('name')).jScrollPane();
-    //         refreshNav();
-    //         console.log($(this).attr('name'));
-    //     }
-        
-    // });
-    
-    // else {
 
     $(".elect li:first a").addClass("current");
     $("#contentE #tab1").show().jScrollPane({hideFocus:true, reinitialise: true});
@@ -1113,26 +899,21 @@ function buildElectricity(buildingTest) {
         buil_loader("#contentE #tab1" , $(this).attr("rel"));
     });
     $("#contentE #tab2 a").click(function(){
-        // $("#spin").show();
         console.log("Clicked", $(this).attr("rel"));
         buil_loader("#contentE #tab2" , $(this).attr("rel")); 
         bui = $(this).attr("rel");
     });
     // }
     $("#yesterday").on('click', function(){
-        // $('#container').animate({opacity:0}, 100);
         $('#yesterday').addClass('ui-state-highlight');
         $('#today').removeClass('ui-state-highlight');
         $('#week').removeClass('ui-state-highlight');
         $('#month').removeClass('ui-state-highlight');
-        $('#year').removeClass('ui-state-highlight');
-        
+        $('#year').removeClass('ui-state-highlight'); 
         
         var total = loadGraph("yesterday", bui);
         $('.total-box').show();
         $('.builProfile').show();
-        // $('#container').animate({opacity:1}, 1000);
-        // $(".total-box #num1").html(accum);
         var counter = $(".total-box #num1");
         counter.animateNumber(total.toFixed(0));
         var counter = $(".total-box #num2");
@@ -1152,8 +933,6 @@ function buildElectricity(buildingTest) {
         var total = loadGraph("today", bui);
         $('.builProfile').show("slide", 100);
         $('.total-box').show();
-        // $('#container').animate({opacity:1}, 1000);
-        // $(".total-box #num1").html(accum);
         var counter = $(".total-box #num1");
         counter.animateNumber(total.toFixed(0));
         var counter = $(".total-box #num2");
@@ -1168,21 +947,16 @@ function buildElectricity(buildingTest) {
         $('#week').addClass('ui-state-highlight');
         $('#month').removeClass('ui-state-highlight');
         $('#year').removeClass('ui-state-highlight');
-        
-        
-        // $('#container').animate({opacity:1}, 1000);
 
         var total = loadGraph("week", bui);
         $('.total-box').show();
         $('.builProfile').show("slide", 100);
-        // $('#kwh').addClass('ui-state-highlight');
+
         var counter = $(".total-box #num1");
         counter.animateNumber(total.toFixed(0));
         var counter = $(".total-box #num2");
         var ghg = total * 0.805;
         counter.animateNumber(ghg.toFixed(0));
-        // $('.col3').animate({opacity:1}, 1000);
-
     });
     $("#month").on('click', function(){
         $('#month').addClass('ui-state-highlight');
@@ -1190,9 +964,6 @@ function buildElectricity(buildingTest) {
         $('#yesterday').removeClass('ui-state-highlight');
         $('#week').removeClass('ui-state-highlight');
         $('#year').removeClass('ui-state-highlight');
-        
-        // $('#container').animate({opacity:0}, 100);
-        // $('#container').animate({opacity:1}, 1000);
 
         var total = loadGraph("month", bui);
         $('.total-box').show();
@@ -1210,10 +981,6 @@ function buildElectricity(buildingTest) {
         $('#yesterday').removeClass('ui-state-highlight');
         $('#week').removeClass('ui-state-highlight');
         $('#month').removeClass('ui-state-highlight');
-        
-       
-        // $('#container').animate({opacity:0}, 100);
-        // $('#container').animate({opacity:1}, 1000);
         var total = loadGraph("year", bui);
         $('.total-box').show();
         $('.builProfile').show("slide", 100);
@@ -1222,44 +989,11 @@ function buildElectricity(buildingTest) {
         var counter = $(".total-box #num2");
         var ghg = total * 0.805;
         counter.animateNumber(ghg.toFixed(0));
-        // $('.col3').animate({opacity:1}, 1000);
     });
-
-    // $("#kwh").click(function(){
-    //     // $('#container').animate({opacity:0}, 100);
-    //     // $('.col3').animate({opacity:0}, 100);
-    //     // var ddlist = $(list).data('ddslick');
-    //     // console.log("PRESSED(inc)", ddlist.selectedData.value, list);
-    //     // $('.ghg-box').hide();
-    //     $('.total-box').show();
-    //     // $('#kwh').addClass('ui-state-highlight');
-    //     var counter = $(".total-box #num1");
-    //     counter.animateNumber(accum.toFixed(0));
-    //     var counter = $(".total-box #num2");
-    //     var ghg = accum * 0.805;
-    //     counter.animateNumber(ghg.toFixed(0));
-    //     // $('#container').animate({opacity:1}, 1000);
-    //     // $('.col3').animate({opacity:1}, 1000);
-    // });
-
-    // $("#ghg").click(function(){
-        
-    //     $('.total-box').hide();
-    //     // $('.ghg-box').show();
-        
-    //     // $('#ghg').addClass('ui-state-highlight');
-    //     // $('#kwh').removeClass('ui-state-highlight');
-        
-    //     // $('#container').animate({opacity:1}, 1000);
-    //     // $('.col3').animate({opacity:1}, 1000);
-    // });
-
-
-    // $('#kwh').addClass('ui-state-highlight');
-    // $('#ghg').removeClass('ui-state-highlight');
     $('#today').addClass('ui-state-highlight');
     $('#yesterday').removeClass('ui-state-highlight');
     $('#week').removeClass('ui-state-highlight');
     $('#month').removeClass('ui-state-highlight');
+    // TODO move to appropriate place
     campusConsumption();
 };
