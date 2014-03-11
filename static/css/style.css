@@ -707,7 +707,12 @@ background-image: linear-gradient(to right, #FFFFFF 0%, #EBEBEB 100%);
 	margin-top: -0.2em;
 	font-size: 13px;
 }
-
+#info {
+	/*font-weight: bold;*/
+	text-align: left;
+	margin-top: -10px;
+	font-size: 80%;
+}
 /*#num2 {
 	display: block;
 	text-align: center;

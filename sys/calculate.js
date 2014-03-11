@@ -80,7 +80,7 @@ module.exports = {
 			objects[x].date = new Date(data[i].date);
 			objects[x].code = data[i].code;
 			objects[x].status = data[i].status;
-
+			// console.log(objects[x].date, objects[i].time);
 		}
 
 		

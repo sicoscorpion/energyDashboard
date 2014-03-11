@@ -50,8 +50,7 @@ var dayw = newWeek.getDay() || 7; // Get current day number, converting Sun. to 
 if( dayw !== 1 )                // Only manipulate the date if it isn't Mon.
     newWeek.setHours(-24 * (dayw - 1));   // Set the hours to day number minus 1
                                          //   multiplied by negative 24
-// console.log(newWeek); // will be Monday
-// console.log(newWeek.getMonth());
+
 var week = newWeek.format();
 var thisWeek = new Array();
 for (var i = 0; i < 7; i++) {
@@ -128,18 +127,6 @@ $(window).load(function() {
       return this;
     };
     GetClock(); 
-
-	// scroll
-	// $('.sc_menu_wrapper').jScrollPane({
-	// 	showArrows: false,
-	// 	verticalGutter: 5,
-	// 	verticalDragMinHeight: 100,
-	// 	verticalDragMaxHeight: 100,
- //        autoReinitialise: true
-	// });	
-	
-    // $('#content>ul>li').onClick(location.reload());
-
     
 	//content switch	
 	$('#content>ul>li').eq(0).css({'visibility':'hidden', display:'none'});	
@@ -261,7 +248,6 @@ $(document).ready(function() {
 
     $("a[rel^='prettyPhoto']").prettyPhoto({animation_speed:'normal',theme:'dark',social_tools:false,allow_resize: true,default_width: 500,default_height: 344});
         
-    /* ========== side slide ========== */
 	/* ========== Slider ========= */
 	$('#slider').nivoSlider({
         effect: 'boxRainReverse,fade,boxRain',
@@ -272,7 +258,6 @@ $(document).ready(function() {
         directionNav: false,
         controlNav: false
     });
-    /* ======== ajax ======= */
     $(document).tooltip();
     buildElectricity();
     load_map();

@@ -470,7 +470,7 @@ function loadYear(code, building) {
     }
     options.title = {
         align: 'left',
-        text : "<b>Electricity Use (kwh)</b> ",
+        text : "<b>Electricity Use (kwh)</b>",
         style: {
             color: 'black',
             fontSize: '12px',
@@ -543,7 +543,10 @@ var options = {
             exportButton: {
                 text: 'Download',
                 // Use only the download related menu items from the default context button
-                menuItems: Highcharts.getOptions().exporting.buttons.contextButton.menuItems.splice(2)
+                menuItems: Highcharts.getOptions().exporting.buttons.contextButton.menuItems.splice(2),
+                onclick: function() {
+                    this.exportChart({filename: today}, null);
+                }
             },
             printButton: {
                 text: 'Print',
@@ -642,28 +645,28 @@ function loadGraph(d, b){
 };
 
 var choiceList = [
-    {text: "University Hall", value: "UNH"},
-    {text: "School of Education", value: "SM2"},
-    {text: "Eaton House", value: "EAT"},
-    {text: "Rhodes Hall", value: "RHO" },
-    {text: "Students' Union Building", value: "SUB"},
-    {text: "Beveridge Arts Centre", value: "BAC"},
-    {text: "Cutten House", value: "CUT"},
-    {text: "Services Building Garage", value: "RRG"},
-    {text: "Horton Hall", value: "HOR"},
-    {text: "Vaughan Memorial Library", value: "VML"},
-    {text: " VM2", value: "VM2"},
-    {text: "Dennis House", value: "DEN"},
-    {text: "War Memorial House", value: "WMH"},
-    {text: "Willett House", value: "WIL"},
-    {text: "Huggins Science Hall", value: "HSH"},
-    {text: "Emmerson Hall", value: "EMM"},
-    {text: "Elliott Hall", value: "ELL"},
-    {text: "Carnegie Hall", value: "CAR"},
-    {text: "Crowell Tower", value: "CRO"},
-    {text: "Manning Memorial Chapel", value: "MAN"},
-    {text: "Seminary House", value: "SEM"},
-    {text: "Chipman House", value: "CHI"}
+    {text: "University Hall", value: "UNH", info: "<b>Profile</b>: University Hall<br/><b>Size</b>: 50,744 sq.ft<br/><b>Built/Renovated</b>: 1924/1967<br/><b>Feature</b>: "},
+    {text: "School of Education", value: "SM2", info: "<b>Profile</b>: School of Education<br/><b>Size</b>:  sq.ft<br/><b>Built/Renovated</b>: <br/><b>Feature</b>: "},
+    {text: "Eaton House", value: "EAT", info: "<b>Profile</b>: Eaton House<br/><b>Size</b>: 25,084 sq.ft<br/><b>Built/Renovated</b>: 1965/2001<br/><b>Feature</b>: "},
+    {text: "Rhodes Hall", value: "RHO", info: "<b>Profile</b>: Rhodes Hall<br/><b>Size</b>: 11,765 sq.ft<br/><b>Built/Renovated</b>: 1912/1974<br/><b>Feature</b>: "},
+    {text: "Students' Union Building", value: "SUB", info: "<b>Profile</b>: Students' Union Building<br/><b>Size</b>: 63,242 sq.ft<br/><b>Built/Renovated</b>: 1949/1991<br/><b>Feature</b>: "},
+    {text: "Beveridge Arts Centre", value: "BAC", info: "<b>Profile</b>: Beveridge Arts Centre <br/><b>Size</b>: 103,160 sq.ft<br/><b>Built/Renovated</b>: 1977/ <br/><b>Feature</b>: "},
+    {text: "Cutten House", value: "CUT", info: "<b>Profile</b>: Cutten House <br/><b>Size</b>: 85,100 sq.ft<br/><b>Built/Renovated</b>: 1975/ <br/><b>Feature</b>: "},
+    {text: "Services Building Garage", value: "RRG", info: "<b>Profile</b>: <br/><b>Size</b>: sq.ft<br/><b>Built/Renovated</b>: <br/><b>Feature</b>: "},
+    {text: "Horton Hall", value: "HOR", info: "<b>Profile</b>: <br/><b>Size</b>: sq.ft<br/><b>Built/Renovated</b>: <br/><b>Feature</b>: "},
+    {text: "Vaughan Memorial Library", value: "VML", info: "<b>Profile</b>: <br/><b>Size</b>: sq.ft<br/><b>Built/Renovated</b>: <br/><b>Feature</b>: "},
+    {text: " VM2", value: "VM2", info: "<b>Profile</b>: <br/><b>Size</b>: sq.ft<br/><b>Built/Renovated</b>: <br/><b>Feature</b>: "},
+    {text: "Dennis House", value: "DEN", info: "<b>Profile</b>: <br/><b>Size</b>: sq.ft<br/><b>Built/Renovated</b>: <br/><b>Feature</b>: "},
+    {text: "War Memorial House", value: "WMH", info: "<b>Profile</b>: <br/><b>Size</b>: sq.ft<br/><b>Built/Renovated</b>: <br/><b>Feature</b>: "},
+    {text: "Willett House", value: "WIL", info: "<b>Profile</b>: <br/><b>Size</b>: sq.ft<br/><b>Built/Renovated</b>: <br/><b>Feature</b>: "},
+    {text: "Huggins Science Hall", value: "HSH", info: "<b>Profile</b>: <br/><b>Size</b>: sq.ft<br/><b>Built/Renovated</b>: <br/><b>Feature</b>: "},
+    {text: "Emmerson Hall", value: "EMM", info: "<b>Profile</b>: <br/><b>Size</b>: sq.ft<br/><b>Built/Renovated</b>: <br/><b>Feature</b>: "},
+    {text: "Elliott Hall", value: "ELL", info: "<b>Profile</b>: <br/><b>Size</b>: sq.ft<br/><b>Built/Renovated</b>: <br/><b>Feature</b>: "},
+    {text: "Carnegie Hall", value: "CAR", info: "<b>Profile</b>: <br/><b>Size</b>: sq.ft<br/><b>Built/Renovated</b>: <br/><b>Feature</b>: "},
+    {text: "Crowell Tower", value: "CRO", info: "<b>Profile</b>: <br/><b>Size</b>: sq.ft<br/><b>Built/Renovated</b>: <br/><b>Feature</b>: "},
+    {text: "Manning Memorial Chapel", value: "MAN", info: "<b>Profile</b>: <br/><b>Size</b>: sq.ft<br/><b>Built/Renovated</b>: <br/><b>Feature</b>: "},
+    {text: "Seminary House", value: "SEM", info: "<b>Profile</b>: <br/><b>Size</b>: sq.ft<br/><b>Built/Renovated</b>: <br/><b>Feature</b>: "},
+    {text: "Chipman House", value: "CHI", info: "<b>Profile</b>: <br/><b>Size</b>: sq.ft<br/><b>Built/Renovated</b>: <br/><b>Feature</b>: "}
 ];
 var choiceList_acs = [
     {text: "University Hall", value: "UNH", description: "UHALL"},
@@ -755,6 +758,7 @@ function buil_loader(tab, code) {
             $('#r-img').show("blind");
             $('.total-box').show();
             $('.builProfile').show("slide", 100);
+
             // $('#head').html("<b>CONSUMPTION SUMMARY<b>");
             var counter = $(".total-box #num1");
             counter.animateNumber(total.toFixed(0));
@@ -779,7 +783,14 @@ function buil_loader(tab, code) {
                
     }, 4000);
     state = true;
-
+    for (var i = 0; i < choiceList.length; i++) {
+        // alert(code + " ss " + choiceList[i].value)
+        if (choiceList[i].value === code) {
+            // alert(code)
+            $('#info').html(choiceList[i].info);
+        }
+    };
+    
     $('#today').addClass('ui-state-highlight');
     // $('#kwh').addClass('ui-state-highlight');
     $('#week').removeClass('ui-state-highlight');

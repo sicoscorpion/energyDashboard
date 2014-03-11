@@ -91,5 +91,19 @@ module.exports = {
 			});
 		}
 		return Buildings;
+	},
+	getFirstHour: function(data) {
+		data = data.split("\n");
+		for(var i = 1; i > 0; i--){
+			if(data[i] === "" || data[i] === '\r') { 					
+				continue; 
+			}
+			var fields = String(data[i]).split(',');
+			var fieldNum = 0;
+			field = fields[0].replace(/"/g, "");
+			date = field.slice(0,10);
+			time = field.slice(11, 13);
+			return time;
+		}				
 	}
 }

@@ -94,14 +94,24 @@ function saveData(callback){
 	} else {
 		var dir = '/home/cslab/DATA/';
 		var numOfFiles = fs.readdirSync(dir).length;
+		
 		console.log("Reading from automatically defined files");
 		incompleteFileToday = todayDate + "D_INCOMPLETE.csv";
 		incompleteFileYesterday = yesterdayDate + "D_INCOMPLETE.csv";
 		var exist = fileExistSync('/home/cslab/DATA/' + incompleteFileToday);
 		if (exist) {
 			console.log("Found Incomplete File: " + incompleteFileToday);
-			fileNew = incompleteFileToday;
-			console.log("Reading from Incomplete File!");
+			var dataI = fs.readFileSync('/home/cslab/DATA/' + incompleteFileToday, 'utf-8');
+			var hrI = parse.getFirstHour(dataI);
+			var dataC = fs.readFileSync('/home/cslab/DATA/' + todayFile, 'utf-8');
+			var hrC = parse.getFirstHour(dataC);
+			if (parseInt(hrC) >= parseInt(hrI)) {
+				fileNew = todayFile;
+				console.log("Reading from Main File");
+			} else if (parseInt(hrC) < parseInt(hrI))  {
+				fileNew = incompleteFileToday;
+				console.log("Reading from Incomplete File!");
+			}
 		} else {
 			console.log("No Incomplete files found for: " + todayDate);
 			fileNew = todayFile;
@@ -110,7 +120,17 @@ function saveData(callback){
 		exist = fileExistSync('/home/cslab/DATA/' + incompleteFileYesterday);
 		if (exist) {
 			console.log("Found Incomplete File: " + incompleteFileYesterday);
-			fileOld = incompleteFileYesterday;
+			var dataI = fs.readFileSync('/home/cslab/DATA/' + incompleteFileYesterday, 'utf-8');
+			var hrI = parse.getFirstHour(dataI);
+			var dataC = fs.readFileSync('/home/cslab/DATA/' + yesterdayFile, 'utf-8');
+			var hrC = parse.getFirstHour(dataC);
+			if (parseInt(hrC) >= parseInt(hrI)) {
+				fileOld = yesterdayFile;
+				console.log("Reading from Main File");
+			} else if (parseInt(hrC) < parseInt(hrI))  {
+				fileOld = incompleteFileYesterday;
+				console.log("Reading from Incomplete File!");
+			}
 			console.log("Reading from Incomplete File!");
 		} else {
 			console.log("No Incomplete files found for: " + yesterdayDate);
