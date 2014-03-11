@@ -45,12 +45,12 @@ Storing routine
 
 Fast Queries
 ============
-  - /db/dataHour/<i>date</i>/<i>building</i>
-  - /db/dataDaily/<i>date-from</i>/<i>date-to</i>/<i>building</i>
-  - /db/dataForWeek/<i>building</i>
-  - /db/dataForMonth/<i>building</i>
-  - /db/dataForYear/<i>building</i>
-  - /db/campusConsumption <br/>
+  - /db/dataHour/-<i>date</i>-/-<i>building</i>-
+  - /db/dataDaily/-<i>date-from</i>-/-<i>date-to</i>-/-<i>building</i>-
+  - /db/dataForWeek/-<i>building</i>-
+  - /db/dataForMonth/-<i>building</i>-
+  - /db/dataForYear/-<i>building</i>-
+  - /db/campusConsumption <br/><br/>
   <i>building</i>: refers to the building code<br/>
   <i>date</i>, <i>date-from</i>, <i>date-to</i>: the date formated 'mm/dd/yyyy'
 
