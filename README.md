@@ -51,6 +51,7 @@ Fast Queries
   - /db/dataForMonth/-<i>building</i>-
   - /db/dataForYear/-<i>building</i>-
   - /db/campusConsumption <br/><br/>
+  - /db/buildingInfo/-<i>building</i>-
   <i>building</i>: refers to the building code<br/>
   <i>date</i>, <i>date-from</i>, <i>date-to</i>: the date formated 'mm/dd/yyyy'
 
