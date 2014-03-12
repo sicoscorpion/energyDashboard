@@ -76,6 +76,7 @@ app.get('/db/dataForWeek/:build', cont.getForWeek);
 app.get('/db/dataForMonth/:build', cont.getForMonth);
 app.get('/db/dataForYear/:build', cont.getForYear);
 app.get('/db/campusConsumption', cont.campusConsumption);
+app.get('/db/buildinginfo/:build', cont.getBuildingInfo);
 
 app.get('/', function(req, res){   
     res.render('index.html', {

@@ -34,12 +34,24 @@ for (var i = 0; i < db_list.length; i++) {
     }
     // console.log("DB List got.. " + db_list[i]);
 };
+Mongoose.model("buildings", new Schema({
+    name        : String,
+    code        : String,
+    profile     : String,
+    size        : String,
+    built       : String,
+    renovated   : String,
+    feature     : String,
+}, {collection  : "Buildings"}))
 
 var dataHour = Mongoose.model('DH');
 var dataDaily = Mongoose.model('DD');
 var dataMonthly = Mongoose.model('DM');
+var Buildings = Mongoose.model('buildings')
 
-
+// Buildings.findOne({}, function(err, data) {
+//     console.log(data);
+// });
 
 function calculateCampus() { return function (callback, errback) {
     var today = new Date();
@@ -151,6 +163,19 @@ module.exports = {
                 console.log("ERR: ", __filename, "func: getForYear");
                 console.log("Error getting data from dataMonthly: ", err);
             }  else {
+                res.json(data);
+            }
+        });
+    },
+
+    getBuildingInfo: function(req, res) {
+        var par = req.params.build;
+        Buildings.find({code: par}, function(err, data) {
+            if (err) {
+                console.log("ERR: ", __filename, "func: getBuildingInfo");
+                console.log("Error getting data from Buildings: ", err);
+            }  else {
+                // console.log(data)
                 res.json(data);
             }
         });

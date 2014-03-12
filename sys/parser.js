@@ -18,6 +18,15 @@ function BuildingMonths(month, year, code, status, consumption){
 	this.status = status;
 	this.value = consumption;
 }
+function BuildingProfile(name, code, profile, size, built, renovated, feature){
+	this.name = name;
+	this.code = code;
+	this.profile = profile;
+	this.size = size;
+	this.built = built;
+	this.renovated = renovated;
+	this.feature = feature;
+}
 
 module.exports = {
 	parser : function(data){
@@ -105,5 +114,57 @@ module.exports = {
 			time = field.slice(11, 13);
 			return time;
 		}				
+	},
+	parseBuildingsData: function(data) {
+		var BuildingsList = new Array();
+
+		data = data.split("\n");
+		console.log(data.length)
+		for(var i = 1, x = 0; i < data.length; i++, x++){
+			if(data[i] === "" || data[i] === '\r') { 					
+				continue; 
+			}
+			var fields = String(data[i]).split(',');
+			var fieldNum = 0;
+			BuildingsList[x] = new BuildingProfile();
+			var name = new Array(),
+				code = new Array(),
+				profile = new Array(),
+				size = new Array(),
+				built = new Array(),
+				renovated = new Array(),
+				feature = new Array();
+			fields.forEach(function (field){
+				field = field.replace(/"/g, "");
+				// console.log(field + " xx ");
+				switch (fieldNum)
+				{					
+					case 0:
+						BuildingsList[x].name = field;
+						break;
+					case 1:
+						BuildingsList[x].code = field;
+						break;
+					case 2:
+						BuildingsList[x].profile = field;
+						break;
+					case 3:
+						BuildingsList[x].size = field;
+						break;
+					case 4:
+						BuildingsList[x].built = field;
+						break;
+					case 5:
+						BuildingsList[x].renovated = field;
+						break;
+					case 6:
+						BuildingsList[x].feature = field;
+						break;
+				}
+				fieldNum++;
+			});
+		}
+		// console.log(BuildingsList);
+		return BuildingsList;
 	}
 }

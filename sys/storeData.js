@@ -10,7 +10,7 @@ var fs = require('fs'),
 
 
 // TODO seperate db connections 
-var collections = ["dataHour", "dataDaily", "dataMonthly"];
+var collections = ["dataHour", "dataDaily", "dataMonthly", "Buildings"];
 
 var db = require('mongojs').connect('dashboard', collections);
 exports.db = db;
@@ -83,13 +83,13 @@ var onErr = function(err,callback){
 
 function saveData(callback){
 	// process.chdir('/home/sico/data');
+	var cd = process.cwd();
 	if (process.argv.length > 2) {
 		var dir = process.argv[2];
 		var numOfFiles = fs.readdirSync(dir).length;
 		var fileNew = process.argv[3];
 		var fileOld = process.argv[4];
 		console.log("Reading from user defined files");
-		// console.log('Current directory: ' + process.cwd());
 
 	} else {
 		var dir = '/home/cslab/DATA/';
@@ -153,6 +153,22 @@ function saveData(callback){
 	db.dataHour.ensureIndex({"time":-1 , "code":-1 , "date": -1} , {unique : true , dropDups : true});
 	db.dataDaily.ensureIndex({"time":-1, "code":-1, "date": -1} , {unique : true , dropDups : true});
 	db.dataMonthly.ensureIndex({"month":-1, "code":-1, "year": -1} , {unique : true , dropDups : true});
+
+	// Save Buildings List 
+	var BuildingsFile = fs.readFileSync(cd + '/buildingsList.csv', 'utf-8');
+	var BuildingsData = parse.parseBuildingsData(BuildingsFile);
+
+	db.Buildings.findOne({}, function(err, data) {
+		if (data == null) {
+			db.Buildings.insert(BuildingsData, function(err, results) {
+				console.log("Saved Buildings List", results);
+			})
+		} else {
+			console.log(data.name);
+		}
+	});
+	// console.log(BuildingsData);
+
 	var monthArr = new Array();
 	var fileDay = String(fileNew).slice(2,4);
 	var fileMonth = String(fileNew).slice(0,2);

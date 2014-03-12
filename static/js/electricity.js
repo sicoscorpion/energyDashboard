@@ -1,3 +1,20 @@
+function getBuildingsInfo(b) {
+    "use strict";
+    var data = [];
+    $.ajax({
+        type: 'GET', 
+        dataType: 'json',
+        url: '/db/buildinginfo/' + b,
+        async: false, 
+        success: function(msg){
+            data = msg;
+            // console.log(msg;
+        }
+    });
+    console.log(data);
+    return data;
+}
+
 function getHours(d, b) {
     "use strict";
     var str = d.replace(/\//g, "-");
@@ -9,17 +26,32 @@ function getHours(d, b) {
         url: '/db/dataHour/' + str + '/' + b,
         async: false, 
         success: function(msg){
+            var hhO = 0;
             for (var i = 0, x = 0; i < msg.length; i++) {
-                if (msg[i].code === b ){
-                    data[x] = msg[i].value;
-                    x++;
+                if (i >= 1) hhO = parseInt(msg[i-1].time.slice(1,3));
+                var tt = parseInt(msg[i].time.slice(3,5));
+                if (msg[i].code === b){
+                    // if (msg[i].code === "ELL") {
+                    //     if(parseInt(msg[i].time.slice(1,3)) === hhO) {
+                            
+                    //         var hh = parseInt(msg[i].time.slice(1,3));
+                        
+                    //             if (!data[x]) data[x] = msg[i].value;
+                    //             else data[x] += msg[i].value;
+                    //         // }
+                    //         // console.log(tt, hh, hhO, data[x])
+                    //         // x++;
+                    //     } else if(parseInt(msg[i].time.slice(1,3)) === hhO+1 ) x++; 
+                    // } else  {
+                        data[x] = msg[i].value;
+                        x++;
+                    // }
                     console.log("Getting Hours correctly");
                 }
                 else continue;
             }
         }
     });
-    console.log(data);
     return data;
 }
 
@@ -186,7 +218,7 @@ function loadToday(date, code, building) {
     console.log("loading " + date +" for: ", code);
     console.log(values);
     $('#kwh').html('<b><i>kwh so far today</b></i>');
-    $('#ghg').html('<b><i>kg of CO2 so far today</b></i>');
+    $('#ghg').html('<b><i>kg of eCO2 so far today</b></i>');
     $('.graph-name p').html(building);
     options.chart = {
         renderTo: 'container',
@@ -284,7 +316,7 @@ function loadWeek(todayDate, code, building) {
     console.log("loading Week for:", code);
     console.log(vl);
     $('#kwh').html('<b><i>kwh so far this week</b></i>');
-    $('#ghg').html('<b><i>kg of CO2 so far this week</b></i>');
+    $('#ghg').html('<b><i>kg of eCO2 so far this week</b></i>');
     var max = Math.max.apply(null,vl);
     options.chart = {
         renderTo: 'container',
@@ -387,7 +419,7 @@ function loadMonth(todayDate, code, building) {
     console.log(max);
     console.log("loading Month for: ", code);
     $('#kwh').html('<b><i>kwh so far this month</b></i>');
-    $('#ghg').html('<b><i>kg of CO2 so far this month</b></i>');
+    $('#ghg').html('<b><i>kg of eCO2 so far this month</b></i>');
     options.chart = {
         renderTo: 'container',
         defaultSeriesType: 'column',
@@ -459,7 +491,7 @@ function loadYear(code, building) {
     };
     console.log("loading Year for:", code);
     $('#kwh').html('<b><i>kwh so far this year</b></i>');
-    $('ghg').html('<b><i>kg of CO2 so far this year</b></i>');
+    $('ghg').html('<b><i>kg of eCO2 so far this year</b></i>');
     var max = Math.max.apply(null,vl);
     options.chart = {
         renderTo: 'container',
@@ -763,7 +795,7 @@ function buil_loader(tab, code) {
             var counter = $(".total-box #num1");
             counter.animateNumber(total.toFixed(0));
             var counter = $(".total-box #num2");
-            var ghg = total * 0.805;
+            var ghg = total * ghgVal;
             counter.animateNumber(ghg.toFixed(0));
             // $('#buttons-extra').show("clip");
             $("#spin").hide(10);
@@ -787,7 +819,9 @@ function buil_loader(tab, code) {
         // alert(code + " ss " + choiceList[i].value)
         if (choiceList[i].value === code) {
             // alert(code)
-            $('#info').html(choiceList[i].info);
+            var info = getBuildingsInfo(code);
+            $('#info').html("<b>Profile:</b> " + info[0].profile + "<br/><b>Size: </b>" + info[0].size + " sq.ft <br/><b>Built/Renovated: </b>" + 
+                info[0].built + "/" + info[0].renovated + "<br/><b>Feature: </b>" + info[0].feature);
         }
     };
     
@@ -838,10 +872,11 @@ function loadFromMap(buil) {
         }
     }
 }
-var tt_S = 0;
+// GHG emmission factor (see future work in the aoi for information)
+var ghgVal = 0.798;
+
 function buildElectricity(buildingTest) {
     "use-strict";
-    // alert("Running : buildElectricity() - " + tt_S);
     $('#today').button();
     $('#yesterday').button();
     $('#week').button();
@@ -928,7 +963,7 @@ function buildElectricity(buildingTest) {
         var counter = $(".total-box #num1");
         counter.animateNumber(total.toFixed(0));
         var counter = $(".total-box #num2");
-        var ghg = total * 0.805;
+        var ghg = total * ghgVal;
         counter.animateNumber(ghg.toFixed(0));
 
     });
@@ -947,7 +982,7 @@ function buildElectricity(buildingTest) {
         var counter = $(".total-box #num1");
         counter.animateNumber(total.toFixed(0));
         var counter = $(".total-box #num2");
-        var ghg = total * 0.805;
+        var ghg = total * ghgVal;
         counter.animateNumber(ghg.toFixed(0));
 
     });
@@ -966,7 +1001,7 @@ function buildElectricity(buildingTest) {
         var counter = $(".total-box #num1");
         counter.animateNumber(total.toFixed(0));
         var counter = $(".total-box #num2");
-        var ghg = total * 0.805;
+        var ghg = total * ghgVal;
         counter.animateNumber(ghg.toFixed(0));
     });
     $("#month").on('click', function(){
@@ -982,7 +1017,7 @@ function buildElectricity(buildingTest) {
         var counter = $(".total-box #num1");
         counter.animateNumber(total.toFixed(0));
         var counter = $(".total-box #num2");
-        var ghg = total * 0.805;
+        var ghg = total * ghgVal;
         counter.animateNumber(ghg.toFixed(0));
     });
 
@@ -998,7 +1033,7 @@ function buildElectricity(buildingTest) {
         var counter = $(".total-box #num1");
         counter.animateNumber(total.toFixed(0));
         var counter = $(".total-box #num2");
-        var ghg = total * 0.805;
+        var ghg = total * ghgVal;
         counter.animateNumber(ghg.toFixed(0));
     });
     $('#today').addClass('ui-state-highlight');
