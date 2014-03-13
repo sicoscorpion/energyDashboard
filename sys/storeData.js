@@ -90,14 +90,34 @@ function saveData(callback){
 	// Save Buildings List 
 	var BuildingsFile = fs.readFileSync(require('path').resolve(__dirname , 'buildingsList.csv'), 'utf-8');
 	var BuildingsData = parse.parseBuildingsData(BuildingsFile);
+	console.log(BuildingsData[0].code);
+
 	db.Buildings.findOne({}, function(err, data) {
 		if (data == null) {
 			db.Buildings.insert(BuildingsData, function(err, results) {
 				if(err) { console.log("Error: ", err) }
 				console.log("Saved Buildings List");
-			})
+			});
 		} else {
 			console.log("'Buildings' collection found --- popular");
+			for (var i = 0; i < BuildingsData.length; i++) {
+				// BuildingsData[i].code;
+				db.Buildings.update(
+					{
+						code: BuildingsData[i].code
+					}, {
+						name: BuildingsData[i].name,
+						code: BuildingsData[i].code,
+						profile: BuildingsData[i].profile,
+						size: BuildingsData[i].size,
+						built: BuildingsData[i].built,
+						renovated: BuildingsData[i].renovated,
+						feature: BuildingsData[i].feature
+					}, function(err, results) {
+					if(err) { console.log("Error: ", err) }
+				});
+			};
+			console.log("Saved Buildings List");
 		}
 	});
 
