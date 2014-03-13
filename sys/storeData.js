@@ -75,6 +75,7 @@ function sleep(milliseconds) {
 var parse = require('./parser.js');
 var calc = require('./calculate.js');
 var fileExistSync = require('./existsSync.js');
+var path = require('path');
 
 var onErr = function(err,callback){
 	 db.close();
@@ -92,18 +93,19 @@ function saveData(callback){
 		console.log("Reading from user defined files");
 
 	} else {
+		// Directory containing the JC generated files
 		var dir = '/home/cslab/DATA/';
 		var numOfFiles = fs.readdirSync(dir).length;
 		
 		console.log("Reading from automatically defined files");
 		incompleteFileToday = todayDate + "D_INCOMPLETE.csv";
 		incompleteFileYesterday = yesterdayDate + "D_INCOMPLETE.csv";
-		var exist = fileExistSync('/home/cslab/DATA/' + incompleteFileToday);
+		var exist = fileExistSync(path.resolve(dir, incompleteFileToday));
 		if (exist) {
 			console.log("Found Incomplete File: " + incompleteFileToday);
-			var dataI = fs.readFileSync('/home/cslab/DATA/' + incompleteFileToday, 'utf-8');
+			var dataI = fs.readFileSync(path.resolve(dir, incompleteFileToday), 'utf-8');
 			var hrI = parse.getFirstHour(dataI);
-			var dataC = fs.readFileSync('/home/cslab/DATA/' + todayFile, 'utf-8');
+			var dataC = fs.readFileSync(path.resolve(dir, todayFile), 'utf-8');
 			var hrC = parse.getFirstHour(dataC);
 			if (parseInt(hrC) >= parseInt(hrI)) {
 				fileNew = todayFile;
@@ -117,12 +119,12 @@ function saveData(callback){
 			fileNew = todayFile;
 			console.log("Reading from Main File");
 		}
-		exist = fileExistSync('/home/cslab/DATA/' + incompleteFileYesterday);
+		exist = fileExistSync(path.resolve(dir, incompleteFileYesterday));
 		if (exist) {
 			console.log("Found Incomplete File: " + incompleteFileYesterday);
-			var dataI = fs.readFileSync('/home/cslab/DATA/' + incompleteFileYesterday, 'utf-8');
+			var dataI = fs.readFileSync(path.resolve(dir, incompleteFileYesterday), 'utf-8');
 			var hrI = parse.getFirstHour(dataI);
-			var dataC = fs.readFileSync('/home/cslab/DATA/' + yesterdayFile, 'utf-8');
+			var dataC = fs.readFileSync(path.resolve(dir, yesterdayFile), 'utf-8');
 			var hrC = parse.getFirstHour(dataC);
 			if (parseInt(hrC) >= parseInt(hrI)) {
 				fileOld = yesterdayFile;
@@ -139,14 +141,14 @@ function saveData(callback){
 		}
 	}
 	if(numOfFiles >= 2){
-		var dataOld = fs.readFileSync('/home/cslab/DATA/' + fileOld, 'utf-8');
+		var dataOld = fs.readFileSync(path.resolve(dir, fileOld), 'utf-8');
 		var listOld = parse.parser(dataOld);
 		var oldDt = calc.getOld(listOld);
 	} else {
 		console.log("Error ... Not enough files");
 	}
 	console.log("Number of files in: " + dir + " is " + numOfFiles);
-	var dataNew = fs.readFileSync('/home/cslab/DATA/' + fileNew, 'utf-8');
+	var dataNew = fs.readFileSync(path.resolve(dir, fileNew), 'utf-8');
 	var listNew = parse.parser(dataNew);
 	var dataHourly = calc.calcHourly(listNew, oldDt);
 
@@ -155,7 +157,7 @@ function saveData(callback){
 	db.dataMonthly.ensureIndex({"month":-1, "code":-1, "year": -1} , {unique : true , dropDups : true});
 
 	// Save Buildings List 
-	var BuildingsFile = fs.readFileSync(cd + '/buildingsList.csv', 'utf-8');
+	var BuildingsFile = fs.readFileSync(require('path').resolve(__dirname , 'buildingsList.csv'), 'utf-8');
 	var BuildingsData = parse.parseBuildingsData(BuildingsFile);
 
 	db.Buildings.findOne({}, function(err, data) {
