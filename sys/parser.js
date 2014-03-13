@@ -119,7 +119,6 @@ module.exports = {
 		var BuildingsList = new Array();
 
 		data = data.split("\n");
-		console.log(data.length)
 		for(var i = 1, x = 0; i < data.length; i++, x++){
 			if(data[i] === "" || data[i] === '\r') { 					
 				continue; 

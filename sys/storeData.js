@@ -6,13 +6,14 @@
 var fs = require('fs'),
 	sys = require('sys'),
 	exec = require('child_process').exec,
-	dateable = require('dateable');
+	dateable = require('dateable'),
+	config = require('../config.json');
 
 
 // TODO seperate db connections 
 var collections = ["dataHour", "dataDaily", "dataMonthly", "Buildings"];
 
-var db = require('mongojs').connect('dashboard', collections);
+var db = require('mongojs').connect(config.db_address, collections);
 exports.db = db;
 
 var BuildingsCodes = ["SEM", "SM2", "CRO", "EAT", "CHI", "UNH", "RHO", "SUB", "BAC", "WHI", "MAN",
@@ -85,18 +86,48 @@ var onErr = function(err,callback){
 function saveData(callback){
 	// process.chdir('/home/sico/data');
 	var cd = process.cwd();
+
+	// Save Buildings List 
+	var BuildingsFile = fs.readFileSync(require('path').resolve(__dirname , 'buildingsList.csv'), 'utf-8');
+	var BuildingsData = parse.parseBuildingsData(BuildingsFile);
+	db.Buildings.findOne({}, function(err, data) {
+		if (data == null) {
+			db.Buildings.insert(BuildingsData, function(err, results) {
+				if(err) { console.log("Error: ", err) }
+				console.log("Saved Buildings List");
+			})
+		} else {
+			console.log("'Buildings' collection found --- popular");
+		}
+	});
+
 	if (process.argv.length > 2) {
 		var dir = process.argv[2];
 		var numOfFiles = fs.readdirSync(dir).length;
+		if (numOfFiles < 2) {
+			console.log("Not enough files in Directory: ", dir);
+			setTimeout(function(){
+				db.close();
+			}, 1000);
+			return;
+		}
+		
 		var fileNew = process.argv[3];
 		var fileOld = process.argv[4];
 		console.log("Reading from user defined files");
 
+
 	} else {
 		// Directory containing the JC generated files
-		var dir = '/home/cslab/DATA/';
+		var dir = config.MEU_data;
 		var numOfFiles = fs.readdirSync(dir).length;
-		
+		if (numOfFiles < 2) {
+			console.log("Not enough files in Directory: ", dir);
+			setTimeout(function(){
+				db.close();
+			}, 1000);
+			return;
+		}
 		console.log("Reading from automatically defined files");
 		incompleteFileToday = todayDate + "D_INCOMPLETE.csv";
 		incompleteFileYesterday = yesterdayDate + "D_INCOMPLETE.csv";
@@ -156,19 +187,7 @@ function saveData(callback){
 	db.dataDaily.ensureIndex({"time":-1, "code":-1, "date": -1} , {unique : true , dropDups : true});
 	db.dataMonthly.ensureIndex({"month":-1, "code":-1, "year": -1} , {unique : true , dropDups : true});
 
-	// Save Buildings List 
-	var BuildingsFile = fs.readFileSync(require('path').resolve(__dirname , 'buildingsList.csv'), 'utf-8');
-	var BuildingsData = parse.parseBuildingsData(BuildingsFile);
-
-	db.Buildings.findOne({}, function(err, data) {
-		if (data == null) {
-			db.Buildings.insert(BuildingsData, function(err, results) {
-				console.log("Saved Buildings List", results);
-			})
-		} else {
-			console.log(data.name);
-		}
-	});
+	
 	// console.log(BuildingsData);
 
 	var monthArr = new Array();

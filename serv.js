@@ -19,11 +19,12 @@ var express = require('express')
 var pkg = require('./package.json');
 var cont = require('./routes/controller.js');
 var cronJob = require('cron').CronJob;
+var config = require('./config.json');
 
 /* environments configuration */
 app.configure('development', function(){
     // app.use(express.logger());
-    var db = Mongoose.connect('mongodb://localhost/dashboard');
+    var db = Mongoose.connect(config.db_address);
     app.set('porduction', process.env.PORT);
     
     
@@ -76,7 +77,7 @@ app.get('/db/dataForWeek/:build', cont.getForWeek);
 app.get('/db/dataForMonth/:build', cont.getForMonth);
 app.get('/db/dataForYear/:build', cont.getForYear);
 app.get('/db/campusConsumption', cont.campusConsumption);
-app.get('/db/buildingInfo/:build', cont.getBuildingInfo);
+app.get('/db/buildinginfo/:build', cont.getBuildingInfo);
 
 app.get('/', function(req, res){   
     res.render('index.html', {
