@@ -90,7 +90,7 @@ function saveData(callback){
 	// Save Buildings List 
 	var BuildingsFile = fs.readFileSync(require('path').resolve(__dirname , 'buildingsList.csv'), 'utf-8');
 	var BuildingsData = parse.parseBuildingsData(BuildingsFile);
-	console.log(BuildingsData[0].code);
+	// console.log(BuildingsData[0].code);
 
 	db.Buildings.findOne({}, function(err, data) {
 		if (data == null) {
