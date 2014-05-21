@@ -53,7 +53,7 @@ Fast Queries
   - /db/campusConsumption <br/>
   - /db/buildingInfo/-<i>building</i>-<br/>
   <i>building</i>: refers to the building code<br/>
-  <i>date</i>, <i>date-from</i>, <i>date-to</i>: the date formated 'mm/dd/yyyy'
+  <i>date</i>, <i>date-from</i>, <i>date-to</i>: the date formated 'mm-dd-yyyy'
 
 Server Structure
 ================
