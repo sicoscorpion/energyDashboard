@@ -6,8 +6,6 @@
     
     Notes: To run this server refer to README.md
 
-    TODO usage
-
 */
 
 var express = require('express')
