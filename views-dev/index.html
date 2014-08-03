@@ -1,0 +1,386 @@
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+  <head>
+    <title>AED</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width">
+    <!-- <link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" /> -->
+    <link rel="stylesheet" href="css/style.css" type="text/css" media="all" />
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+    <script>window.jQuery || document.write('<script src="js/vendor/jquery-1.7.2.min.js"><\/script>')</script>
+    <link rel="stylesheet" href="css/normalize.css">
+    <link rel="stylesheet" href="css/main.css">
+    <link href="js/skins/square/green.css" rel="stylesheet">
+    <link rel="stylesheet" href="css/default/default.css" type="text/css" media="screen" />
+    <link rel="stylesheet" href="css/nivo-slider.css" type="text/css" media="screen" />
+    <!-- <link rel="stylesheet" href="css/jquery.jscrollpane.lozenge.css" type="text/css" media="screen" /> -->
+    <link rel="stylesheet" href="css/jquery.bxslider.css" type="text/css" media="screen" />
+    <link rel="stylesheet" href="css/jquery-ui-1.9.2.custom.css" type="text/css" media="screen" />
+
+    <link href="css/jquery.jscrollpane.css" rel="stylesheet" type="text/css" />
+
+    <script src="js/vendor/modernizr-2.6.2.min.js"></script>
+    
+    <script type="text/javascript" src="js/main.js"></script>
+    <script type="text/javascript">
+      
+    </script>
+  </head>
+  <body>
+    <div class="infoBox">
+            <p>Version: <i><%= ver %> BETA <%= env %></i> --- Version info: <i>functional pages (ELECTRICITY) (COMPARISONS)</i></p>
+    </div>
+    
+    <div class="spinner"></div>
+    <div class="extra">
+        <div class="main1"></div>
+        <div class="main2">
+        
+        <div class="grad1"></div>
+        <div id="clockbox"></div>
+        <!--  Header  -->
+        <header>
+            <a href="#" class="logo">
+                <img src="images/logo.png">
+                <div class="txt1">Acadia University</div>
+                <div class="txt2">Energy Dashboard</div>
+            </a>
+        </header>
+    
+  
+        <!-- Mid Section -->
+        <div class="mid"></div>
+        <div id="mid_text">
+          <p>Welcome to the Acadia University Energy Dashboard. As part of Acadia’s commitment to sustainability, this program was developed to display real-time energy use in all campus facilities to help raise awareness about energy consumption and encourage energy conservation. Here you can view energy usage in each building, challenge another building in a friendly competition to improve performance, and learn more about green initiatives at Acadia and how you can help. The Acadia Energy Dashboard was developed in partnership by the Arthur Irving Academy for the Environment, The Department of Computer Science, the Department of Facilities and Physical Plant Services.</p>
+        </div>
+        <div class="slider-wrapper theme-default">
+            <div id="slider" class="nivoSlider">
+                <img src="images/image1.jpg" title="Acadia Campus" alt=""></img>
+                <img src="images/image5.jpg" title="Fountain Commons" alt=""></img>
+                <img src="images/image3.jpg" title="Acadia Farm ... Harvest Time!" alt=""> </img>
+                <img src="images/image4.jpg" title="Residence Commons" alt="" ></img>
+            </div>
+        </div>
+
+    
+        <!-- Menu  -->
+        <nav class="menu">
+            <ul id="menu">
+            <li>
+                <span class="shadow"></span>
+                    <a href="#!/page_SPLASH">
+                    <span class="image">
+                        <img src="images/icon5.png"></img>
+                    </span>
+                    <span class="txt1">HOME</span>
+                    <span class="over">
+                        <span class="corner1"></span>
+                        <span class="bg"></span>
+                        <span class="corner2"></span>
+                    </span>
+                    <span class="clear"></span>
+                </a>
+            </li>
+            <li>
+                <span class="shadow"></span>
+                    <a href="#!/page_map">
+                    <span class="image">
+                        <img src="images/icon6.png"></img>
+                    </span>
+                    <span class="txt1">CAMPUS MAP</span>
+                    <span class="over">
+                        <span class="corner1"></span>
+                        <span class="bg"></span>
+                        <span class="corner2"></span>
+                    </span>
+                    <span class="clear"></span>
+                </a>
+            </li>
+
+            <li>
+                <span class="shadow"></span>
+                <a href="#!/energy_use">
+                    <span class="image">
+                        <img src="images/icon2.png"></img>
+                        </span>
+                        <span class="txt1">ENERGY USE</span>
+                        <span class="over">
+                            <span class="corner1"></span>
+                            <span class="bg"></span>
+                        <span class="corner2"></span>
+                    </span>
+                    <span class="clear"></span>
+                </a>
+            </li>
+
+            <li>
+                <span class="shadow"></span>
+                <a href="#!/page_comparison">
+                    <span class="image">
+                        <img src="images/icon4.png"></img>
+                    </span>
+                    <span class="txt1">COMPARISONS</span>
+                    <span class="over">
+                        <span class="corner1"></span>
+                        <span class="bg"></span>
+                        <span class="corner2"></span>
+                    </span>
+                </a>
+                <span class="clear"></span>
+            </li>
+
+            <li>
+            <span class="shadow"></span>
+                <a href="#!/page_competition">
+                    <span class="image">
+                        <img src="images/icon3.png"></img>
+                    </span>
+                    <span class="txt1">COMPETITIONS</span>
+                    <span class="over">
+                        <span class="corner1"></span>
+                        <span class="bg"></span>
+                        <span class="corner2"></span>
+                    </span>
+                    <span class="clear"></span>
+                </a>
+            </li>
+            <li>
+            <span class="shadow"></span>
+                <a href="#!/page_green">
+                    <span class="image">
+                        <img src="images/icon1.png"></img>
+                    </span>
+                    <span class="txt1">GO GREEN</span>
+                    <span class="over">
+                        <span class="corner1"></span>
+                        <span class="bg"></span>
+                        <span class="corner2"></span>
+                        </span>
+                    <span class="clear"></span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <div class="sh1"></div>
+
+  <!-- Pages contents  -->
+    <article id="content">
+    <ul>  
+      <li id="page_SPLASH"></li>
+      
+      
+      
+        <li id="page_map">
+            <!-- <a href="#!/page_SPLASH" class="close">
+              <span class="over"></span>
+              <span class="txt1">back to main</span>
+              <span class="x1"></span></a> -->
+              <span class="clear"></span>
+            <div class="box" >
+            <div class="clear"></div>
+            <div id="map" style="width:980px; height:430px; margin-left: -40px; margin-top: -38px;"></div>
+            <!-- <div class="col2"> -->
+              <!-- <button id="map-test">Button #1</button> -->
+            <!-- </div> -->
+          </div>
+        </li>
+
+        <li id="energy_use">
+           
+          <!-- <a href="#!/page_SPLASH" class="close">
+            <span class="over"></span>
+            <span class="txt1">back to main</span>
+            <span class="x1"></span></a> -->
+          <a class="leftbox" >
+            <!-- <span class="leftover"></span> -->
+            <span class="txt1">Total campus consumption<br />- KWH</span>
+            <span class="x1"></span></a>
+
+          <div class="box">
+          <div class="clear"></div>
+            <div class="col1E">
+              <div class="bx-title">
+                <p>Electricity Consumption</p>
+              </div>
+              <ul id="tabs" class="elect">
+                  <li><a href="#" name="tab1">Academic/Service</a></li>
+                  <li><a href="#" name="tab2">Residence</a></li>   
+              </ul>
+              <div id="contentE">
+                <!-- <div class="sc_menu_wrapper"  id="tab1"> -->
+                  <div class="sc_menu" id="tab1" >
+                    <a rel="BAC" href="#"><img src="images/buildings/thumbs/BAC.jpg" alt="Vertical"/><p>BEVERIDGE ARTS CENTRE</p></a>
+                    <a rel="CAR" href="#"><img src="images/buildings/thumbs/CAR.jpg" alt="Javascript"/><p>CARNEGIE HALL</p></a>
+                    <a rel="ELL" href="#"><img src="images/buildings/thumbs/ELL.jpg" alt="Javascript"/><p>ELLIOTT HALL</p></a>
+                    <a rel="EMM" href="#"><img src="images/buildings/thumbs/EMM.jpg" alt="Navigation"/><p>EMMERSON HALL</p></a>
+                    <a rel="HOR" href="#"><img src="images/buildings/thumbs/HOR.jpg" alt="Navigation"/><p>HORTON HALL</p></a>
+                    <a rel="HSH" href="#"><img src="images/buildings/thumbs/HSH.jpg" alt="Menu"/><p>HUGGINS<br /> SCIENCE HALL</p></a>
+                    <a rel="MAN" href="#"><img src="images/buildings/thumbs/MAN.jpg" alt="Javascript"/><p>MANNING<br /> MEMORIAL<br /> CHAPEL</p></a> 
+                    <a rel="RHO" href="#"><img src="images/buildings/thumbs/RHO.jpg" alt="jQuery"/><p>RHODES HALL</p></a>
+                    <a rel="SM2" href="#"><img src="images/buildings/thumbs/SM2.jpg" alt="Navigation"/><p>SCHOOL OF <br />EDUCATION</p></a>
+                    <a rel="RRG" href="#"><img src="images/no_image.jpg" alt="Menu"/><p>SERVICES<br /> BUILDING</p></a>
+                    <a rel="SUB" href="#"><img src="images/buildings/thumbs/SUB.jpg" alt="CSS"/><p>STUDENTS' UNION BUILDING</p></a>
+                    <a rel="UNH" href="#"><img src="images/buildings/thumbs/UNH.jpg" alt="Menu"/><p>UNIVERSITY HALL</p></a>
+                    <a rel="VML" href="#"><img src="images/buildings/thumbs/VML.jpg" alt="jQuery"/><p>VAUGHAN MEMORIAL <br />LIBRARY</p></a>
+                    <a rel="WIL" href="#"><img src="images/no_image.jpg" alt="JavaScript"/><p>WILLETT HOUSE</p></a>
+                    <!-- <a href="#">________________________________________________________________________________</a> -->
+                    <a rel="AAC" class="inActive" href="#"><img src="images/buildings/thumbs/AAC.jpg" alt="Menu"/><p>ARENA & <br/>GYMNASIUM</p></a>
+                    <a rel="BIO" class="inActive" href="#"><img src="images/buildings/thumbs/BIO.jpg" alt="Vertical"/><p>BIOLOGY BUILDING</p></a>
+                    <a rel="FOU" class="inActive" href="#"><img src="images/buildings/thumbs/FOU.jpg" alt="Navigation"/><p>FOUNTAIN COMMONS</p></a>
+                    <a rel="HDH" class="inActive" href="#"><img src="images/buildings/thumbs/HDH.jpg" alt="Navigation"/><p>HARVEY DENTON HALL</p></a>
+                    <a rel="KCI" class="inActive" href="#"><img src="images/buildings/thumbs/KCI.jpg" alt="Menu"/><p>K. C. IRVING<br /> CENTER</p></a>
+                    <a rel="PAT" class="inActive" href="#"><img src="images/buildings/thumbs/PAT.jpg" alt="Javascript"/><p>PATTERSON HALL</p></a>
+                    <a rel="WHE" class="inActive" href="#"><img src="images/buildings/thumbs/WHE.jpg" alt="Navigation" /><p>WHEELOCK DINNING <br/>HALL</p></a>
+                  </div>
+                  <!-- </div> -->
+                  <!-- <div class="sc_menu_wrapper" id="tab2"> -->
+                  <div class="sc_menu" id="tab2">
+                    <a rel="CHI" href="#"><img src="images/buildings/thumbs/CHI.jpg" alt="Menu"/><p>CHIPMAN HOUSE</p></a>
+                    <a rel="CRO" href="#"><img src="images/buildings/thumbs/CRO.jpg" alt="CSS"/><p>CROWELL TOWER</p></a>
+                    <a rel="CUT" href="#"><img src="images/buildings/thumbs/CUT.jpg" alt="Navigation"/><p>CUTTEN HOUSE</p></a>
+                    <a rel="DEN" href="#"><img src="images/buildings/thumbs/DEN.jpg" alt="jQuery"/><p>DENNIS HOUSE</p></a>
+                    <a rel="EAT" href="#"><img src="images/buildings/thumbs/EAT.jpg" alt="Menu"/><p>EATON &<br />CHRISTOFOR </p></a>
+                    <a rel="SEM" href="#"><img src="images/buildings/thumbs/SEM.jpg" alt="Vertical"/><p>SEMINARY<br /> HOUSE</p></a>
+                    <!-- <a rel="WHI" href="#"><img src="images/buildings/thumbs/WHI.jpg" alt="Vertical"/><p>WHITMAN HOUSE</p></a> -->
+                    <a rel="CHA" class="inActive" href="#"><img src="images/buildings/thumbs/CHA.jpg" alt="Javascript"/><p>CHASE COURT</p></a>
+                    <a rel="RJH" class="inActive" href="#"><img src="images/buildings/thumbs/RJH.jpg" alt="jQuery"/><p>ROY JODREY HALL</p></a> 
+                    <a rel="WMH" class="inActive" href="#"><img src="images/buildings/thumbs/WMH.jpg" alt="Vertical"/><p>WAR MEMORIAL HOUSE</p></a>
+                  </div>
+                </div>
+            </div>
+            <!-- <div class="col0"></div> -->
+            
+            <div class="midBox">
+              <img src="images/CampusAerial.jpg"></img>
+              <div id="campus"><p>Campus Consumption</p></div>
+            </div>
+            <div class="el" >
+              <!-- <button id="switch">FLIP</button> -->
+              <div id="spin" class="spin" style="display:none;">
+                <p></p>
+                <img id="img-spinner" src="images/pleasewait.gif" alt="Loading"/>
+              </div>
+              <div class="graph-name"><p></p></div>
+              <div class="col2">
+                <p id="noData">no data available at this time :(</p>
+                <div class="graph-name"><p></p></div>
+                <div id="buttons">
+                  <p>Timeline: 
+                    <button id="today" class="ui-state-highlight">Today</button>
+                    <button id="yesterday" class="ui-state-highlight">Yesterday</button>
+                    <button id="week" class="ui-state-highlight">Week</button> 
+                    <button id="month" class="ui-state-highlight">Month</button> 
+                    <button id="year" class="ui-state-highlight">Year</button>
+                    <a style="float:right; margin-top:5px; margin-right: 10px;" href="#" title="This is information on how things are done in here :)"><img src="images/info.png"></a>
+                  </p>
+                </div>
+                <div id="container" style="width:565px; height:330px"></div> 
+              </div>
+              <div class="col3">
+                <div id="r-img" ></div>
+                <div class="total-box">
+                  <p id="head">CONSUMPTION SUMMARY</p>
+                  <div id="num1">0</div>
+                  <p id="kwh"></p>
+                  <div id="num2">0</div>
+                  <p id="ghg"></p>
+                </div>
+                
+                <div class="builProfile">
+                    <p id="head">BUILDING PROFILE</p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <span class="clear"></span>
+      </li>
+
+
+      <li id="page_comparison">
+          <!-- <a href="#!/page_SPLASH" class="close"><span class="over"></span><span class="txt1">back to main</span><span class="x1"></span></a> -->
+          <div class="box">
+          <div class="clear"></div>
+            <div class="col1C">
+                <div class="bx-title">
+                  <p style="text-align:center">Comparisons</p>
+                </div>
+                <ul id="tabs" class="comp">
+                    <li><a href="#" name="tab1">Academic/Service</a></li>
+                    <li><a href="#" name="tab2">Residence</a></li>   
+                </ul>
+                <div id="contentC">
+                  <!-- <div class="sc_menu_wrapper"  id="tab1"> -->
+                    <div class="sc_menuC" id="tab1" >
+                        <a rel="BAC" ><p>BEVERIDGE ARTS CENTRE<input type="checkbox" id="BAC" name="BEVERIDGE ARTS CENTRE" checked/></p><img src="images/buildings/thumbs/BAC.jpg" alt="Vertical"/></a>
+                        <a rel="CAR" ><p>CARNEGIE HALL<input type="checkbox" id="CAR" name="CARNEGIE HALL"/></p><img src="images/buildings/thumbs/CAR.jpg" alt="Javascript"/></a>
+                        <a rel="ELL" ><p>ELLIOTT HALL<input type="checkbox" id="ELL" name="ELLIOTT HALL"/></p><img src="images/buildings/thumbs/ELL.jpg" alt="Javascript"/></a>
+                        <a rel="EMM" ><p>EMMERSON HALL<input type="checkbox" id="EMM" name="EMMERSON HALL"/></p><img src="images/buildings/thumbs/EMM.jpg" alt="Navigation"/></a>
+                        <a rel="HOR" ><p>HORTON HALL<input type="checkbox" id="HOR" name="HORTON HALL"/></p><img src="images/buildings/thumbs/HOR.jpg" alt="Navigation"/></a>
+                        <a rel="HSH" ><p>HUGGINS SCIENCE HALL<input type="checkbox" id="HSH" name="HUGGINS SCIENCE HALL"/></p><img src="images/buildings/thumbs/HSH.jpg" alt="Menu"/></a>
+                        <a rel="MAN" ><p>MANNING MEMORIAL CHAPEL<input type="checkbox" id="MAN" name="MANNING MEMORIAL CHAPEL"/></p><img src="images/no_image.jpg" alt="Javascript"/></a>
+                        <a rel="RHO" ><p>RHODES HALL<input type="checkbox" id="RHO" name="RHODES HALL"/></p><img src="images/buildings/thumbs/RHO.jpg" alt="jQuery"/></a>    
+                        <a rel="SM2" ><p>SCHOOL OF EDUCATION<input type="checkbox" id="SM2" name="SCHOOL OF EDUCATION" /></p><img src="images/buildings/thumbs/SM2.jpg" alt="Navigation"/></a>
+                        <a rel="RRG" ><p>SERVICES BUILDING<input type="checkbox" id="RRG" name="SERVICES BUILDING"/></p><img src="images/no_image.jpg" alt="Menu"/></a>
+                        <a rel="SUB" ><p>STUDENTS' UNION BUILDING<input type="checkbox" id="SUB" name="STUDENTS' UNION BUILDING"/></p><img src="images/buildings/thumbs/SUB.jpg" alt="CSS"/></a>
+                        <a rel="UNH" ><p>UNIVERSITY HALL<input type="checkbox" id="UNH" name="UNIVERSITY HALL"/></p><img src="images/buildings/thumbs/UNH.jpg" for="UNH" alt="Menu"/></a>
+                        <a rel="VML" ><p>VAUGHAN MEMORIAL LIBRARY<input type="checkbox" id="VML" name="VAUGHAN MEMORIAL LIBRARY"/></p><img src="images/buildings/thumbs/VML.jpg" alt="jQuery"/></a>
+                        <!-- <a rel="VM2" ><img src="images/buildings/thumbs/VML.jpg" alt="Navigation" /><p>VAUGHAN MEMORIAL LIBRARY EXT.</p></a> -->
+                        <a rel="WIL" ><p>WILLETT HALL<input type="checkbox" id="WIL" name="WILLETT HALL"/></p><img src="images/no_image.jpg" alt="JavaScript"/></a>
+                        <a rel="AAC" class="inActive" href="#" title="no data available at this time :("><p>ARENA & <br/>GYMNASIUM</p><img src="images/buildings/thumbs/AAC.jpg" alt="Menu"/></a>
+                        <a rel="BIO" class="inActive" href="#" title="no data available at this time :("><p>BIOLOGY BUILDING</p><img src="images/buildings/thumbs/BIO.jpg" alt="Vertical"/></a>
+                        <a rel="FOU" class="inActive" href="#" title="no data available at this time :("><p>FOUNTAIN COMMONS</p><img src="images/buildings/thumbs/FOU.jpg" alt="Navigation"/></a>
+                        <a rel="HDH" class="inActive" href="#" title="no data available at this time :("><p>HARVEY DENTON HALL</p><img src="images/buildings/thumbs/HDH.jpg" alt="Navigation"/></a>
+                        <a rel="KCI" class="inActive" href="#" title="no data available at this time :("><p>K. C. IRVING<br /> CENTER</p><img src="images/buildings/thumbs/KCI.jpg" alt="Menu"/></a>
+                        <a rel="PAT" class="inActive" href="#" title="no data available at this time :("><p>PATTERSON HALL</p><img src="images/buildings/thumbs/PAT.jpg" alt="Javascript"/></a>
+                        <a rel="WHE" class="inActive" href="#" title="no data available at this time :("><p>WHEELOCK DINNING <br/>HALL</p><img src="images/buildings/thumbs/WHE.jpg" alt="Navigation" /></a>
+                    </div>
+                  <!-- </div> -->
+                  <!-- <div class="sc_menu_wrapper" id="tab2"> -->
+                    <div class="sc_menuC" id="tab2">
+                        <a rel="CHI" href="#"><p>CHIPMAN HOUSE<input type="checkbox" id="CHI" /></p><img src="images/buildings/thumbs/CHI.jpg" alt="Menu"/></a>
+                        <a rel="CRO" href="#"><p>CROWELL TOWER<input type="checkbox" id="CRO" /></p><img src="images/buildings/thumbs/CRO.jpg" alt="CSS"/></a>
+                        <a rel="CUT" href="#"><p>CUTTEN HOUSE<input type="checkbox" id="CUT" /></p><img src="images/buildings/thumbs/CUT.jpg" alt="Navigation"/></a>
+                        <a rel="DEN" href="#"><p>DENNIS HOUSE<input type="checkbox" id="DEN" /></p><img src="images/buildings/thumbs/DEN.jpg" alt="jQuery"/></a> 
+                        <a rel="EAT" href="#"><p>EATON &<br />CHRISTOFOR <input type="checkbox" id="EAT" /></p><img src="images/buildings/thumbs/EAT.jpg" alt="Menu"/></a>
+                        <a rel="SEM" href="#"><p>SEMINARY<br /> HOUSE<input type="checkbox" id="SEM" /></p><img src="images/buildings/thumbs/SEM.jpg" alt="Vertical"/></a>
+                        <a rel="CHA" class="inActive" href="#" title="no data available at this time :("><p>CHASE COURT</p><img src="images/buildings/thumbs/CHA.jpg" alt="Javascript"/></a>
+                        <a rel="RJH" class="inActive" href="#" title="no data available at this time :("><p>ROY JODREY HALL</p><img src="images/buildings/thumbs/RJH.jpg" alt="jQuery"/></a> 
+                        <a rel="WMH" class="inActive" href="#" title="no data available at this time :("><p>WAR MEMORIAL HOUSE</p><img src="images/buildings/thumbs/WMH.jpg" alt="Vertical"/></a>
+
+                    </div>
+                </div>
+            </div>
+            <span class="clear">
+                    </span>
+          <div class="col2C">
+            <div id="chart_1" style="width:745px; height:425px" ></div>
+          </div>
+          
+          </div>
+        </li>
+        <li id="page_competition">
+           <p style="font-size:30px; margin-left:35%;"><b>
+                COMING SOON!
+              </b>
+              </p>
+        </li>
+        <li id="page_green">
+           <p style="font-size:30px; margin-left:35%;"><b>
+                COMING SOON!
+              </b>
+              </p>
+        </li>
+
+      
+      </ul>
+  </div>
+  </div>
+</div>
+
+</body>
+</html>

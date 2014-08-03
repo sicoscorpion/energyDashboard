@@ -1,0 +1,25 @@
+#! monit
+
+set daemon 120
+
+set logfile /var/log/monit.log
+set httpd port 2812
+    #allow localhost
+    allow cslab:energy
+
+check process dashboard with pidfile "/var/run/dashboard.pid"
+    start = "/sbin/start dashboard"
+    stop = "/sbin/stop dashboard"
+    if failed port 4000 protocol HTTP
+	request /
+	with timeout 10 seconds
+	then restart
+
+check process nginx with pidfile "/var/run/nginx.pid"
+    start = "/etc/init.d/nginx start"
+    stop = "/etc/init.d/nginx stop"
+    if failed port 80 protocol HTTP
+        request /
+        with timeout 10 seconds
+        then restart
+

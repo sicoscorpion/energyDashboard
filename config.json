@@ -1,0 +1,4 @@
+{
+	"db_address" : "mongodb://localhost/dashboard",
+	"MEU_data" : "/home/zeratoul/data"
+}
