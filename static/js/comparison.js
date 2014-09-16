@@ -1,30 +1,4 @@
-function dataObj(date, value, code){
-    this.date = date;
-    this.value = value;
-}
 
-function readData(from, to, code) {
-    var data = new Array();
-    $.ajax({
-        type: 'GET'
-        , dataType: 'json'
-        , url: '/db/dataDaily/' + from + "/" + to + "/" + code
-        , async: false
-        , success: function(msg){
-            for (var i = 0, x = 0; i < msg.length; i++) {
-                if(msg[i].code === code) {
-                    var d = new Date(msg[i].date);
-                    var day = d.getUTCDate();
-                    var month = d.getUTCMonth();
-                    var year = d.getUTCFullYear();
-                    data[x] = [Date.UTC(year, month, day) , msg[i].value];
-                    x++;
-                }
-            }
-        }
-    });
-    return data;
-}
 var today = new Date();
 var dayToday = today.toString("MM-dd-yyyy");
 var dataBAC = null;
@@ -36,10 +10,10 @@ function loadComp() {
             renderTo: 'chart_1',
             type: 'line',
             height: 425,
-            width:745,
+            width:755,
             shadow: true,
             plotBorderColor: 'black',
-            plotBorderWidth: 1
+            plotBorderWidth: 0
         },
         rangeSelector: {
             buttons: [{
@@ -99,10 +73,11 @@ function loadComp() {
             text : "<b>Electricity Use (kwh)</b> ",
             style: {
                 color: 'black',
-                fontSize: '12px',
+                fontSize: '14px',
                 fontWeight: 'bold',
                 color: 'black'
-            }
+            },
+            y: 20
         },
         exporting: {
             buttons: {
@@ -112,34 +87,37 @@ function loadComp() {
             }
         },
         navigation: {
-            buttonOptions: {
-                theme: {
-                    'stroke-width': 1,
-                    stroke: 'silver',
-                    r: 0,
-                    states: {
-                        hover: {
-                            fill: '#ffad00'
-                        },
-                        select: {
-                            stroke: '#039',
-                            fill: '#ffad00'
-                        }
-                    },
-                    style: {
-                        color: '#000'
-                    }
-                }
-            },
-            menuItemStyle: {
-                fontWeight: 'normal',
-                background: 'none'
-            },
-            menuItemHoverStyle: {
-                fontWeight: 'bold',
-                background: 'none',
-                color: 'black'
-            }
+            // buttonOptions: {
+            //     theme: {
+            //         'stroke-width': 0,
+            //         stroke: 'silver',
+            //         r: 0,
+            //         states: {
+            //             hover: {
+            //                 fill: '#ffad00'
+            //             },
+            //             select: {
+            //                 stroke: '#039',
+            //                 fill: '#ffad00'
+            //             }
+            //         },
+            //         style: {
+            //             color: '#000'
+            //         }
+            //     }
+            // },
+            // menuItemStyle: {
+            //     fontWeight: 'normal',
+            //     background: 'none'
+            // },
+            // menuItemHoverStyle: {
+            //     fontWeight: 'bold',
+            //     background: 'none',
+            //     color: 'black'
+            // }
+            // buttonOptions: {
+            //     enabled: false
+            // }
         },
         plotOptions: {
             line: {
@@ -185,13 +163,13 @@ function loadComp() {
                 space = 0;
             this.zoomText.attr({
                 x: leftPosition +125,
-                y: topPosition -12
+                y: topPosition -20
             });
             leftPosition += this.zoomText.getBBox().width;
             for (var i = 0; i < this.buttons.length; i++) {
                 this.buttons[i].attr({
                     x: leftPosition + 130,
-                    y: topPosition -25
+                    y: topPosition -35
                 });
                 leftPosition += this.buttons[i].width + space;
             }
@@ -221,26 +199,28 @@ function loadComp() {
 function loadBuildingsList_comparisons() {
     var list = getBuildings();
     var builds = list.sort(dynamicSort("name"));
-    for (var i = 0; i < builds.length; i++) {
-        
-        if (builds[i].type === "academic") {
-            if (builds[i].available === "Active") {
-
-                $('#contentC #tab1').append('<a rel="' + builds[i].code + '"> <p>' + builds[i].name + '<input type="checkbox" id="' + builds[i].code + '" name="' + builds[i].name +
-                    '"/></p><img src="' + builds[i].image + '"/></a>');
+    var builds_inActive = [];
+    for (var i = 0,j = 0; i < builds.length; i++) {
+        if (builds[i].available === "Active") {
+            if (builds[i].type === "academic") {
+                $('#contentC #tab1').append('<a rel="' + builds[i].code + '"> <p>' + builds[i].name + '<input type="checkbox" id="' + builds[i].code + '" name="' + builds[i].name + '"/></p><img src="' + builds[i].image + '"/></a>');
                 if (builds[i].code === "BAC")  $('input').iCheck('check');
-            } if (builds[i].available === "inActive") {
-                $('#contentC #tab1').append('<a rel="' + builds[i].code + '" class="inActive" href="#" title="no data available at this time :("><p>' + builds[i].name +
-                    '</p><img src="' + builds[i].image + '"/></a>');
+            } else if (builds[i].type === "residence") {
+                // console.log(builds[i].name);
+                $('#contentC #tab2').append('<a rel="' + builds[i].code + '"> <p>' + builds[i].name + '<input type="checkbox" id="' + builds[i].code + '" name="' + builds[i].name + '"/></p><img src="' + builds[i].image + '"/></a>');
             }
-        } else if (builds[i].type === "residence") {
-            if (builds[i].available === "Active") {
-                $('#contentC #tab2').append('<a rel="' + builds[i].code + '"> <p>' + builds[i].name + '<input type="checkbox" id="' + builds[i].code + '" name="' + builds[i].name +
-                    '"/></p><img src="' + builds[i].image + '"/></a>');
-            } if (builds[i].available === "inActive") {
-                $('#contentC #tab2').append('<a rel="' + builds[i].code + '" class="inActive" href="#" title="no data available at this time :("><p>' + builds[i].name +
-                    '</p><img src="' + builds[i].image + '"/></a>');
-            }
+        } else if (builds[i].available === "inActive") {
+            builds_inActive[j] = builds[i];
+            j++;
+        }
+    };
+    for (var i = 0; i < builds_inActive.length; i++) {
+        // console.log(builds_inActive[i].type)
+        if (builds_inActive[i].type === "academic") {    
+            $('#contentC #tab1').append('<a rel="' + builds_inActive[i].code + '" class="inActive" href="#" title="no data available at this time :("><p>' + builds_inActive[i].name + '</p><img src="' + builds_inActive[i].image + '"/></a>');
+            
+        } else if (builds_inActive[i].type === "residence") {
+            $('#contentC #tab2').append('<a rel="' + builds_inActive[i].code + '" class="inActive" href="#" title="no data available at this time :("><p>' + builds_inActive[i].name + '</p><img src="' + builds_inActive[i].image + '"/></a>');
         }
     };
 }

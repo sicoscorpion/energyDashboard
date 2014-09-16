@@ -11,6 +11,7 @@ var dateable = require('dateable');
 var extras = require('../helpers/extras.js');
 var models = require('../models/energy.js');
 var buildings = require('../models/buildings.js');
+var userInterface = require('../models/interface.js');
 
 var list = ['dataHour', 'dataDaily', 'dataMonthly'];
 var db_list = ['DH', 'DD', 'DM'];
@@ -86,7 +87,7 @@ module.exports = {
         var end = par2.slice(0,2) + "/" + par2.slice(3,5) + "/" + par2.slice(6,10);
         var begin = new Date(begin);
         var end = new Date(end);
-        dataDaily.find({date: {$gt:begin, $lt:end}, code: req.params.build}, function(err, data){
+        dataDaily.find({date: {$gte:begin, $lte:end}, code: req.params.build}, function(err, data){
             if (err) {
                 console.log("ERR: ", __filename, "func: getPerDay");
                 console.log("Error getting data from dataDaily: ", err);
@@ -166,7 +167,17 @@ module.exports = {
             }
         });
     },
-
+    getInterfaceInfo: function(req, res) {
+        userInterface.interfaceModel.find({}, function(err, data) {
+            if (err) {
+                console.log("ERR: ", __filename, "func: getInterfaceInfo");
+                console.log("Error getting data: ", err);
+            }  else {
+                // console.log(data)
+                res.json(data);
+            }
+        });
+    },
     campusConsumption: function(req, res) {
         calculateCampus()(function(data) {
             // console.log(data);

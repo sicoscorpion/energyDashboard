@@ -1,229 +1,3 @@
-function getBuildingsInfo(b) {
-    "use strict";
-    var data = [];
-    $.ajax({
-        type: 'GET', 
-        dataType: 'json',
-        url: '/db/buildingInfo/' + b,
-        async: false, 
-        success: function(msg){
-            data = msg;
-            // console.log(msg);
-        }
-    });
-    return data;
-}
-function getBuildings() {
-    "use strict";
-    var data = [];
-    $.ajax({
-        type: 'GET', 
-        dataType: 'json',
-        url: '/db/getBuildings/',
-        async: false, 
-        success: function(msg){
-            data = msg;
-            // console.log(msg);
-        }
-    });
-    return data;
-}
-
-function getHours(d, b) {
-    "use strict";
-    var str = d.replace(/\//g, "-");
-    console.log(str);
-    var data = [];
-    $.ajax({
-        type: 'GET', 
-        dataType: 'json',
-        url: '/db/dataHour/' + str + '/' + b,
-        async: false, 
-        success: function(msg){
-            var tmp = new Array();
-            for (var i = 0; i <= 48; i++) tmp[i] = 0;
-            for (var i = 0, x = 0; i < msg.length; i++) {                
-                // if (i >=1) 
-                
-                if (msg[i].code === b ){
-                    if (msg[i].code === "ELL") {
-                    //     if (i === 0) { 
-                    //         data[x] = msg[i].value;
-                    //         x++;
-                    //     } else {
-                        
-                            var hrO = parseInt(msg[i].time.slice(3,6));
-                            var hr = parseInt(msg[i].time.slice(0,2));
-                            var g = 0
-                            if (hr == 0) g = hr;
-                            if (hrO > 0 && hrO <= 30) {
-                                g = hr*2;
-                            } else if (hrO > 30 && hrO <= 59) {
-                                g = hr*2 + 1;
-                            }
-                            // tmp[g] += ;
-                            if (data[x]) data[x] += msg[i].value;
-                            console.log(hrO, hr, tmp, data[x]);
-                    } else {
-                        data[x] = msg[i].value;
-                        x++;
-                        console.log("getHours(): ajax() responded, msg length: ", msg.length);
-                    }
-                }
-                else continue;
-            }
-            
-        }
-    });
-    return data;
-}
-
-function getDays(b, m, date){
-    var data = new Array();
-    $.ajax({
-        type: 'GET'
-        , dataType: 'json'
-        , url: 'db/dataForWeek/' + b
-        , async: false
-        , success: function(msg){
-            if (msg.length == 0) {
-                for (var j = 0; j < thisWeek.length; j++) {
-                    data[j] = null;
-                }
-            }
-            for (var i = 0; i < msg.length; i++) {
-                if (m === "w") {
-                    if(msg[i].code === b){
-                        for (var j = 0; j < thisWeek.length; j++) {
-                            if(((new Date(msg[i].date)) - (new Date(thisWeek[j]))) == 0 ) {
-                                data[j] = msg[i].value;
-                            }
-
-                            else if (!data[j]) {
-                                data[j] = null;
-                            }
-                        }
-                    } else continue;
-                } 
-            }
-            console.log("getDays(): ajax() responded, msg length: ", msg.length);
-        }
-    });
-    return data;
-}
-
-function getMonth(b, m){
-    var data = new Array();
-    $.ajax({
-        type: 'GET'
-        , dataType: 'json'
-        , url: 'db/dataForMonth/' + b
-        , async: false
-        , success: function(msg){
-            if (msg.length == 0) {
-                for (var j = 0; j < thisMonth.length; j++) {
-                    data[j] = null;
-                }
-            }
-            for (var i = 0; i < msg.length; i++) {
-                if(msg[i].code === b){
-                    for (var j = 0; j < thisMonth.length; j++) {
-                        if (((new Date(msg[i].date)) - (new Date(thisMonth[j]))) == 0 ) {
-                            data[j] = msg[i].value;
-                        }
-                        else if (!data[j])
-                            data[j] = null;
-                    }
-                } else continue;
-            }
-            console.log("getMonth(): ajax() responded, msg length: ", msg.length);
-        }
-    });
-    return data;
-}
-
-function getYear(b){
-    var data = new Array();
-    $.ajax({
-        type: 'GET'
-        , dataType: 'json'
-        , url: 'db/dataForYear/' + b
-        , async: false
-        , success: function(msg){
-            console.log(msg);
-            var x = 0;
-            var d = new Date();
-            console.log(d.getFullYear());
-            for (var i = 0; i < msg.length; i++) {
-                console.log(parseInt(msg[i].month))
-                if (msg[i].year === String(d.getFullYear())) {
-                    console.log(parseInt(msg[i].month));
-                    data[parseInt(msg[i].month) - 1] = msg[i].value;
-                    x++;
-                }
-            }
-            if (x < 12) {
-                for (var i = 0; i < 12; i++) {
-                    if (!data[i])
-                        data[i] = null;    
-                }
-            }
-            console.log("getYear(): ajax() responded, msg length: ", msg.length);
-        }
-    });
-    console.log(data);
-    return data;
-}
-
-$.fn.animateNumber = function(to) {
-    var $ele = $(this),
-        num = 0,
-        up = to > num,
-        num_interval = to / 10;
-
-    var loop = function() {
-        num = Math.floor(up ? num+num_interval: num-num_interval);
-        if ( (up && num > to) || (!up && num < to) ) {
-            num = to;
-            var array = num.toString().split('');
-            var index = -3;
-            while (array.length + index > 0) {
-                array.splice(index, 0, ',');
-                // Decrement by 4 since we just added another unit to the array.
-                index -= 4;
-            }
-            num = array.join('');
-            clearInterval(animation)
-        }
-        $ele.html(num);
-    }
-
-    var animation = setInterval(loop, 50);
-}
-
-function getConsumption() {
-    "use strict";
-    var data = [];
-    $.ajax({
-        type: 'GET', 
-        dataType: 'json',
-        url: '/db/campusConsumption/',
-        async: false, 
-        success: function(msg){
-            data = msg;
-            console.log("getConsumption(): ajax() responded, msg length: ", msg.length);
-        }
-    });
-    return data;
-}
-
-function campusConsumption() {
-    var total = getConsumption();
-    $('#totalM').append('<span style="color:green">' + total + "</span> KWH so far today");
-    $('#totalE').append('<span style="color:green">' + total + "</span> KWH so far today");
-    $('#totalC').append('<span style="color:green">' + total + "</span> KWH so far today");
-}
-
 
 function loadToday(date, code, building) {
     var values = getHours(date, code);
@@ -239,12 +13,11 @@ function loadToday(date, code, building) {
 
     var max = Math.max.apply(null,values);
     console.log("loading " + date +" for: ", code);
-    $('#kwh').html('<b><i>kwh so far today</b></i>');
-    $('#ghg').html('<b><i>kg of eCO2 so far today</b></i>');
+    $('#kwh').html('kwh so far today');
+    $('#ghg').html('kg of eCO2 so far today');
     $('.graph-name p').html(building);
     options.chart = {
-        renderTo: 'container',
-        width: 565,
+        width: 570,
         height: 335,
         shadow: true,
         defaultSeriesType: 'area'
@@ -336,13 +109,12 @@ function loadWeek(todayDate, code, building) {
         }
     }
     console.log("loading Week for:", code);
-    $('#kwh').html('<b><i>kwh so far this week</b></i>');
-    $('#ghg').html('<b><i>kg of eCO2 so far this week</b></i>');
+    $('#kwh').html('kwh so far this week');
+    $('#ghg').html('kg of eCO2 so far this week');
     var max = Math.max.apply(null,vl);
     options.chart = {
-        renderTo: 'container',
         defaultSeriesType: 'column',
-        width: 565,
+        width: 570,
         height: 335,
         shadow: true,
         animation: {
@@ -412,7 +184,7 @@ function loadMonth(todayDate, code, building) {
         if(vMonth[j] != null){
             accum += vMonth[j];
         } else {
-            if (vMonth[j-1] != null && vMonth[j+1] == null || vMonth[2] == null){               
+            if (vMonth[j-1] != null && vMonth[j+1] == null || vMonth[1] == null){               
                 var current = getHours(todayDate, code);
                 var total = 0;
                 for (var m = 0; m < current.length; m++) {
@@ -428,6 +200,7 @@ function loadMonth(todayDate, code, building) {
             }
         }
     }
+    console.log(accum)
     var vMonth2 = new Array()
     for (var i = 0; i < vMonth.length; i++) {
         if(i == 0)
@@ -436,12 +209,11 @@ function loadMonth(todayDate, code, building) {
     };
     var max = Math.max.apply(Math, vMonth2);
     console.log("loading Month for: ", code);
-    $('#kwh').html('<b><i>kwh so far this month</b></i>');
-    $('#ghg').html('<b><i>kg of eCO2 so far this month</b></i>');
+    $('#kwh').html('kwh so far this month');
+    $('#ghg').html('kg of eCO2 so far this month');
     options.chart = {
-        renderTo: 'container',
         defaultSeriesType: 'column',
-        width: 565,
+        width: 570,
         height: 335,
         shadow: true
     }
@@ -508,13 +280,12 @@ function loadYear(code, building) {
         accum += vl[j];
     };
     console.log("loading Year for:", code);
-    $('#kwh').html('<b><i>kwh so far this year</b></i>');
-    $('ghg').html('<b><i>kg of eCO2 so far this year</b></i>');
+    $('#kwh').html('kwh so far this year');
+    $('#ghg').html('kg of eCO2 so far this year');
     var max = Math.max.apply(null,vl);
     options.chart = {
-        renderTo: 'container',
         defaultSeriesType: 'column',
-        width: 565,
+        width: 570,
         height: 335,
         shadow: true
     }
@@ -646,26 +417,27 @@ var options = {
 function loadGraph(date, code, name){
     var total = 0;
     $('.graph-name p').show();
-    // for (var i = 0; i < buildings.length; i++) {
-        if (date === "yesterday" ) {
-            total = loadToday(yesterdayDate, code, name);
-        }
-        if (date === "today" ) {
-            total = loadToday(todayDate, code, name);
-        }
-        if (date === "week" ) {
-            total = loadWeek(todayDate, code, name);
-        }
-        if (date === "month" ) {
-            
-            total = loadMonth(todayDate, code, name);
-        } 
-        if (date === "year" ) {
-            
-            total = loadYear(code, name);
-        }
-    // }
-    var chart = new Highcharts.Chart(options);
+    if (date === "yesterday" ) {
+        total = loadToday(yesterdayDate, code, name);
+        $('#kwh').html('kwh used yesterday');
+        $('#ghg').html('kg of eCO2 used yesterday');
+    }
+    if (date === "today" ) {
+        total = loadToday(todayDate, code, name);
+    }
+    if (date === "week" ) {
+        total = loadWeek(todayDate, code, name);
+    }
+    if (date === "month" ) {
+        
+        total = loadMonth(todayDate, code, name);
+    } 
+    if (date === "year" ) {
+        
+        total = loadYear(code, name);
+    }
+    $('#container').highcharts(options);
+    var chart = $('#container').highcharts();
     chart.showLoading();
     setTimeout(function(){
         chart.hideLoading();    
@@ -674,30 +446,38 @@ function loadGraph(date, code, name){
     return total;
 };
 
-function dynamicSort(property) {
-    var sortOrder = 1;
-    if(property[0] === "-") {
-        sortOrder = -1;
-        property = property.substr(1);
-    }
-    return function (a,b) {
-        var result = (a[property] < b[property]) ? -1 : (a[property] > b[property]) ? 1 : 0;
-        return result * sortOrder;
-    }
-}
 function loadBuildingsList_electricity() {
     var list = getBuildings();
     var builds = list.sort(dynamicSort("name"));
-    for (var i = 0; i < builds.length; i++) {
-        
-        if (builds[i].type === "academic") {
-            console.log(builds[i].name);
-            $('#tab1').append('<a rel="' + builds[i].code + '" class="' + builds[i].available + '" href="#"><img src=\"' + builds[i].image 
-                + '" value="' + builds[i].name + '"/><p>' + builds[i].name + '</p></a>');
-        } else if (builds[i].type === "residence") {
-            console.log(builds[i].name);
-            $('#tab2').append('<a rel="' + builds[i].code + '" class="' + builds[i].available + '" href="#"><img src=\"' + builds[i].image 
-                + '" value="' + builds[i].name + '"/><p>' + builds[i].name + '</p></a>');
+    var builds_inActive = [];
+    for (var i = 0,j = 0; i < builds.length; i++) {
+        if (builds[i].available === "Active") {
+            if (builds[i].type === "academic") {
+                
+                $('#tab1').append('<a rel="' + builds[i].code + '" class="' + builds[i].available + '" href="#"><img src=\"' + builds[i].image 
+                    + '" value="' + builds[i].name + '"/><p>' + builds[i].name + '</p></a>');
+                // console.log(builds[i].name);
+                
+            } else if (builds[i].type === "residence") {
+                // console.log(builds[i].name);
+                $('#tab2').append('<a rel="' + builds[i].code + '" class="' + builds[i].available + '" href="#"><img src=\"' + builds[i].image 
+                    + '" value="' + builds[i].name + '"/><p>' + builds[i].name + '</p></a>');
+            }
+        } else {
+            builds_inActive[j] = builds[i];
+            j++;
+        }
+    };
+    for (var i = 0; i < builds_inActive.length; i++) {
+        if (builds_inActive[i].type === "academic") {    
+            $('#tab1').append('<a rel="' + builds_inActive[i].code + '" class="' + builds_inActive[i].available + '" href="#"><img src=\"' + builds_inActive[i].image 
+                + '" value="' + builds_inActive[i].name + '"/><p>' + builds_inActive[i].name + '</p></a>');
+            // console.log(builds_inActive[i].name);
+            
+        } else if (builds_inActive[i].type === "residence") {
+            // console.log(builds_inActive[i].name);
+            $('#tab2').append('<a rel="' + builds_inActive[i].code + '" class="' + builds_inActive[i].available + '" href="#"><img src=\"' + builds_inActive[i].image 
+                + '" value="' + builds_inActive[i].name + '"/><p>' + builds_inActive[i].name + '</p></a>');
         }
     };
 }
@@ -767,9 +547,9 @@ function buil_loader(tab, code, name) {
             $('.col3').show();
             $('#r-img').show("blind");
             $("#spin").hide(10);  
-            $('.builProfile').show("slide", 100);   
+            $('.builProfile').show("slide", 100); 
         }
-    }, 4000);
+    }, 3000);
     state = true;
     var info = getBuildingsInfo(code);
     $('#info').html("<b>Profile: </b>" + info[0].profile + "<br/><b>Size: </b>" + parseFloat(info[0].size) + " sq. ft" +
@@ -783,35 +563,104 @@ function buil_loader(tab, code, name) {
     $('#yesterday').removeClass('ui-state-highlight');
 }
 
-function loadFromMap(buil) {
-    console.log(buil);
-    var buildings = getBuildings();
-    for (var i = 0; i < buildings.length; i++)
-    {console.log("loadFromMap: " + buildings[i].code, buil.id);
-        // var ch_la = choiceList_acs[i].value;
-        if (buildings[i].code === buil.id) { 
-            
-            buil_loader("#contentE #tab1" , buildings[i].code, buildings[i].name);
-        
-            bui = buildings[i].code;
-            if (buildings[i].type === "residence") {
-                $("#contentE #tab2").hide();
-                $("#tabs>li>a").eq(1).removeClass("current");
-                $(".elect>li>a").eq(0).addClass("current");
-                $("#contentE #tab1").trigger('click');
-                $("#contentE #tab1").show().jScrollPane({hideFocus:true,  autoReinitialise: true});
-            } else if (buildings[i].type === "academic") { 
-                $("#contentE #tab1").hide();
-                $("#tabs>li>a").eq(0).removeClass("current");
-                $(".elect>li>a").eq(1).addClass("current");
-                $("#contentE #tab2").trigger('click');
-                $("#contentE #tab2").show().jScrollPane({hideFocus:true,  autoReinitialise: true});
-            }
-        }
-    }
-}
+
 // GHG emmission factor (see future work in the api for information)
-var ghgVal = 0.798;
+var info = getInterfaceInfo();
+// console.log("Interface: " + info[0].ghg);
+var ghgVal = info[0].ghg;
+
+function loadButtons(building_code, building_name) {
+    $("#yesterday").on('click', function(){
+        $('#yesterday').addClass('ui-state-highlight');
+        $('#today').removeClass('ui-state-highlight');
+        $('#week').removeClass('ui-state-highlight');
+        $('#month').removeClass('ui-state-highlight');
+        $('#year').removeClass('ui-state-highlight'); 
+        
+        var total = loadGraph("yesterday", building_code, building_name );
+        console.log(total)
+        $('.total-box').show("blind", 1000);
+        $('.builProfile').show();
+        var counter = $(".total-box #num1");
+        counter.animateNumber(total.toFixed(0));
+        var counter = $(".total-box #num2");
+        var ghg = total * ghgVal;
+        counter.animateNumber(ghg.toFixed(0));
+
+    });
+    $("#today").on('click', function(){
+        $('#today').addClass('ui-state-highlight');
+        $('#yesterday').removeClass('ui-state-highlight');
+        $('#week').removeClass('ui-state-highlight');
+        $('#month').removeClass('ui-state-highlight');
+        $('#year').removeClass('ui-state-highlight');
+        
+        
+        var total = loadGraph("today", building_code, building_name );
+        $('.builProfile').show("slide", 100);
+        $('.total-box').show("blind", 1000);
+        console.log(total)
+        var counter = $(".total-box #num1");
+        counter.animateNumber(total.toFixed(0));
+        var counter = $(".total-box #num2");
+        var ghg = total * ghgVal;
+        counter.animateNumber(ghg.toFixed(0));
+
+    });
+    $("#week").on('click', function(){
+        $('#today').removeClass('ui-state-highlight');
+        $('#yesterday').removeClass('ui-state-highlight');
+        $('#week').addClass('ui-state-highlight');
+        $('#month').removeClass('ui-state-highlight');
+        $('#year').removeClass('ui-state-highlight');
+
+        var total = loadGraph("week", building_code, building_name );
+        $('.total-box').show("blind", 1000);
+        $('.builProfile').show("slide", 100);
+
+        var counter = $(".total-box #num1");
+        counter.animateNumber(total.toFixed(0));
+        var counter = $(".total-box #num2");
+        var ghg = total * ghgVal;
+        counter.animateNumber(ghg.toFixed(0));
+    });
+    $("#month").on('click', function(){
+        $('#month').addClass('ui-state-highlight');
+        $('#today').removeClass('ui-state-highlight');
+        $('#yesterday').removeClass('ui-state-highlight');
+        $('#week').removeClass('ui-state-highlight');
+        $('#year').removeClass('ui-state-highlight');
+
+        var total = loadGraph("month", building_code, building_name );
+        $('.total-box').show("blind", 1000);
+        $('.builProfile').show("slide", 100);
+        var counter = $(".total-box #num1");
+        counter.animateNumber(total.toFixed(0));
+        var counter = $(".total-box #num2");
+        var ghg = total * ghgVal;
+        counter.animateNumber(ghg.toFixed(0));
+    });
+
+    $("#year").on('click', function(){
+        $('#year').addClass('ui-state-highlight');
+        $('#today').removeClass('ui-state-highlight');
+        $('#yesterday').removeClass('ui-state-highlight');
+        $('#week').removeClass('ui-state-highlight');
+        $('#month').removeClass('ui-state-highlight');
+        var total = loadGraph("year", building_code, building_name );
+        $('.total-box').show("blind", 1000);
+        $('.builProfile').show("slide", 100);
+        var counter = $(".total-box #num1");
+        counter.animateNumber(total.toFixed(0));
+        var counter = $(".total-box #num2");
+        var ghg = total * ghgVal;
+        counter.animateNumber(ghg.toFixed(0));
+    });
+    $('#today').addClass('ui-state-highlight');
+    $('#yesterday').removeClass('ui-state-highlight');
+    $('#week').removeClass('ui-state-highlight');
+    $('#month').removeClass('ui-state-highlight');
+}
 
 function buildElectricity(callback) {
     "use-strict";
@@ -834,7 +683,8 @@ function buildElectricity(callback) {
     }, function() {
         $(this).animate({ 'margin-left': "10px" });
     });
-
+    var building_code = "";
+    var building_name = "";
     $("#campus").animate({opacity:1});
     $(".midBox img").show(400);
     $('.menu a').click(function() {
@@ -871,122 +721,20 @@ function buildElectricity(callback) {
     loadBuildingsList_electricity(); 
     $(".elect li:first a").addClass("current");
     $("#contentE #tab1").show().jScrollPane({hideFocus:true, reinitialise: true});
-
-    // Remove inActive class from active buildings (TODO)
-    // for (var i = 0; i < codes.length; i++) {
-    //     $("#contentE #tab1 a").each(function(){
-    //         if (codes[i] === $(this).attr('rel')) {
-    //             $(this).removeClass("inActive");
-    //         }
-    //     });
-    //     $("#contentE #tab2 a").each(function(){
-    //         if (codes[i] === $(this).attr('rel')) {
-    //             $(this).removeClass("inActive");
-    //         }
-    //     });
-    // };
     
     $("#contentE #tab1 a").click(function(){
         building_code = $(this).attr("rel");
         building_name = $(this).text();
         console.log($(this).attr("rel") + $(this).text())
         buil_loader("#contentE #tab1" , $(this).attr("rel") , $(this).text());
+        loadButtons(building_code, building_name)
     });
     $("#contentE #tab2 a").click(function(){
         buil_loader("#contentE #tab2" , $(this).attr("rel") , $(this).text()); 
         building_code = $(this).attr("rel");
         building_name = $(this).text();
+        loadButtons(building_code, building_name)
     });
-    $("#yesterday").on('click', function(){
-        $('#yesterday').addClass('ui-state-highlight');
-        $('#today').removeClass('ui-state-highlight');
-        $('#week').removeClass('ui-state-highlight');
-        $('#month').removeClass('ui-state-highlight');
-        $('#year').removeClass('ui-state-highlight'); 
-        
-        var total = loadGraph("yesterday", building_code, building_name );
-        console.log(total)
-        $('.total-box').show();
-        $('.builProfile').show();
-        var counter = $(".total-box #num1");
-        counter.animateNumber(total.toFixed(0));
-        var counter = $(".total-box #num2");
-        var ghg = total * ghgVal;
-        counter.animateNumber(ghg.toFixed(0));
-
-    });
-    $("#today").on('click', function(){
-        $('#today').addClass('ui-state-highlight');
-        $('#yesterday').removeClass('ui-state-highlight');
-        $('#week').removeClass('ui-state-highlight');
-        $('#month').removeClass('ui-state-highlight');
-        $('#year').removeClass('ui-state-highlight');
-        
-        
-        var total = loadGraph("today", building_code, building_name );
-        $('.builProfile').show("slide", 100);
-        $('.total-box').show();
-        console.log(total)
-        var counter = $(".total-box #num1");
-        counter.animateNumber(total.toFixed(0));
-        var counter = $(".total-box #num2");
-        var ghg = total * ghgVal;
-        counter.animateNumber(ghg.toFixed(0));
-
-    });
-    $("#week").on('click', function(){
-        $('#today').removeClass('ui-state-highlight');
-        $('#yesterday').removeClass('ui-state-highlight');
-        $('#week').addClass('ui-state-highlight');
-        $('#month').removeClass('ui-state-highlight');
-        $('#year').removeClass('ui-state-highlight');
-
-        var total = loadGraph("week", building_code, building_name );
-        $('.total-box').show();
-        $('.builProfile').show("slide", 100);
-
-        var counter = $(".total-box #num1");
-        counter.animateNumber(total.toFixed(0));
-        var counter = $(".total-box #num2");
-        var ghg = total * ghgVal;
-        counter.animateNumber(ghg.toFixed(0));
-    });
-    $("#month").on('click', function(){
-        $('#month').addClass('ui-state-highlight');
-        $('#today').removeClass('ui-state-highlight');
-        $('#yesterday').removeClass('ui-state-highlight');
-        $('#week').removeClass('ui-state-highlight');
-        $('#year').removeClass('ui-state-highlight');
-
-        var total = loadGraph("month", building_code, building_name );
-        $('.total-box').show();
-        $('.builProfile').show("slide", 100);
-        var counter = $(".total-box #num1");
-        counter.animateNumber(total.toFixed(0));
-        var counter = $(".total-box #num2");
-        var ghg = total * ghgVal;
-        counter.animateNumber(ghg.toFixed(0));
-    });
-
-    $("#year").on('click', function(){
-        $('#year').addClass('ui-state-highlight');
-        $('#today').removeClass('ui-state-highlight');
-        $('#yesterday').removeClass('ui-state-highlight');
-        $('#week').removeClass('ui-state-highlight');
-        $('#month').removeClass('ui-state-highlight');
-        var total = loadGraph("year", building_code, building_name );
-        $('.total-box').show();
-        $('.builProfile').show("slide", 100);
-        var counter = $(".total-box #num1");
-        counter.animateNumber(total.toFixed(0));
-        var counter = $(".total-box #num2");
-        var ghg = total * ghgVal;
-        counter.animateNumber(ghg.toFixed(0));
-    });
-    $('#today').addClass('ui-state-highlight');
-    $('#yesterday').removeClass('ui-state-highlight');
-    $('#week').removeClass('ui-state-highlight');
-    $('#month').removeClass('ui-state-highlight');
     // TODO move to appropriate place
     campusConsumption();
     // callback();

@@ -1,7 +1,6 @@
 /* 
 	calculate electricity consumption to be stored in db-Dashboard {dataHour, dataDaily, dataMonthly} 
 	TODO usage
-	TODO get buildings list from database instead of static array BuildingsCodes[]
 */
 function Building(date, time, code, status, consumption){
 	this.date = date;
@@ -19,11 +18,9 @@ function BuildingMonths(month, year, code, status, consumption){
 	this.value = consumption;
 }
 
-var BuildingsCodes = ["SEM", "SM2", "CRO", "EAT", "CHI", "UNH", "RHO", "SUB", "BAC", "WHI", "MAN",
-"CUT", "RRG", "HOR", "VML", "VM2", "DEN", "WMH", "WIL", "CAR", "HSH", "EMM", "ELL"];
+var storeData = require('./storeData.js');
+var db = storeData.db;
 
-var store = require('./storeData.js');
-var db = store.db;
 
 module.exports = {
 	getOld: function(oldData){
@@ -93,26 +90,28 @@ module.exports = {
 		var counter = 0,
 			accumValues = new Array(),
 			objects = new Array();
-		for (var i = 0; i < BuildingsCodes.length; i++){
-			accumValues[i] = 0;
-			objects[i] = new Building();
-			var x = "";
-			for (var j = 0; j < data.length - 1; j++) {
-				x = data[j].date;
-				if (data[j].code === BuildingsCodes[i]) {
-					if (data[j].value != null) {
-						counter++;
-						accumValues[i] = accumValues[i] + data[j].value;
+		storeData.buildingsList(function(buildings) {
+			for (var i = 0; i < buildings.length; i++){
+				accumValues[i] = 0;
+				objects[i] = new Building();
+				var x = "";
+				for (var j = 0; j < data.length - 1; j++) {
+					x = data[j].date;
+					if (data[j].code === buildings[i].code) {
+						if (data[j].value != null) {
+							counter++;
+							accumValues[i] = accumValues[i] + data[j].value;
+						}
 					}
 				}
+				objects[i].date = new Date(x);
+				objects[i].time = "23:00:00";
+				objects[i].code = buildings[i].code;
+				objects[i].status = "relaible";
+				objects[i].value = accumValues[i];
+				counter = 0;
 			}
-			objects[i].date = new Date(x);
-			objects[i].time = "23:00:00";
-			objects[i].code = BuildingsCodes[i];
-			objects[i].status = "relaible";
-			objects[i].value = accumValues[i];
-			counter = 0;
-		}
+		});
 		return objects;
 	},
 

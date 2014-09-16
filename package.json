@@ -16,10 +16,18 @@
     "mongoose": "3.x.x",
     "sys": "*",
     "pass": "*",
-    "passport": "~0.2.0"
+    "passport" : "~0.1.17",     
+    "passport-local" : "~0.1.6",
+    "connect-flash" : "~0.1.1",   
+    "bcrypt" : "latest",
+    "ejs-locals" : "latest",
+    "connect-flash": "0.1.0"
   },
   "license": "GPL 2.0",
   "engines": {
     "node": "0.10.x"
+  },
+  "devDependencies": {
+      "grunt": "~0.4.1"
   }
 }

@@ -17,5 +17,12 @@ module.exports = {
 	      i="0" + i;
 	    }
 	    return i;
+	},
+	ObjectSize: function(obj) {
+	    var size = 0, key;
+	    for (key in obj) {
+	        if (obj.hasOwnProperty(key)) size++;
+	    }
+	    return size;
 	}
 }   

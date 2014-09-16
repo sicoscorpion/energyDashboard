@@ -16,8 +16,15 @@ var collections = ["dataHour", "dataDaily", "dataMonthly", "Buildings"];
 var db = require('mongojs').connect(config.db_address, collections);
 exports.db = db;
 
-var BuildingsCodes = ["SEM", "SM2", "CRO", "EAT", "CHI", "UNH", "RHO", "SUB", "BAC", "WHI", "MAN",
-"CUT", "RRG", "HOR", "VML", "VM2", "DEN", "WMH", "WIL", "CAR", "HSH", "EMM", "ELL"];
+var getBuildingsList = function getBuildingsList(callback) { 
+	var buildings = new Array();
+	db.Buildings.find({available: "Active"}, function(err, data) {
+		if (data) {
+			callback(data);
+		}
+	});	
+}
+exports.buildingsList = getBuildingsList;
 
 // Building objects
 function Building(date, time, code, status, consumption){
@@ -83,21 +90,29 @@ var onErr = function(err,callback){
 	 callback(err);
 };
 
-function saveData(callback){
-	// process.chdir('/home/sico/data');
-	var cd = process.cwd();
+function storeDaily(flag, data) {
+	if (flag == true) {
+		var dt = calc.calcDaily(data);
+		setTimeout(function(){
+			db.dataDaily.insert(dt, function(err, results) {
+				// ignoring duplicate key's error (Mongo:11000)
+				console.log("Stored in to dataDaily")
+				if (err || !results){
+					if (err.code === 11000){
+						// db.dataDaily.update(dt, function(err, results) {
+						// 	console.log("Updated");
+						// });
+						// onErr(err, callback); 
+						// console.log("Error Inserting data: ", err)	
+					}
+				}
+			});
+		}, 1000);	
+	}
+	endOfDay = false;
+}
 
-	// Save Buildings List 
-	var BuildingsFile = fs.readFileSync(require('path').resolve(__dirname , 'buildingsList.csv'), 'utf-8');
-	var BuildingsData = parse.parseBuildingsData(BuildingsFile);
-	// console.log(BuildingsData[0].code);
-
-	// var ff = new Date(2014, 0, 2);
-	// db.dataDaily.remove({date:ff}, function(err, da) {
-	// 	console.log(err, da);
-	// })
-
-
+function storeBuildings(BuildingsData) {
 	db.Buildings.findOne({}, function(err, data) {
 		if (data == null) {
 			db.Buildings.insert(BuildingsData, function(err, results) {
@@ -122,6 +137,10 @@ function saveData(callback){
 						type: BuildingsData[i].type,
 						available: BuildingsData[i].available,
 						image: BuildingsData[i].image,
+						location: {
+							longitude: BuildingsData[i].location.longitude,
+							latitude: BuildingsData[i].location.latitude
+						}
 					}, function(err, results) {
 					if(err) { console.log("Error: ", err) }
 				});
@@ -129,6 +148,111 @@ function saveData(callback){
 			console.log("Saved Buildings List");
 		}
 	});
+}
+function selectFilesAuto() {
+	var files = {};
+	// Directory containing the JC generated files
+	var dir = config.MEU_data;
+	var numOfFiles = fs.readdirSync(dir).length;
+	if (numOfFiles < 2) {
+		console.log("Not enough files in Directory: ", dir);
+		setTimeout(function(){
+			db.close();
+		}, 1000);
+		return;
+	}
+	
+	incompleteFileToday = todayDate + "D_INCOMPLETE.csv";
+	incompleteFileYesterday = yesterdayDate + "D_INCOMPLETE.csv";
+	var exist = fileExistSync(path.resolve(dir, incompleteFileToday));
+
+	if (exist) {
+		console.log("Found Incomplete File: " + incompleteFileToday);
+		var dataI = fs.readFileSync(path.resolve(dir, incompleteFileToday), 'utf-8');
+		var hrI = parse.getFirstHour(dataI);
+		var dataC = fs.readFileSync(path.resolve(dir, todayFile), 'utf-8');
+		var hrC = parse.getFirstHour(dataC);
+		if (parseInt(hrC) >= parseInt(hrI)) {
+			if(!fileExistSync(path.resolve(dir, todayFile))) {
+				console.log("File not Found");
+				setTimeout(function(){
+					db.close();
+				}, 1000);
+				return;
+			}
+			fileNew = todayFile;
+			console.log("Reading from Main File");
+		} else if (parseInt(hrC) < parseInt(hrI))  {
+			fileNew = incompleteFileToday;
+			console.log("Reading from Incomplete File!");
+		}
+	} else {
+		console.log("No Incomplete files found for: " + todayDate);
+		if(!fileExistSync(path.resolve(dir, todayFile))) {
+			console.log("File not Found");
+			setTimeout(function(){
+				db.close();
+			}, 1000);
+			return;
+		}
+		fileNew = todayFile;
+		console.log("Reading from Main File");
+	}
+	exist = fileExistSync(path.resolve(dir, incompleteFileYesterday));
+	if (exist) {
+		console.log("Found Incomplete File: " + incompleteFileYesterday);
+		var dataI = fs.readFileSync(path.resolve(dir, incompleteFileYesterday), 'utf-8');
+		var hrI = parse.getFirstHour(dataI);
+		var dataC = fs.readFileSync(path.resolve(dir, yesterdayFile), 'utf-8');
+		var hrC = parse.getFirstHour(dataC);
+		if (parseInt(hrC) >= parseInt(hrI)) {
+			if(!fileExistSync(path.resolve(dir, yesterdayFile))) {
+				console.log("File not Found");
+				setTimeout(function(){
+					db.close();
+				}, 1000);
+				return;
+			}
+			fileOld = yesterdayFile;
+			console.log("Reading from Main File");
+		} else if (parseInt(hrC) < parseInt(hrI))  {
+			fileOld = incompleteFileYesterday;
+			console.log("Reading from Incomplete File!");
+		}
+		console.log("Reading from Incomplete File!");
+	} else {
+		console.log("No Incomplete files found for: " + yesterdayDate);
+		if(!fileExistSync(path.resolve(dir, yesterdayFile))) {
+			console.log("File not Found");
+			setTimeout(function(){
+				db.close();
+			}, 1000);
+			return;
+		}
+		fileOld = yesterdayFile;
+		console.log("Reading from Main File");
+	}
+	files.dir = dir;
+	files.fileNew = fileNew;
+	files.fileOld = fileOld;
+	files.numOfFiles = numOfFiles;
+	return files;
+}
+
+
+function saveData(asRoutine){
+	// process.chdir('/home/sico/data');
+	var cd = process.cwd();
+
+	// Save Buildings List 
+	var BuildingsFile = fs.readFileSync(require('path').resolve(__dirname , 'buildingsList.csv'), 'utf-8');
+	var BuildingsData = parse.parseBuildingsData(BuildingsFile);
+	// console.log(BuildingsData[0].code);
+	storeBuildings(BuildingsData);
+	// var ff = new Date(2014, 0, 2);
+	// db.dataDaily.remove({date:ff}, function(err, da) {
+	// 	console.log(err, da);
+	// })
 
 	if (process.argv.length > 2) {
 		var dir = process.argv[2];
@@ -147,87 +271,12 @@ function saveData(callback){
 
 
 	} else {
-		// Directory containing the JC generated files
-		var dir = config.MEU_data;
-		var numOfFiles = fs.readdirSync(dir).length;
-		if (numOfFiles < 2) {
-			console.log("Not enough files in Directory: ", dir);
-			setTimeout(function(){
-				db.close();
-			}, 1000);
-			return;
-		}
+		var files = selectFilesAuto();
+		var dir = files.dir;
+		var fileNew = files.fileNew;
+		var fileOld = files.fileOld;
+		var numOfFiles = files.numOfFiles;
 		console.log("Reading from automatically defined files");
-		incompleteFileToday = todayDate + "D_INCOMPLETE.csv";
-		incompleteFileYesterday = yesterdayDate + "D_INCOMPLETE.csv";
-		var exist = fileExistSync(path.resolve(dir, incompleteFileToday));
-
-		if (exist) {
-			console.log("Found Incomplete File: " + incompleteFileToday);
-			var dataI = fs.readFileSync(path.resolve(dir, incompleteFileToday), 'utf-8');
-			var hrI = parse.getFirstHour(dataI);
-			var dataC = fs.readFileSync(path.resolve(dir, todayFile), 'utf-8');
-			var hrC = parse.getFirstHour(dataC);
-			if (parseInt(hrC) >= parseInt(hrI)) {
-				if(!fileExistSync(path.resolve(dir, todayFile))) {
-					console.log("File not Found");
-					setTimeout(function(){
-						db.close();
-					}, 1000);
-					return;
-				}
-				fileNew = todayFile;
-				console.log("Reading from Main File");
-			} else if (parseInt(hrC) < parseInt(hrI))  {
-				fileNew = incompleteFileToday;
-				console.log("Reading from Incomplete File!");
-			}
-		} else {
-			console.log("No Incomplete files found for: " + todayDate);
-			if(!fileExistSync(path.resolve(dir, todayFile))) {
-				console.log("File not Found");
-				setTimeout(function(){
-					db.close();
-				}, 1000);
-				return;
-			}
-			fileNew = todayFile;
-			console.log("Reading from Main File");
-		}
-		exist = fileExistSync(path.resolve(dir, incompleteFileYesterday));
-		if (exist) {
-			console.log("Found Incomplete File: " + incompleteFileYesterday);
-			var dataI = fs.readFileSync(path.resolve(dir, incompleteFileYesterday), 'utf-8');
-			var hrI = parse.getFirstHour(dataI);
-			var dataC = fs.readFileSync(path.resolve(dir, yesterdayFile), 'utf-8');
-			var hrC = parse.getFirstHour(dataC);
-			if (parseInt(hrC) >= parseInt(hrI)) {
-				if(!fileExistSync(path.resolve(dir, yesterdayFile))) {
-					console.log("File not Found");
-					setTimeout(function(){
-						db.close();
-					}, 1000);
-					return;
-				}
-				fileOld = yesterdayFile;
-				console.log("Reading from Main File");
-			} else if (parseInt(hrC) < parseInt(hrI))  {
-				fileOld = incompleteFileYesterday;
-				console.log("Reading from Incomplete File!");
-			}
-			console.log("Reading from Incomplete File!");
-		} else {
-			console.log("No Incomplete files found for: " + yesterdayDate);
-			if(!fileExistSync(path.resolve(dir, yesterdayFile))) {
-				console.log("File not Found");
-				setTimeout(function(){
-					db.close();
-				}, 1000);
-				return;
-			}
-			fileOld = yesterdayFile;
-			console.log("Reading from Main File");
-		}
 	}
 	if(numOfFiles >= 2){
 		var dataOld = fs.readFileSync(path.resolve(dir, fileOld), 'utf-8');
@@ -241,9 +290,9 @@ function saveData(callback){
 	var listNew = parse.parser(dataNew);
 	var dataHourly = calc.calcHourly(listNew, oldDt);
 
-	db.dataHour.ensureIndex({"time":-1 , "code":-1 , "date": -1} , {unique : true , dropDups : true});
-	db.dataDaily.ensureIndex({"time":-1, "code":-1, "date": -1} , {unique : true , dropDups : true});
-	db.Buildings.ensureIndex({"code":-1} , {unique : true , dropDups : true});
+	db.dataHour.ensureIndex({"time":-1 , "code":-1 , "date": -1} , {unique : true , dropDups : true, sparse:true});
+	db.dataDaily.ensureIndex({"time":-1, "code":-1, "date": -1} , {unique : true , dropDups : true, sparse:true});
+	db.Buildings.ensureIndex({"code":-1} , {unique : true , dropDups : true, sparse:true});
 	db.dataMonthly.ensureIndex({"month":-1, "code":-1, "year": -1} , {unique : true , dropDups : true, sparse:true});
 
 	
@@ -255,6 +304,7 @@ function saveData(callback){
 	var fileYear = String(fileNew).slice(4,8);
 	var end = daysInMonth(fileMonth, fileYear);
 	var timeH = null;
+	var endOfDay = false;
 	// console.log(fileDay, fileMonth, fileYear, end);
 	for (var i = 1; i <= end; i++) {
 		var d = new Date(parseInt(fileYear), parseInt(fileMonth, 10) - 1, i);
@@ -269,19 +319,10 @@ function saveData(callback){
 			timeH = parseInt(String(dataHourly[i].time).slice(0,2));
 		}
 		
-		if(timeH === 23){
-			var dt = calc.calcDaily(dataHourly);
-			db.dataDaily.insert(dt, function(err, results) {
-				// ignoring duplicate key's error (Mongo:11000)
-				// console.log("dataDaily ", err, results)
-				if (err || !results){
-					if (err.code === 11000){
-						// onErr(err, callback); 
-						console.log("Error Inserting data: ", err)	
-					}
-				}
-			});
+		if(timeH === 23){ 
+			endOfDay = true; 
 		};
+
 		// save hourly
 		var data = new Building(dataHourly[i].date, dataHourly[i].time, 
 			dataHourly[i].code, dataHourly[i].status, dataHourly[i].value);
@@ -297,24 +338,27 @@ function saveData(callback){
 		});
 					
 	}
+	// save daily
+	storeDaily(endOfDay, dataHourly);
 	console.log(parseInt(fileDay, 10), end);
 	// save Monthly
 	if (parseInt(fileDay, 10) === end && timeH === 23) {
-
-		// console.log(fileMonth, fileYear, BuildingsCodes.length);
-		for (var i = 0; i < BuildingsCodes.length; i++) {
-			calc.findMonthly(fileMonth, fileYear, monthArr, BuildingsCodes[i], end, function(result){
-				db.dataMonthly.insert(result, function(err, results) {
-					// console.log("dataMonthly ", err, results);
-					if (err || !results) {
-						if (err.code !== 11000){
-							onErr(err, callback);
-							console.log("Error Inserting data: ", err) 	
+		getBuildingsList(function(buildings) {
+			console.log(fileMonth, fileYear, buildings.length);
+			for (var i = 0; i < buildings.length; i++) {
+				calc.findMonthly(fileMonth, fileYear, monthArr, buildings[i].code, end, function(result){
+					db.dataMonthly.insert(result, function(err, results) {
+						// console.log("dataMonthly ", err, results);
+						if (err || !results) {
+							if (err.code !== 11000){
+								onErr(err, callback);
+								console.log("Error Inserting data: ", err) 	
+							}
 						}
-					}
+					});
 				});
-			});
-		}
+			}
+		});
 	}
 	// Leaving time for all callbacks to finish
 	setTimeout(function(){
@@ -323,8 +367,8 @@ function saveData(callback){
 	return "Done";
 	callback();
 }
-// To give the option to run the routine manually this function is called. UGLY : 
-saveData();
-
+module.exports = {
+	saveData: saveData()
+}
 
 

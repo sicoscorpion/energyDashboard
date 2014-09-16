@@ -18,14 +18,21 @@ function BuildingMonths(month, year, code, status, consumption){
 	this.status = status;
 	this.value = consumption;
 }
-function BuildingProfile(name, code, profile, size, built, renovated, feature){
-	this.name = name;
-	this.code = code;
-	this.profile = profile;
-	this.size = size;
-	this.built = built;
-	this.renovated = renovated;
-	this.feature = feature;
+function BuildingProfile(name, code, profile, size, built, renovated, feature, type, available, image, long, lat){
+	this.name = new Array(),
+	this.code = new Array(),
+	this.profile = new Array(),
+	this.size = new Array(),
+	this.built = new Array(),
+	this.renovated = new Array(),
+	this.feature = new Array();
+	this.type = new Array();
+	this.available = new Array();
+	this.image = new Array();
+	this.location = {
+		longitude : new Array(),
+		latitude : new Array()
+	}
 }
 
 module.exports = {
@@ -126,16 +133,16 @@ module.exports = {
 			var fields = String(data[i]).split(',');
 			var fieldNum = 0;
 			BuildingsList[x] = new BuildingProfile();
-			var name = new Array(),
-				code = new Array(),
-				profile = new Array(),
-				size = new Array(),
-				built = new Array(),
-				renovated = new Array(),
-				feature = new Array();
-				type = new Array();
-				available = new Array();
-				image = new Array();
+			// var name = new Array(),
+			// 	code = new Array(),
+			// 	profile = new Array(),
+			// 	size = new Array(),
+			// 	built = new Array(),
+			// 	renovated = new Array(),
+			// 	feature = new Array();
+			// 	type = new Array();
+			// 	available = new Array();
+			// 	image = new Array();
 			fields.forEach(function (field){
 				field = field.replace(/"/g, "");
 				// console.log(field + " xx ");
@@ -170,6 +177,12 @@ module.exports = {
 						break;
 					case 9:
 						BuildingsList[x].image = field;
+						break;
+					case 10:
+						BuildingsList[x].location.longitude = field;
+						break;
+					case 11:
+						BuildingsList[x].location.latitude = field;
 						break;
 				}
 				fieldNum++;

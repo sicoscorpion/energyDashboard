@@ -1,7 +1,7 @@
 var Mongoose = require('mongoose')
    , Schema = Mongoose.Schema;
 
-Mongoose.model("buildings", new Schema({
+var buildingModel = Mongoose.model("buildings", new Schema({
     name        : String,
     code        : String,
     profile     : String,
@@ -11,5 +11,11 @@ Mongoose.model("buildings", new Schema({
     feature     : String,
     type		: String,
     available	: String,
-    image		: String,  
+    image		: String,
+    location    : {
+        longitude  : String,
+        latitude    : String
+    }
 }, {collection  : "Buildings"}));
+
+exports.buildingModel = buildingModel;
