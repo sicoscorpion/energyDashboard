@@ -81,16 +81,16 @@ module.exports = {
 			// console.log(objects[x].date, objects[i].time);
 		}
 
-		
 		return objects;	
 	},
 
 	// Daily calculations 
-	calcDaily: function(data) {
+	calcDaily: function(data, callback) {
 		var counter = 0,
 			accumValues = new Array(),
 			objects = new Array();
 		storeData.buildingsList(function(buildings) {
+			// console.log(buildings);
 			for (var i = 0; i < buildings.length; i++){
 				accumValues[i] = 0;
 				objects[i] = new Building();
@@ -110,9 +110,12 @@ module.exports = {
 				objects[i].status = "relaible";
 				objects[i].value = accumValues[i];
 				counter = 0;
+
 			}
+			callback(objects);
 		});
-		return objects;
+		// console.log(objects[0].code, objects[0].date)
+		// return objects;
 	},
 
 	findMonthly: function(month, year, monthArr, Buil, monthLength, callback) {

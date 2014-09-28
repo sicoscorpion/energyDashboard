@@ -12,6 +12,7 @@ var extras = require('../helpers/extras.js');
 var models = require('../models/energy.js');
 var buildings = require('../models/buildings.js');
 var userInterface = require('../models/interface.js');
+var competitions = require('../models/competitions.js');
 
 var list = ['dataHour', 'dataDaily', 'dataMonthly'];
 var db_list = ['DH', 'DD', 'DM'];
@@ -151,6 +152,22 @@ module.exports = {
             }  else {
                 // console.log(data)
                 res.json(data);
+            }
+        });
+    },
+
+    getCompetitions: function(req, res) {
+        competitions.competitionsModel.find({}, function(err, data) {
+            if (err) {
+                console.log("ERR: ", __filename, "func: getCompetitions");
+                console.log("Error getting competitions ", err);
+            }  else {
+                console.log(data)
+                if (!data) {
+                    res.send("No Competitions Available");
+                } else {
+                    res.json(data);
+                }
             }
         });
     },

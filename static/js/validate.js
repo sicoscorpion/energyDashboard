@@ -1,11 +1,13 @@
 function validateBuildingsInfo(data, list) {
     var current = {};
     var nwInfo = {};
+
     for (var i = 0; i < list.length; i++) {
         if (list[i].code === data.code) {
             current = list[i];
         }
     };
+
     nwInfo.code = current.code;
     if (current.name !== data.name) {
         nwInfo.name = data.name;
@@ -22,14 +24,15 @@ function validateBuildingsInfo(data, list) {
     } else if (current.size !== data.size) {
         nwInfo.size = data.size;
     } else if (current.available !== data.available) {
-        if (data.type !== "Active" || data.type !== "inActive"){
+        console.log(current.available, data.available)
+        if (data.available === "Active" || data.available === "inActive"){
+            nwInfo.available = data.available;
+        } else {
             $('#notice').html("Invalid option, available options are Active or inActive");
             setTimeout(function() {
                 $('#notice').html("")
             }, 3000);
             return false;
-        } else {
-            nwInfo.available = data.available;
         }
     } else if (current.profile !== data.profile) {
         nwInfo.profile = data.profile;

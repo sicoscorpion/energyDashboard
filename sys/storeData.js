@@ -92,22 +92,23 @@ var onErr = function(err,callback){
 
 function storeDaily(flag, data) {
 	if (flag == true) {
-		var dt = calc.calcDaily(data);
-		setTimeout(function(){
-			db.dataDaily.insert(dt, function(err, results) {
-				// ignoring duplicate key's error (Mongo:11000)
-				console.log("Stored in to dataDaily")
-				if (err || !results){
-					if (err.code === 11000){
-						// db.dataDaily.update(dt, function(err, results) {
-						// 	console.log("Updated");
-						// });
-						// onErr(err, callback); 
-						// console.log("Error Inserting data: ", err)	
+		calc.calcDaily(data, function(objects) {
+			// console.log(objects)
+			db.dataDaily.reIndex()
+			for (var i = 0; i < objects.length; i++) {
+				db.dataDaily.save(objects[i], function(err, res) {
+					// ignoring duplicate key's error (Mongo:11000)
+					if (err || !res){
+						if (err.code === 11000){
+							// onErr(err, callback); 
+							// console.log("Error Inserting data: ", err)	
+						}
 					}
-				}
-			});
-		}, 1000);	
+				});
+			};
+			
+		});
+		console.log("Stored in to dataDaily")
 	}
 	endOfDay = false;
 }
@@ -121,31 +122,31 @@ function storeBuildings(BuildingsData) {
 			});
 		} else {
 			console.log("'Buildings' collection found --- popular");
-			for (var i = 0; i < BuildingsData.length; i++) {
-				// BuildingsData[i].code;
-				db.Buildings.update(
-					{
-						code: BuildingsData[i].code
-					}, {
-						name: BuildingsData[i].name,
-						code: BuildingsData[i].code,
-						profile: BuildingsData[i].profile,
-						size: BuildingsData[i].size,
-						built: BuildingsData[i].built,
-						renovated: BuildingsData[i].renovated,
-						feature: BuildingsData[i].feature,
-						type: BuildingsData[i].type,
-						available: BuildingsData[i].available,
-						image: BuildingsData[i].image,
-						location: {
-							longitude: BuildingsData[i].location.longitude,
-							latitude: BuildingsData[i].location.latitude
-						}
-					}, function(err, results) {
-					if(err) { console.log("Error: ", err) }
-				});
-			};
-			console.log("Saved Buildings List");
+			// for (var i = 0; i < BuildingsData.length; i++) {
+			// 	// BuildingsData[i].code;
+			// 	db.Buildings.update(
+			// 		{
+			// 			code: BuildingsData[i].code
+			// 		}, {
+			// 			name: BuildingsData[i].name,
+			// 			code: BuildingsData[i].code,
+			// 			profile: BuildingsData[i].profile,
+			// 			size: BuildingsData[i].size,
+			// 			built: BuildingsData[i].built,
+			// 			renovated: BuildingsData[i].renovated,
+			// 			feature: BuildingsData[i].feature,
+			// 			type: BuildingsData[i].type,
+			// 			available: BuildingsData[i].available,
+			// 			image: BuildingsData[i].image,
+			// 			location: {
+			// 				longitude: BuildingsData[i].location.longitude,
+			// 				latitude: BuildingsData[i].location.latitude
+			// 			}
+			// 		}, function(err, results) {
+			// 		if(err) { console.log("Error: ", err) }
+			// 	});
+			// };
+			// console.log("Saved Buildings List");
 		}
 	});
 }
@@ -249,8 +250,8 @@ function saveData(asRoutine){
 	var BuildingsData = parse.parseBuildingsData(BuildingsFile);
 	// console.log(BuildingsData[0].code);
 	storeBuildings(BuildingsData);
-	// var ff = new Date(2014, 0, 2);
-	// db.dataDaily.remove({date:ff}, function(err, da) {
+	var ff = new Date(2014, 8, 10);
+	// db.dataDaily.remove({date:ff, code:"ELL"}, function(err, da) {
 	// 	console.log(err, da);
 	// })
 
@@ -304,6 +305,7 @@ function saveData(asRoutine){
 	var fileYear = String(fileNew).slice(4,8);
 	var end = daysInMonth(fileMonth, fileYear);
 	var timeH = null;
+	var timeM = null;
 	var endOfDay = false;
 	// console.log(fileDay, fileMonth, fileYear, end);
 	for (var i = 1; i <= end; i++) {
@@ -317,18 +319,21 @@ function saveData(asRoutine){
 		// save daily
 		if (dataHourly[i].time) {
 			timeH = parseInt(String(dataHourly[i].time).slice(0,2));
+			timeM = parseInt(String(dataHourly[i].time).slice(3,5));
+			// console.log(timeM);
 		}
 		
-		if(timeH === 23){ 
+		if(timeH === 23) {
 			endOfDay = true; 
-		};
+		}
 
 		// save hourly
 		var data = new Building(dataHourly[i].date, dataHourly[i].time, 
 			dataHourly[i].code, dataHourly[i].status, dataHourly[i].value);
+
 		db.dataHour.insert(data, function(err, results) {
 			// ignoring duplicate key's error (Mongo:11000)
-			// console.log("dataHour ", err, results)
+			// console.log("dataHour ", data)
 			if (err || !results) {
 				if (err.code !== 11000){
 					onErr(err, callback);

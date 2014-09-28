@@ -120,3 +120,8 @@ exports.updateGHG = function(req, res) {
         }
     });
 }
+
+exports.createCompetition = function(req, res) {
+    var competition = req.body;
+    console.log(competition);
+}

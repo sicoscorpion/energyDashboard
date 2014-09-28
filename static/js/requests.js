@@ -28,6 +28,23 @@ function getBuildings() {
     });
     return data;
 }
+
+function getCompetitions() {
+    "use strict";
+    var data = [];
+    $.ajax({
+        type: 'GET', 
+        dataType: 'json',
+        url: '/db/getCompetitions/',
+        async: false, 
+        success: function(msg){
+            data = msg;
+            // console.log(msg);
+        }
+    });
+    return data;
+}
+
 function getInterfaceInfo() {
     "use strict";
     var data = [];

@@ -1388,3 +1388,7 @@ label {
 #updateBuildingInfo, #updateGHGFactor {
 	margin-top: 20px;
 }
+.pickListContainer select {
+	height: 100px;
+	width:	200px;
+}

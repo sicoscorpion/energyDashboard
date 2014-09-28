@@ -25,6 +25,8 @@ include('js/jquery/jquery.nivo.slider.js');
 //----Lightbox--
 include('js/jquery/jquery.prettyPhoto.js');
 include('js/jquery/date.js');
+include('js/jquery/jquery.picklist.js');
+include('js/jquery/jquery.emulatedisabled.js');
 // ---highcharts ----
 // include('https://ajax.googleapis.com/ajax/libs/mootools/1.4.2/mootools-yui-compressed.js');
 // // include('js/adapters/mootools-adapter.js');
@@ -129,8 +131,8 @@ $.fx.interval = 10;
 //     thisMonth[i] = dd_1.format(); 
 // };
 
-tday  =new Array("Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday");
-tmonth=new Array("January","February","March","April","May","June","July","August","September","October","November","December");
+tday  = new Array("Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday");
+tmonth = new Array("January","February","March","April","May","June","July","August","September","October","November","December");
 
 function GetClock(){
     d = new Date();
@@ -159,7 +161,7 @@ function GetClock(){
 
 function loadBuildingsList() {
     var list = getBuildings();
-    // var builds = list.sort(dynamicSort("name"));
+    
     for (var i = 0; i < list.length; i++) {
         $(".list").append('<option>' + list[i].code + '</option>');
     };
@@ -180,6 +182,26 @@ function loadBuildingsList() {
         $("#building_renovated").val(info[0].renovated);
         $("#building_feature").val(info[0].feature);
     }).change();
+}
+
+function loadCompetitionsManager() {
+    $("#start_date, #end_date, #base_start_date, #base_end_date").datepicker();
+    var list = getBuildings();
+    var competitions = getCompetitions();
+    console.log("COMPL:", competitions);
+    var builds = list.sort(dynamicSort("name"));
+    for (var i = 0; i < list.length; i++) {
+        $("#buildings").append('<option value="' + i +'"">' + list[i].name + '</option>');
+    };
+    $("#buildings").pickList({
+        buttons: false,
+    });
+    $('#createCompetition').click(function(e) {
+        e.preventDefault();
+        $("#buildings option").each(function(){
+            console.log($(this).text());
+        });
+    });
 }
 
 // function loadInterfaceInfo() {
@@ -262,7 +284,6 @@ $(window).load(function() {
    	});		
 });
 
-
 $(document).ready(function() {
     start();
     setTimeout(function () {
@@ -277,8 +298,9 @@ $(document).ready(function() {
     },function(){
         $(this).stop().animate({opacity:0.7 }, 400, 'easeOutExpo' );           
     });
-    
-    
+
+    loadCompetitionsManager();
+
     $('#updateAccount').click(function(e){
         e.preventDefault();
         var input = {};
@@ -328,6 +350,8 @@ $(document).ready(function() {
     $(".interface-data #factor").val(ui[0].ghg);
     loadBuildingsList();
     loadInterfaceInfo();
+
+
     /////// close
     $(".close .over").css({opacity:0});
     $(".close").hover(function() {

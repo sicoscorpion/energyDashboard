@@ -85,6 +85,7 @@ app.get('/db/campusConsumption', cont.campusConsumption);
 app.get('/db/buildinginfo/:build', cont.getBuildingInfo);
 app.get('/db/getBuildings', cont.getBuildings);
 app.get('/db/getInterfaceInfo', cont.getInterfaceInfo);
+app.get('/db/getCompetitions', cont.getCompetitions);
 
 app.post('/login', admin.postlogin);
 app.get('/manage', pass.ensureAuthenticated, admin.admin);

@@ -13,6 +13,7 @@ function loadToday(date, code, building) {
 
     var max = Math.max.apply(null,values);
     console.log("loading " + date +" for: ", code);
+    
     $('#kwh').html('kwh so far today');
     $('#ghg').html('kg of eCO2 so far today');
     $('.graph-name p').html(building);

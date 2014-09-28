@@ -194,7 +194,7 @@ $(document).ready(function() {
             $('body').css({overflow:'inherit'});
             $('.infoBox').show("blind", 500);
             $("#clockbox").animate({opacity : 1}, 400, 'easeInExpo');
-        }, 3000);
+        }, 6000);
     });
     
     // $(function() {
