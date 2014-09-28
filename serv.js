@@ -93,7 +93,9 @@ app.get('/logout', admin.logout);
 app.post('/updateAccount', pass.ensureAuthenticated, admin.updateAccount);
 app.post('/updateBuildingInfo', pass.ensureAuthenticated, admin.updateBuildingInfo);
 app.post('/updateGHG', pass.ensureAuthenticated, admin.updateGHG);
- 
+app.post('/createCompetition', pass.ensureAuthenticated, admin.createCompetition);
+app.post('/removeCompetition', pass.ensureAuthenticated, admin.removeCompetition);
+
 app.get('/admin', function(req, res){
   // response.send('This is the restricted area! Hello ' + request.session.user + '! click <a href="/logout">here to logout</a>');
   res.render('admin', { user: req.user, message: req.session.messages, sess: "manager"});

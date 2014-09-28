@@ -130,10 +130,10 @@
                                     <h2>Competitions Manager</h2>
                                     <em>Do not use spaces at the end of your input(s)</em>
 
-                                    <div>
+                                    <div id="comp-manager">
                                         <label>ID:</label> 
                                        
-                                        <select class="comp_id">
+                                        <select id="comp_id">
                                             <option selected>---</option>
                                         </select> <em>"Competition ID - leave empty when creating new competitions"</em><br/>
                                         <label>Name:</label> 
@@ -146,14 +146,23 @@
                                         <label>Start Date:</label> 
                                         <input type="text" name="base week start date" id="base_start_date"><em>"Base week start date"</em><br/>
                                         <label>End Date:</label> 
-                                        <input type="text" name="base week end date" id="base_end_date"><em>"Base week end date"</em><br/>
+                                        <input type="text" name="base week end date" id="base_end_date"><em>"Base week end date"</em><br/><br/>
                                         <label>Buildings:</label>  <em>Double click the building to add/remove it from list</em><br/>
                                         <div>
                                             <select id="buildings" name="buildings" multiple="multiple">
                                             </select>
                                         </div><br/>
+                                        <label>Status:</label> 
+                                        <select id="comp_status">
+                                            <option selected>---</option>
+                                            <option value="new">New</option>
+                                            <option value="inBase">In Base Period</option>
+                                            <option value="active">Active</option>
+                                            <option value="done">Done</option>
+                                        </select><em>"Competition status - optional when creating new competitions"</em> <br/><br/>
+                                        <div id="notice"></div><br/>
                                         <button type="submit" id="createCompetition">Create Competition</button>
-                                        
+                                        <button type="submit" id="removeCompetition">Remove Competition</button>
                                     </div>
                                 </div>
                                 <div class="clear"></div>

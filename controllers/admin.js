@@ -1,18 +1,22 @@
-var passport = require('passport'),
-    user = require('../models/user.js');
-    buildings = require('../models/buildings.js');
-    userInterface = require('../models/interface.js');
-    helpers = require('../helpers/extras.js');
 var Mongoose = require('mongoose'),
     Schema = Mongoose.Schema,
     bcrypt = require('bcrypt'),
     SALT_WORK_FACTOR = 10;
+
+var passport = require('passport'),
+    user = require('../models/user.js');
+    buildings = require('../models/buildings.js');
+    userInterface = require('../models/interface.js');
+    competitions = require('../models/competitions.js');
+    helpers = require('../helpers/extras.js');
+
       
 exports.admin = function(req, res) {
   res.render('manage', { user: req.user, message: req.session.messages, sess: "manager" });
 };
 
 var users = Mongoose.model('user');
+// var competitions = Mongoose.model('comps');
 // var buildings = Mongoose.model('user');
 // POST /login
 //   Use passport.authenticate() as route middleware to authenticate the
@@ -123,5 +127,27 @@ exports.updateGHG = function(req, res) {
 
 exports.createCompetition = function(req, res) {
     var competition = req.body;
-    console.log(competition);
+    var data = new competitions.competitionsModel(competition);
+    data.save(function(err, data){
+        if (err) {
+            console.log(err);
+            res.send("Creating competition failed: ", err); 
+        } else {
+            res.send("succesfully created!");
+        }
+    });
+}
+exports.removeCompetition = function(req, res) {
+    var competitionID = parseInt(req.body[0]);
+    console.log(competitionID);
+    // competitions.competitionsModel.findOne({code: competitionID}, function(err, data) {
+    competitions.competitionsModel.remove({code: competitionID}, function(err, data) {
+        if (err) {
+            console.log(err);
+            res.send("Removing competition failed: ", err); 
+        } else {
+            res.send("Succesfully removed!");
+        }
+    });
+    
 }

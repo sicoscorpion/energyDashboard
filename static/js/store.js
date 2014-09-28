@@ -65,3 +65,48 @@ function updateGHGFactor(data) {
     });
     return data;
 }
+
+function createCompetition(data) {
+    "use strict";
+    console.log(JSON.stringify(data))
+    $.ajax({
+        type: 'POST', 
+        contentType: 'application/json',
+        data: JSON.stringify(data),
+        url: '/createCompetition',
+        success: function(data){
+            // data = msg;
+            $('#notice').html(data)
+            setTimeout(function() {
+                $('#notice').html("")
+            }, 3000)
+            
+            console.log(data);
+
+        }
+    });
+    return data;
+}
+
+function removeCompetition(val) {
+    "use strict";
+    console.log(JSON.stringify(val))
+    var data = [val]
+    $.ajax({
+        type: 'POST', 
+        contentType: 'application/json',
+        data: JSON.stringify(data),
+        url: '/removeCompetition',
+        success: function(data){
+            // data = msg;
+            $('#notice').html(data)
+            setTimeout(function() {
+                $('#notice').html("")
+            }, 3000)
+            
+            console.log(data);
+
+        }
+    });
+    return data;
+}

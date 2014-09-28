@@ -162,8 +162,8 @@ module.exports = {
                 console.log("ERR: ", __filename, "func: getCompetitions");
                 console.log("Error getting competitions ", err);
             }  else {
-                console.log(data)
-                if (!data) {
+                // console.log(data)
+                if (data == "") {
                     res.send("No Competitions Available");
                 } else {
                     res.json(data);

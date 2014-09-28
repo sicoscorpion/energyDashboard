@@ -188,18 +188,132 @@ function loadCompetitionsManager() {
     $("#start_date, #end_date, #base_start_date, #base_end_date").datepicker();
     var list = getBuildings();
     var competitions = getCompetitions();
-    console.log("COMPL:", competitions);
+    var newCompID = 0;
+    if (competitions == "") {
+        newCompID = 1;
+        console.log("XXXXXXXXX", competitions);
+    } else {
+        console.log(competitions.length);
+        // var tmp = 0;
+        for (var i = 0; i < competitions.length; i++) {
+            $("#comp_id").append('<option>' + competitions[i].code + '</option>');
+        };
+        newCompID = competitions.length+1;
+
+        $('#comp_id').change(function() {
+            var competitionID = $(this).val();
+
+            if (competitionID === "---") {
+                $("#comp-manager input").each(function() {
+                    $(this).val("---");
+                });
+                $("#buildings option").each(function() {
+                    $(this).remove();
+                })
+                $("#from_buildings option").each(function() {
+                    if ($(this).attr("disabled") === "disabled"){
+                        $(this).attr("disabled", false)
+                    }
+                });
+                
+            } else {
+                competitionID--;
+                $("#comp_name").val(competitions[competitionID].name);
+                $("#start_date").datepicker("setDate", competitions[competitionID].startDate);
+                $("#end_date").datepicker("setDate", competitions[competitionID].endDate);
+                $("#buildings option").each(function() {
+                    $(this).remove();
+                });
+                $("#from_buildings option").each(function() {
+                    if ($(this).attr("disabled") === "disabled"){
+                        $(this).attr("disabled", false)
+                    }
+                })
+                for (var i = 0; i < competitions[competitionID].buildings.length; i++) {
+                    for (var j = 0; j < list.length; j++) {
+                        if (list[j].name === competitions[competitionID].buildings[i]) {
+                            $("#buildings").append('<option value="' + j +'">' + list[j].name + '</option>');
+                            $("#from_buildings option").each(function() {
+                                if ($(this).attr("value") == j){
+                                    $(this).attr("selected", false);
+                                    $(this).attr("disabled", true)
+                                } 
+                            });
+                           
+                        }
+                    };
+                    console.log(competitions[competitionID].buildings[i]);
+                };
+                $("#base_start_date").datepicker("setDate", competitions[competitionID].baseStart);
+                $("#base_end_date").datepicker("setDate", competitions[competitionID].baseEnd);
+                $("#comp_status").val(competitions[competitionID].status);
+            }
+        }).change();
+    }
+
     var builds = list.sort(dynamicSort("name"));
     for (var i = 0; i < list.length; i++) {
-        $("#buildings").append('<option value="' + i +'"">' + list[i].name + '</option>');
+        if (list[i].available === "Active")
+            $("#buildings").append('<option value="' + i +'">' + list[i].name + '</option>');
     };
     $("#buildings").pickList({
         buttons: false,
     });
     $('#createCompetition').click(function(e) {
         e.preventDefault();
+        var newCompetition = {}
+        var buildingsParticipants = [];
+        var x = 0;
         $("#buildings option").each(function(){
-            console.log($(this).text());
+            buildingsParticipants[x] = $(this).text();
+            x++;     
+        });
+        newCompetition.code = newCompID;
+        newCompetition.name = $("#comp_name").val();
+        newCompetition.startDate = $("#start_date").val();
+        newCompetition.endDate = $("#end_date").val();
+        newCompetition.baseStart = $("#base_start_date").val();
+        newCompetition.baseEnd = $("#base_end_date").val();
+        newCompetition.buildings = buildingsParticipants;
+        newCompetition.status = $("#comp_status").val(); 
+
+        createCompetition(newCompetition); // validation required
+        $("#comp-manager input").each(function() {
+            $(this).val("---");
+        });
+        $("#buildings option").each(function() {
+            $(this).remove();
+        })
+        $("#from_buildings option").each(function() {
+            if ($(this).attr("disabled") === "disabled"){
+                $(this).attr("disabled", false)
+            }
+        });
+        
+        for (var i = 0; i < competitions.length; i++) {
+            $("#comp_id").remove('<option>' + competitions[i].code + '</option>');
+        };
+        var after_competitions = getCompetitions();
+        for (var i = 0; i < after_competitions.length; i++) {
+            $("#comp_id").append('<option>' + after_competitions[i].code + '</option>');
+        };
+        console.log(newCompID);
+    });
+    
+    $('#removeCompetition').click(function(e) {
+        e.preventDefault();
+        var compID = $("#comp_id").val();
+        removeCompetition(compID);
+        $("#comp-manager input").each(function() {
+            $(this).val("---");
+        });
+        $("#buildings option").each(function() {
+            $(this).remove();
+        })
+        $("#from_buildings option").each(function() {
+            if ($(this).attr("disabled") === "disabled"){
+                $(this).attr("disabled", false)
+            }
         });
     });
 }
