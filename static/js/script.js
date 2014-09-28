@@ -196,7 +196,8 @@ $(document).ready(function() {
             $("#clockbox").animate({opacity : 1}, 400, 'easeInExpo');
         }, 6000);
     });
-    
+    var comps = getCompetitions();
+    $(".competitions").html(JSON.stringify(comps));
     // $(function() {
     //     var dialog, form,
      
