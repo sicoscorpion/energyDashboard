@@ -197,6 +197,7 @@ $(document).ready(function() {
         }, 6000);
     });
     var comps = getCompetitions();
+    console.log(comps[0]);
     $(".competitions").html(JSON.stringify(comps));
     // $(function() {
     //     var dialog, form,
