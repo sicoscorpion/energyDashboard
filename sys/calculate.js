@@ -18,9 +18,13 @@ function BuildingMonths(month, year, code, status, consumption){
 	this.value = consumption;
 }
 
-var storeData = require('./storeData.js');
-var db = storeData.db;
+var storeDataUtils = require('./storeDataUtils.js');
+// var storeData = require('./storeData.js');
+var config = require('../config.json');
+// TODO seperate db connections 
+var collections = ["dataHour", "dataDaily", "dataMonthly", "Buildings"];
 
+var db = require('mongojs').connect(config.db_address, collections);
 
 module.exports = {
 	getOld: function(oldData){
@@ -89,7 +93,7 @@ module.exports = {
 		var counter = 0,
 			accumValues = new Array(),
 			objects = new Array();
-		storeData.buildingsList(function(buildings) {
+		storeDataUtils.buildingsList(function(buildings) {
 			// console.log(buildings);
 			for (var i = 0; i < buildings.length; i++){
 				accumValues[i] = 0;

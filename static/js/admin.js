@@ -116,21 +116,6 @@ for (var i = 0; i < 7; i++) {
 $.fx.interval = 10;
 
 
-// var fd = Date.today().clearTime().moveToFirstDayOfMonth();
-// var firstday = fd.toString("MM/dd/yyyy");
-// var firstdaynum = parseInt(firstday.slice(3,5));
-
-
-// var ld = Date.today().clearTime().moveToLastDayOfMonth();
-// var lastday = ld.toString("MM/dd/yyyy");
-// var lastdaynum = parseInt(lastday.slice(3,5));
-// var thisMonth = new Array();
-// for (var i = 0; i < lastdaynum; i++) {
-//     var dd_1 = new Date();
-//     dd_1.setDate(fd.getDate() + i);
-//     thisMonth[i] = dd_1.format(); 
-// };
-
 tday  = new Array("Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday");
 tmonth = new Array("January","February","March","April","May","June","July","August","September","October","November","December");
 
@@ -188,9 +173,10 @@ function loadCompetitionsManager() {
     $("#start_date, #end_date, #base_start_date, #base_end_date").datepicker();
     var list = getBuildings();
     var competitions = getCompetitions();
-    var newCompID = 0;
+    var newCompID = makeid();
+    var thisCompetitionCode = 0;
     if (competitions == "") {
-        newCompID = 1;
+        // newCompID = 1;
         console.log("XXXXXXXXX", competitions);
     } else {
         console.log(competitions.length);
@@ -198,11 +184,16 @@ function loadCompetitionsManager() {
         for (var i = 0; i < competitions.length; i++) {
             $("#comp_id").append('<option>' + competitions[i].code + '</option>');
         };
-        newCompID = competitions.length+1;
-
+        // newCompID = competitions.length+1;
+        var competition = {};
         $('#comp_id').change(function() {
             var competitionID = $(this).val();
-
+            for (var i = 0; i < competitions.length; i++) {
+                if (competitions[i].code == competitionID) {
+                    competition = competitions[i]
+                    thisCompetitionCode = competitions[i].code
+                }
+            }
             if (competitionID === "---") {
                 $("#comp-manager input").each(function() {
                     $(this).val("---");
@@ -217,10 +208,10 @@ function loadCompetitionsManager() {
                 });
                 
             } else {
-                competitionID--;
-                $("#comp_name").val(competitions[competitionID].name);
-                $("#start_date").datepicker("setDate", competitions[competitionID].startDate);
-                $("#end_date").datepicker("setDate", competitions[competitionID].endDate);
+                // competitionID--;
+                $("#comp_name").val(competition.name);
+                $("#start_date").datepicker("setDate", new Date(competition.startDate));
+                $("#end_date").datepicker("setDate", new Date(competition.endDate));
                 $("#buildings option").each(function() {
                     $(this).remove();
                 });
@@ -229,9 +220,9 @@ function loadCompetitionsManager() {
                         $(this).attr("disabled", false)
                     }
                 })
-                for (var i = 0; i < competitions[competitionID].buildings.length; i++) {
+                for (var i = 0; i < competition.buildings.length; i++) {
                     for (var j = 0; j < list.length; j++) {
-                        if (list[j].name === competitions[competitionID].buildings[i]) {
+                        if (list[j].name === competition.buildings[i].name) {
                             $("#buildings").append('<option value="' + j +'">' + list[j].name + '</option>');
                             $("#from_buildings option").each(function() {
                                 if ($(this).attr("value") == j){
@@ -242,11 +233,11 @@ function loadCompetitionsManager() {
                            
                         }
                     };
-                    console.log(competitions[competitionID].buildings[i]);
+                    console.log(competition.buildings[i].name);
                 };
-                $("#base_start_date").datepicker("setDate", competitions[competitionID].baseStart);
-                $("#base_end_date").datepicker("setDate", competitions[competitionID].baseEnd);
-                $("#comp_status").val(competitions[competitionID].status);
+                $("#base_start_date").datepicker("setDate", new Date(competition.baseStart));
+                $("#base_end_date").datepicker("setDate", new Date(competition.baseEnd));
+                $("#comp_status").val(competition.status);
             }
         }).change();
     }
@@ -265,19 +256,27 @@ function loadCompetitionsManager() {
         var buildingsParticipants = [];
         var x = 0;
         $("#buildings option").each(function(){
-            buildingsParticipants[x] = $(this).text();
+            buildingsParticipants[x] = {};
+            buildingsParticipants[x].name = $(this).text();
+            buildingsParticipants[x].score = 0;
             x++;     
         });
+        console.log(buildingsParticipants);
         newCompetition.code = newCompID;
         newCompetition.name = $("#comp_name").val();
-        newCompetition.startDate = $("#start_date").val();
-        newCompetition.endDate = $("#end_date").val();
-        newCompetition.baseStart = $("#base_start_date").val();
-        newCompetition.baseEnd = $("#base_end_date").val();
+        newCompetition.startDate = new Date($("#start_date").val());
+        newCompetition.endDate = new Date($("#end_date").val());
+        newCompetition.baseStart = new Date($("#base_start_date").val());
+        newCompetition.baseEnd = new Date($("#base_end_date").val());
         newCompetition.buildings = buildingsParticipants;
-        newCompetition.status = $("#comp_status").val(); 
-
-        createCompetition(newCompetition); // validation required
+        
+        newCompetition.status = $("#comp_status").val();
+        if ($("#comp_status").val() === "---")
+            newCompetition.status = "new"
+        else
+            newCompetition.status = $("#comp_status").val();
+        if (newCompetition.code && newCompetition.name)
+            createCompetition(newCompetition); // validation required
         $("#comp-manager input").each(function() {
             $(this).val("---");
         });
@@ -290,14 +289,64 @@ function loadCompetitionsManager() {
             }
         });
         
-        for (var i = 0; i < competitions.length; i++) {
-            $("#comp_id").remove('<option>' + competitions[i].code + '</option>');
-        };
         var after_competitions = getCompetitions();
         for (var i = 0; i < after_competitions.length; i++) {
             $("#comp_id").append('<option>' + after_competitions[i].code + '</option>');
         };
-        console.log(newCompID);
+        alert("New Competition Created");
+        location.reload();
+       
+    });
+
+    $('#updateCompetition').click(function(e) {
+        e.preventDefault();
+        var curCompetition = {}
+        
+        var buildingsParticipants = [];
+        var x = 0;
+        $("#buildings option").each(function(){
+            buildingsParticipants[x] = {};
+            buildingsParticipants[x].name = $(this).text();
+            for (var i = 0; i < competitions.length; i++) {
+                for (var j = 0; j < competitions[i].buildings.length; j++) {
+                   if (buildingsParticipants[x].name === competitions[i].buildings[j].name)
+                    buildingsParticipants[x].score =  competitions[i].buildings[j].score
+                };
+            };
+            x++;     
+        });
+        curCompetition.code = $('#comp_id').val();
+        curCompetition.name = $("#comp_name").val();
+        curCompetition.startDate = new Date($("#start_date").val());
+        curCompetition.endDate = new Date($("#end_date").val());
+        curCompetition.baseStart = new Date($("#base_start_date").val());
+        curCompetition.baseEnd = new Date($("#base_end_date").val());
+        curCompetition.buildings = buildingsParticipants;
+        if ($("#comp_status").val() === "---")
+            curCompetition.status = "new"
+        else
+            curCompetition.status = $("#comp_status").val();
+
+        updateCompetition(curCompetition); // validation required
+        $("#comp-manager input").each(function() {
+            $(this).val("---");
+        });
+        $("#buildings option").each(function() {
+            $(this).remove();
+        })
+        $("#from_buildings option").each(function() {
+            if ($(this).attr("disabled") === "disabled"){
+                $(this).attr("disabled", false)
+            }
+        });
+    
+        var after_competitions = getCompetitions();
+        for (var i = 0; i < after_competitions.length; i++) {
+            $("#comp_id").append('<option>' + after_competitions[i].code + '</option>');
+        };
+        alert("Competition " + curCompetition.code + " updated");
+        location.reload();
+        console.log(curCompetition.code);
     });
     
     $('#removeCompetition').click(function(e) {
@@ -315,6 +364,8 @@ function loadCompetitionsManager() {
                 $(this).attr("disabled", false)
             }
         });
+        alert("Competition Removed");
+        location.reload();
     });
 }
 
@@ -397,7 +448,13 @@ $(window).load(function() {
    	    content.tabs(n);
    	});		
 });
-
+function adjustHeights(elem) {
+      var fontstep = 2;
+      if ($(elem).height()>$(elem).parent().height() || $(elem).width()>$(elem).parent().width()) {
+        $(elem).css('font-size',(($(elem).css('font-size').substr(0,2)-fontstep)) + 'px').css('line-height',(($(elem).css('font-size').substr(0,2))) + 'px');
+        adjustHeights(elem);
+      }
+    }
 $(document).ready(function() {
     start();
     setTimeout(function () {
@@ -427,6 +484,8 @@ $(document).ready(function() {
         console.log(input)
         updateAccount( input.name, input.password);
     });
+
+    adjustHeights($("#home_txt").val(getInterfaceInfo()[0].homeText));
     $("#updateBuildingInfo").click(function(e) {
         var data = {};
         data.code = $(".list").val();

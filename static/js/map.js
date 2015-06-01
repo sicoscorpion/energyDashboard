@@ -15,7 +15,9 @@ function getAccum(date, code) {
 
 function load_map() {
 	var list = getBuildings();
+    console.log("LIST: ", list);
     var builds = list.sort(dynamicSort("name"));
+    console.log("LIST: ", builds[0]);
     var locations = []
     for (var i = 0; i < builds.length; i++) {
     	console.log(builds[i].location.longitude)

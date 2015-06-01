@@ -31,6 +31,7 @@ include('https://ajax.googleapis.com/ajax/libs/mootools/1.4.2/mootools-yui-compr
 include('http://maps.google.com/maps/api/js?sensor=false');
 include('js/requests.js');
 include('js/helpers.js');
+include('js/competitions.js');
 include('js/electricity.js');
 include('js/map.js');
 include('js/comparison.js');

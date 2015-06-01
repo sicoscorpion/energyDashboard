@@ -450,6 +450,7 @@ function loadGraph(date, code, name){
 function loadBuildingsList_electricity() {
     var list = getBuildings();
     var builds = list.sort(dynamicSort("name"));
+    console.log("NAME", builds[0].name);
     var builds_inActive = [];
     for (var i = 0,j = 0; i < builds.length; i++) {
         if (builds[i].available === "Active") {
@@ -457,7 +458,7 @@ function loadBuildingsList_electricity() {
                 
                 $('#tab1').append('<a rel="' + builds[i].code + '" class="' + builds[i].available + '" href="#"><img src=\"' + builds[i].image 
                     + '" value="' + builds[i].name + '"/><p>' + builds[i].name + '</p></a>');
-                // console.log(builds[i].name);
+                console.log("NAME", builds[i].name);
                 
             } else if (builds[i].type === "residence") {
                 // console.log(builds[i].name);
@@ -490,7 +491,7 @@ function buil_loader(tab, code, name) {
     $('#noData').hide(); 
     $('.col3').hide();
     $('.midBox').hide(100);
-    $('.col1E').animate({ 'margin-left': "-37px" }, 500);
+    $('.col1Energy').animate({ 'margin-left': "-37px" }, 500);
     $('.el').show();
     var buildings = getBuildings();
     for (var i = 0; i < buildings.length; i++) {
@@ -671,12 +672,12 @@ function buildElectricity(callback) {
     $('#month').button();
     $('#year').button();
     $('.midBox').show("clip", 200);
-    $('.col1E').animate({'margin-left': "-10px" });
+    $('.col1Energy').animate({'margin-left': "-10px" });
     $('#switch').click(function() {
         if ($('.el').is(":visible")){
             $('.el').hide();
             $('.midBox').show();
-            $('.col1E').animate({ 'margin-left': "-10px" });
+            $('.col1Energy').animate({ 'margin-left': "-10px" });
         }
     });
     $("#switch").hover(function(){
@@ -704,34 +705,34 @@ function buildElectricity(callback) {
                 {
                     var a = $(this).bind('click', function()
                     {
-                        $("#contentE #tab1").hide();
-                        $("#contentE #tab2").hide();
+                        $("#contentEnergy #tab1").hide();
+                        $("#contentEnergy #tab2").hide();
                         $("#tabs>li>a").removeClass("current");
                         if (currentTab) {
                             ul.find('a.current').removeClass('current');
-                            $("#contentE #" + currentTab).hide();
+                            $("#contentEnergy #" + currentTab).hide();
                         }
                         currentTab = $(this).addClass('current').attr('name');
-                        $("#contentE #" + currentTab).show().jScrollPane({hideFocus:true, autoReinitialise: true});                        return false;
+                        $("#contentEnergy #" + currentTab).show().jScrollPane({hideFocus:true, autoReinitialise: true});                        return false;
                     });
-                    $("#contentE #" + a.attr('name')).hide();
+                    $("#contentEnergy #" + a.attr('name')).hide();
                 }
             );
         }
     );
     loadBuildingsList_electricity(); 
     $(".elect li:first a").addClass("current");
-    $("#contentE #tab1").show().jScrollPane({hideFocus:true, reinitialise: true});
+    $("#contentEnergy #tab1").show().jScrollPane({hideFocus:true, reinitialise: true});
     
-    $("#contentE #tab1 a").click(function(){
+    $("#contentEnergy #tab1 a").click(function(){
         building_code = $(this).attr("rel");
         building_name = $(this).text();
         console.log($(this).attr("rel") + $(this).text())
-        buil_loader("#contentE #tab1" , $(this).attr("rel") , $(this).text());
+        buil_loader("#contentEnergy #tab1" , $(this).attr("rel") , $(this).text());
         loadButtons(building_code, building_name)
     });
-    $("#contentE #tab2 a").click(function(){
-        buil_loader("#contentE #tab2" , $(this).attr("rel") , $(this).text()); 
+    $("#contentEnergy #tab2 a").click(function(){
+        buil_loader("#contentEnergy #tab2" , $(this).attr("rel") , $(this).text()); 
         building_code = $(this).attr("rel");
         building_name = $(this).text();
         loadButtons(building_code, building_name)

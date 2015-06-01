@@ -4,7 +4,7 @@ function getBuildingsInfo(b) {
     $.ajax({
         type: 'GET', 
         dataType: 'json',
-        url: '/db/buildingInfo/' + b,
+        url: '/api/buildingInfo/' + b,
         async: false, 
         success: function(msg){
             data = msg;
@@ -19,7 +19,7 @@ function getBuildings() {
     $.ajax({
         type: 'GET', 
         dataType: 'json',
-        url: '/db/getBuildings/',
+        url: '/api/getBuildings/',
         async: false, 
         success: function(msg){
             data = msg;
@@ -35,7 +35,7 @@ function getCompetitions() {
     $.ajax({
         type: 'GET', 
         dataType: 'json',
-        url: '/db/getCompetitions/',
+        url: '/api/getCompetitions/',
         async: false, 
         success: function(msg){
             data = msg;
@@ -51,7 +51,7 @@ function getInterfaceInfo() {
     $.ajax({
         type: 'GET', 
         dataType: 'json',
-        url: '/db/getInterfaceInfo/',
+        url: '/api/getInterfaceInfo/',
         async: false, 
         success: function(msg){
             data = msg;
@@ -69,7 +69,7 @@ function getHours(d, b) {
     $.ajax({
         type: 'GET', 
         dataType: 'json',
-        url: '/db/dataHour/' + str + '/' + b,
+        url: '/api/dataHour/' + str + '/' + b,
         async: false, 
         success: function(msg){
             var tmp = new Array();
@@ -115,7 +115,7 @@ function getDays(b, m, date){
     $.ajax({
         type: 'GET'
         , dataType: 'json'
-        , url: 'db/dataForWeek/' + b
+        , url: 'api/dataForWeek/' + b
         , async: false
         , success: function(msg){
             if (msg.length == 0) {
@@ -149,7 +149,7 @@ function getMonth(b, m){
     $.ajax({
         type: 'GET'
         , dataType: 'json'
-        , url: 'db/dataForMonth/' + b
+        , url: 'api/dataForMonth/' + b
         , async: false
         , success: function(msg){
             if (msg.length == 0) {
@@ -179,7 +179,7 @@ function getYear(b){
     $.ajax({
         type: 'GET'
         , dataType: 'json'
-        , url: 'db/dataForYear/' + b
+        , url: 'api/dataForYear/' + b
         , async: false
         , success: function(msg){
             console.log(msg);
@@ -213,7 +213,7 @@ function getConsumption() {
     $.ajax({
         type: 'GET', 
         dataType: 'json',
-        url: '/db/campusConsumption/',
+        url: '/api/campusConsumption/',
         async: false, 
         success: function(msg){
             data = msg;
@@ -227,7 +227,7 @@ function readData(from, to, code) {
     $.ajax({
         type: 'GET'
         , dataType: 'json'
-        , url: '/db/dataDaily/' + from + "/" + to + "/" + code
+        , url: '/api/dataDaily/' + from + "/" + to + "/" + code
         , async: false
         , success: function(msg){
             for (var i = 0, x = 0; i < msg.length; i++) {

@@ -1,188 +1,208 @@
 <% include header %>
-    <div class="infoBox">
-            <p>Version: <i><%= ver %> BETA <%= env %></i> </p>
-    </div>
-    
-    <div class="spinner"></div>
-    <div class="extra">
-        <div class="main1"></div>
-        <div class="main2">
-    
-            <div class="grad1"></div>
-            <div id="clockbox"></div>
-            <!--  Header  -->
-            <header>
-                <a href="#" class="logo">
-                    <img src="images/logo.png">
-                    <div class="txt1">Acadia University</div>
-                    <div class="txt2">Energy Dashboard</div>
-                </a>
-            </header>
-    
-            <% include menu %>
-            <!-- Mid Section -->
-            <div class="mid">
-                <div id="mid_text">
-                    <p>Welcome to the Acadia University Energy Dashboard. As part of Acadia’s commitment to sustainability, this program was developed to display real-time energy use in all campus facilities to help raise awareness about energy consumption and encourage energy conservation. Here you can view energy usage in each building, challenge another building in a friendly competition to improve performance, and learn more about green initiatives at Acadia and how you can help. The Acadia Energy Dashboard was developed in partnership by the Arthur Irving Academy for the Environment, The Department of Computer Science, the Department of Facilities and Physical Plant Services.</p>
-                </div>
-                <div class="slider-wrapper theme-default">
-                    <div id="slider" class="nivoSlider">
-                        <img src="images/image1.jpg" title="Acadia Campus" alt=""></img>
-                        <img src="images/image5.jpg" title="Fountain Commons" alt=""></img>
-                        <img src="images/image3.jpg" title="Acadia Farm ... Harvest Time!" alt=""> </img>
-                        <img src="images/image4.jpg" title="Residence Commons" alt="" ></img>
-                    </div>
-                </div>
-            
-                <div class="contact"><p>Contact Information:<br/> <a href="mailto://jodie.noiles@acadiau.ca" >jodie.noiles@acadiau.ca</a></p></div>
+<div class="infoBox">
+    <p>Version: <i><%= ver %> BETA <%= env %></i> </p>
+</div>
+
+<div class="spinner"></div>
+<div class="extra">
+    <div class="main1"></div>
+    <div class="main2">
+
+        <div class="grad1"></div>
+        <div id="clockbox"></div>
+        <!--  Header  -->
+        <header>
+            <a href="#" class="logo">
+                <img src="images/logo.png">
+                <div class="txt1">Acadia University</div>
+                <div class="txt2">Energy Dashboard</div>
+            </a>
+        </header>
+
+        <% include menu %>
+        <!-- Mid Section -->
+        <div class="mid">
+            <div id="mid_text">
+                <p></p>
             </div>
+            <div class="slider-wrapper theme-default">
+                <div id="slider" class="nivoSlider">
+                    <img src="images/image1.jpg" title="Acadia Campus" alt=""></img>
+                    <img src="images/image5.jpg" title="Fountain Commons" alt=""></img>
+                    <img src="images/image3.jpg" title="Acadia Farm ... Harvest Time!" alt=""> </img>
+                    <img src="images/image4.jpg" title="Residence Commons" alt="" ></img>
+                </div>
+            </div>
+            
+            <div class="contact"><p>Contact Information:<br/> <a href="mailto://jodie.noiles@acadiau.ca" >jodie.noiles@acadiau.ca</a></p></div>
+        </div>
 
-            <div class="sh1"></div>
-            <div class="cc"><p>© 2014 Acadia University. Wolfville, Nova Scotia, Canada</p></div>
+        <div class="sh1"></div>
+        <div class="cc"><p>© 2014 Acadia University. Wolfville, Nova Scotia, Canada</p></div>
 
-          <!-- Pages contents  -->
-            <article id="content">
+        <!-- Pages contents  -->
+        <article id="content">
             <ul>  
               <li id="page_SPLASH"></li>
-          
-          
-          
-                <li id="page_map">
-                    <a class="leftbox" >
-                        <span class="txt1" id="totalM">Total campus consumption<br /></span>
-                        <span class="x1"></span>
-                      </a>
-                      <span class="clear"></span>
-                    <div class="box" >
+
+
+
+              <li id="page_map">
+                <a class="leftbox" >
+                    <span class="txt1" id="totalM">Total campus consumption<br /></span>
+                    <span class="x1"></span>
+                </a>
+                <span class="clear"></span>
+                <div class="box" >
                     <div class="clear"></div>
                     <div id="map" style="width:980px; height:430px; margin-left: -40px; margin-top: -38px;"></div>
-                  </div>
-                </li>
+                </div>
+            </li>
 
-                <li id="energy_use">
-                    <a class="leftbox" >
-                        <span class="txt1" id="totalE">Total campus consumption<br /></span>
-                        <span class="x1"></span>
-                    </a>
+            <li id="energy_use">
+                <a class="leftbox" >
+                    <span class="txt1" id="totalE">Total campus consumption<br /></span>
+                    <span class="x1"></span>
+                </a>
 
-                    <div class="box">
-                        <div class="clear"></div>
-                        <div class="col1E">
-                            <div class="bx-title">
-                                <p>Electricity Consumption</p>
-                            </div>
-                            <ul id="tabs" class="elect">
-                                <li><a href="#" name="tab1">Academic/Service</a></li>
-                                <li><a href="#" name="tab2">Residence</a></li>   
-                            </ul>
-                            <div id="contentE">
-                                <div class="sc_menu" id="tab1" >
+                <div class="box">
+                    <div class="clear"></div>
+                    <div class="col1Energy">
+                        <div class="bx-title">
+                            <p>Electricity Consumption</p>
+                        </div>
+                        <ul id="tabs" class="elect">
+                            <li><a href="#" name="tab1">Academic/Service</a></li>
+                            <li><a href="#" name="tab2">Residence</a></li>   
+                        </ul>
+                        <div id="contentEnergy">
+                            <div class="sc_menu" id="tab1" >
                             </div>
                             <div class="sc_menu" id="tab2">
-                                </div>
                             </div>
-                        </div>       
-                        <div class="midBox">
-                            <img src="images/CampusAerial.jpg"></img>
                         </div>
-                        <div class="el" >
+                    </div>       
+                    <div class="midBox">
+                        <img src="images/CampusAerial.jpg"></img>
+                    </div>
+                    <div class="el" >
                       <!-- <button id="switch">FLIP</button> -->
-                            <div id="spin" class="spin" style="display:none;">
-                                <p></p>
-                                <img id="img-spinner" src="images/pleasewait.gif" alt="Loading"/>
+                      <div id="spin" class="spin" style="display:none;">
+                        <p></p>
+                        <img id="img-spinner" src="images/pleasewait.gif" alt="Loading"/>
+                    </div>
+                    <div class="graph-name"><p></p></div>
+                    <div class="col2">
+                        <p id="noData">no data available at this time :(</p>
+                        <div class="graph-name"><p></p></div>
+
+                        <div id="buttons">
+                            <p>Timeline: 
+                                <button id="today" class="ui-state-highlight">Today</button>
+                                <button id="yesterday" class="ui-state-highlight">Yesterday</button>
+                                <button id="week" class="ui-state-highlight">Week</button> 
+                                <button id="month" class="ui-state-highlight">Month</button> 
+                                <button id="year" class="ui-state-highlight">Year</button>
+
+                            </p>
+                        </div>
+                        <div id="container" style="width:570px; height:335px"></div> 
+                    </div>
+                    <div class="col3">
+                        <div id="r-img" ></div>
+                        <div class="total-box">
+                            <p id="head">CONSUMPTION SUMMARY:</p>
+                            <div class="total-kwh">
+                                <div id="num1">0</div>
+                                <p id="kwh"></p>
                             </div>
-                            <div class="graph-name"><p></p></div>
-                            <div class="col2">
-                                <p id="noData">no data available at this time :(</p>
-                                <div class="graph-name"><p></p></div>
-                                <div class="total-box">
-                                    <p id="title-box">CONSUMPTION <br/> SUMMARY:</p>
-                                    <div class="total-kwh">
-                                        <div id="num1">0</div>
-                                        <p id="kwh"></p>
-                                    </div>
-                                    <div class="total-ghg">
-                                        <div id="num2">0</div>
-                                        <p id="ghg"></p>
-                                    </div>
-                                    <a style="float:right; margin-top:-2px; margin-right: 0px;" href="#" title="Greenhouse Gas Protocol Initiative methodology is used to calculate GHG emissions estimates for Acadia University. Nova Scotia GHG emissions factors are provided by Nova Scotia Power Inc. Current GHG emissions are calculated using the Nova Scotia emissions factor for the most recent year since emissions factors are not released"><img src="images/info.png"></a>
-                                </div>
-                                <div id="buttons">
-                                    <p>Timeline: 
-                                        <button id="today" class="ui-state-highlight">Today</button>
-                                        <button id="yesterday" class="ui-state-highlight">Yesterday</button>
-                                        <button id="week" class="ui-state-highlight">Week</button> 
-                                        <button id="month" class="ui-state-highlight">Month</button> 
-                                        <button id="year" class="ui-state-highlight">Year</button>
-                                        
-                                    </p>
-                                </div>
-                                <div id="container" style="width:570px; height:335px"></div> 
+                            <div class="total-ghg">
+                                <div id="num2">0</div>
+                                <p id="ghg"></p>
                             </div>
-                            <div class="col3">
-                                <div id="r-img" ></div>
-                                
+                            <!-- <a style="float:right; margin-top:2px; margin-right: 4px;" href="#" title="Greenhouse Gas Protocol Initiative methodology is used to calculate GHG emissions estimates for Acadia University. Nova Scotia GHG emissions factors are provided by Nova Scotia Power Inc. Current GHG emissions are calculated using the Nova Scotia emissions factor for the most recent year since emissions factors are not released"><img src="images/info.png"></a> -->
+                        </div>
                         
-                                <div class="builProfile">
-                                    <p id="head">BUILDING PROFILE</p>
-                                    <p id="info"></p>
-                                </div>
-                            </div>
+                        <div class="builProfile">
+                            <p id="head">BUILDING PROFILE</p>
+                            <p id="info"></p>
                         </div>
                     </div>
-                    <span class="clear"></span>
-                </li>
+                </div>
+            </div>
+            <span class="clear"></span>
+        </li>
 
 
-                <li id="page_comparison">
-                    <a class="leftbox" >
-                        <span class="txt1" id="totalC">Total campus consumption<br /></span>
-                        <span class="x1"></span>
-                    </a>
-                    <div class="box">
-                        <div class="clear"></div>
-                        <div class="col1C">
-                            <div class="bx-title">
-                              <p style="text-align:center">Comparisons</p>
-                            </div>
-                            <ul id="tabs" class="comp">
-                                <li><a href="#" name="tab1">Academic/Service</a></li>
-                                <li><a href="#" name="tab2">Residence</a></li>   
-                            </ul>
-                            <div id="contentC">
-                                <div class="sc_menuC" id="tab1" >
-                                  
-                                </div>
-                                <div class="sc_menuC" id="tab2">
+        <li id="page_comparison">
+            <a class="leftbox" >
+                <span class="txt1" id="totalC">Total campus consumption<br /></span>
+                <span class="x1"></span>
+            </a>
+            <div class="box">
+                <div class="clear"></div>
+                <div class="col1Comparison">
+                    <div class="bx-title">
+                    <p style="text-align:center">Comparison</p>
+                  </div>
+                  <ul id="tabs" class="comparison">
+                    <li><a href="#" name="tab1">Academic/Service</a></li>
+                    <li><a href="#" name="tab2">Residence</a></li>   
+                </ul>
+                <div id="contentComparison">
+                    <div class="sc_menuComparison" id="tab1" >
 
-                                </div>
-                            </div>
-                        </div>
-                        <span class="clear"></span>
-                        <div class="col2C">
-                            <div id="chart_1" style="width:755px; height:425px" ></div>
-                        </div>
                     </div>
-                </li>
-                <li id="page_competition">
-                   <div class="box">
-                        <div class="clear"></div>
-                        <div class="competitions"></div>
+                    <div class="sc_menuComparison" id="tab2">
+
                     </div>
-                </li>
-                <li id="page_green">
-                   <p style="font-size:30px; margin-left:35%;"><b>
-                        COMING SOON!
-                      </b>
-                      </p>
-                </li>
-                <li id="info_page">
-                    <div id="contact"></div>
-                    <p>
-                    </p>
-                </li>
-            </ul>
+                </div>
+            </div>
+            <span class="clear"></span>
+            <div class="col2Comparison">
+                <div id="chart_1" style="width:755px; height:425px" ></div>
+            </div>
+        </div>
+    </li>
+    <li id="page_competition">
+     <div class="box">
+        <div class="clear"></div>
+        <div class="col1Competition">
+            <div class="bx-title">
+              <p style="text-align:center">Competitions</p>
+          </div>
+          <ul id="tabs" class="competition">
+            <li><a href="#" name="tab1">Active</a></li>
+            <li><a href="#" name="tab2">Completed</a></li> 
+        </ul>
+        <div id="contentCompetition">
+            <div class="sc_menuCompetition" id="tab1" >
+
+            </div>
+            <div class="sc_menuCompetition" id="tab2">
+
+            </div>
         </div>
     </div>
+    <span class="clear"></span>
+    <div class="col2Competition">
+        <div id="competitionsChart"></div>
+    </div>
+</div>
+</li>
+<li id="page_green">
+ <p style="font-size:30px; margin-left:35%;"><b>
+    COMING SOON!
+</b>
+</p>
+</li>
+<li id="info_page">
+    <div id="contact"></div>
+    <p>
+    </p>
+</li>
+</ul>
+</div>
+</div>
 </div>
 <% include footer %>

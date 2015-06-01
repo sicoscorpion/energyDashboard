@@ -137,6 +137,27 @@ exports.createCompetition = function(req, res) {
         }
     });
 }
+
+exports.updateCompetition = function(req, res) {
+    var competition = req.body;
+    competitions.competitionsModel.findOne({code: competition.code}, function(err, data){
+        if (!data) {
+            console.log(err);
+            res.send("invalid competition");
+        } else {
+            competitions.competitionsModel.update({code: competition.code}, competition, function(err, data) {
+                console.log(data)
+                if (err) {
+                    console.log(err);
+                    res.send("update failed for: ", competition.code); 
+                } else {
+                    res.send("succesfully updated!");
+                }
+            });
+        }
+    });
+}
+
 exports.removeCompetition = function(req, res) {
     var competitionID = parseInt(req.body[0]);
     console.log(competitionID);

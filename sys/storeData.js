@@ -1,20 +1,16 @@
-/* 
-	Handle the Parsed & calculated data and set conditions for when they should be stored
-   	TODO usage
-*/
-
 var fs = require('fs'),
 	sys = require('sys'),
 	exec = require('child_process').exec,
 	dateable = require('dateable'),
 	config = require('../config.json');
 
-
-// TODO seperate db connections 
-var collections = ["dataHour", "dataDaily", "dataMonthly", "Buildings"];
-
-var db = require('mongojs').connect(config.db_address, collections);
-exports.db = db;
+var storeDataUtils = require('./storeDataUtils.js');
+var db = storeDataUtils.db;
+module.exports.db = db;
+var parse = require('./parser.js');
+var calc = require('./calculate.js');
+var fileExistSync = require('./existsSync.js');
+var path = require('path');
 
 var getBuildingsList = function getBuildingsList(callback) { 
 	var buildings = new Array();
@@ -24,232 +20,15 @@ var getBuildingsList = function getBuildingsList(callback) {
 		}
 	});	
 }
-exports.buildingsList = getBuildingsList;
-
-// Building objects
-function Building(date, time, code, status, consumption){
-	this.date = date;
-	this.time = time;
-	this.code = code;
-	this.status = status;
-	this.value = consumption;
-}
-
-function BuildingMonths(month, year, code, status, consumption){
-	this.month = month;
-	this.year = year
-	this.code = code;
-	this.status = status;
-	this.value = consumption;
-}
-
-var today = new Date(),
-	day = today.getDate(),
-	month = today.getMonth() + 1,
-	year = today.getFullYear();
-var todayDate = dateable.format(today, 'MMDDYYYY'); // Today's date formated.
-var todayDate_db = dateable.format(today, 'MM/DD/YYYY'); // Today's date formated db.
-
-var yesterday = new Date();
-yesterday.setDate(yesterday.getDate() - 1);
-var	dayY = yesterday.getDate(),
-	monthY = yesterday.getMonth() + 1,
-	yearY = yesterday.getFullYear();
-var yesterdayDate = dateable.format(yesterday, 'MMDDYYYY'); // Yesterday's date formatted;
-var yesterdayFile = yesterdayDate + "D.csv";
-var todayFile = todayDate + "D.csv";
-
-function calcDate(year, month) {
-	var dd = new Date(year, month, 0);
-	return dd.getDate();
-}
-
-function daysInMonth(iMonth, iYear)
-{
-	return 32 - new Date(iYear, iMonth-1, 32).getDate();
-}
-
-// Sleep function
-function sleep(milliseconds) {
-  var start = new Date().getTime();
-  for (var i = 0; i < 1e7; i++) {
-    if ((new Date().getTime() - start) > milliseconds){
-      break;
-    }
-  }
-}
-
-
-var parse = require('./parser.js');
-var calc = require('./calculate.js');
-var fileExistSync = require('./existsSync.js');
-var path = require('path');
-
-var onErr = function(err,callback){
-	 db.close();
-	 callback(err);
-};
-
-function storeDaily(flag, data) {
-	if (flag == true) {
-		calc.calcDaily(data, function(objects) {
-			// console.log(objects)
-			db.dataDaily.reIndex()
-			for (var i = 0; i < objects.length; i++) {
-				db.dataDaily.save(objects[i], function(err, res) {
-					// ignoring duplicate key's error (Mongo:11000)
-					if (err || !res){
-						if (err.code === 11000){
-							// onErr(err, callback); 
-							// console.log("Error Inserting data: ", err)	
-						}
-					}
-				});
-			};
-			
-		});
-		console.log("Stored in to dataDaily")
-	}
-	endOfDay = false;
-}
-
-function storeBuildings(BuildingsData) {
-	db.Buildings.findOne({}, function(err, data) {
-		if (data == null) {
-			db.Buildings.insert(BuildingsData, function(err, results) {
-				if(err) { console.log("Error: ", err) }
-				console.log("Saved Buildings List");
-			});
-		} else {
-			console.log("'Buildings' collection found --- popular");
-			// for (var i = 0; i < BuildingsData.length; i++) {
-			// 	// BuildingsData[i].code;
-			// 	db.Buildings.update(
-			// 		{
-			// 			code: BuildingsData[i].code
-			// 		}, {
-			// 			name: BuildingsData[i].name,
-			// 			code: BuildingsData[i].code,
-			// 			profile: BuildingsData[i].profile,
-			// 			size: BuildingsData[i].size,
-			// 			built: BuildingsData[i].built,
-			// 			renovated: BuildingsData[i].renovated,
-			// 			feature: BuildingsData[i].feature,
-			// 			type: BuildingsData[i].type,
-			// 			available: BuildingsData[i].available,
-			// 			image: BuildingsData[i].image,
-			// 			location: {
-			// 				longitude: BuildingsData[i].location.longitude,
-			// 				latitude: BuildingsData[i].location.latitude
-			// 			}
-			// 		}, function(err, results) {
-			// 		if(err) { console.log("Error: ", err) }
-			// 	});
-			// };
-			// console.log("Saved Buildings List");
-		}
-	});
-}
-function selectFilesAuto() {
-	var files = {};
-	// Directory containing the JC generated files
-	var dir = config.MEU_data;
-	var numOfFiles = fs.readdirSync(dir).length;
-	if (numOfFiles < 2) {
-		console.log("Not enough files in Directory: ", dir);
-		setTimeout(function(){
-			db.close();
-		}, 1000);
-		return;
-	}
-	
-	incompleteFileToday = todayDate + "D_INCOMPLETE.csv";
-	incompleteFileYesterday = yesterdayDate + "D_INCOMPLETE.csv";
-	var exist = fileExistSync(path.resolve(dir, incompleteFileToday));
-
-	if (exist) {
-		console.log("Found Incomplete File: " + incompleteFileToday);
-		var dataI = fs.readFileSync(path.resolve(dir, incompleteFileToday), 'utf-8');
-		var hrI = parse.getFirstHour(dataI);
-		var dataC = fs.readFileSync(path.resolve(dir, todayFile), 'utf-8');
-		var hrC = parse.getFirstHour(dataC);
-		if (parseInt(hrC) >= parseInt(hrI)) {
-			if(!fileExistSync(path.resolve(dir, todayFile))) {
-				console.log("File not Found");
-				setTimeout(function(){
-					db.close();
-				}, 1000);
-				return;
-			}
-			fileNew = todayFile;
-			console.log("Reading from Main File");
-		} else if (parseInt(hrC) < parseInt(hrI))  {
-			fileNew = incompleteFileToday;
-			console.log("Reading from Incomplete File!");
-		}
-	} else {
-		console.log("No Incomplete files found for: " + todayDate);
-		if(!fileExistSync(path.resolve(dir, todayFile))) {
-			console.log("File not Found");
-			setTimeout(function(){
-				db.close();
-			}, 1000);
-			return;
-		}
-		fileNew = todayFile;
-		console.log("Reading from Main File");
-	}
-	exist = fileExistSync(path.resolve(dir, incompleteFileYesterday));
-	if (exist) {
-		console.log("Found Incomplete File: " + incompleteFileYesterday);
-		var dataI = fs.readFileSync(path.resolve(dir, incompleteFileYesterday), 'utf-8');
-		var hrI = parse.getFirstHour(dataI);
-		var dataC = fs.readFileSync(path.resolve(dir, yesterdayFile), 'utf-8');
-		var hrC = parse.getFirstHour(dataC);
-		if (parseInt(hrC) >= parseInt(hrI)) {
-			if(!fileExistSync(path.resolve(dir, yesterdayFile))) {
-				console.log("File not Found");
-				setTimeout(function(){
-					db.close();
-				}, 1000);
-				return;
-			}
-			fileOld = yesterdayFile;
-			console.log("Reading from Main File");
-		} else if (parseInt(hrC) < parseInt(hrI))  {
-			fileOld = incompleteFileYesterday;
-			console.log("Reading from Incomplete File!");
-		}
-		console.log("Reading from Incomplete File!");
-	} else {
-		console.log("No Incomplete files found for: " + yesterdayDate);
-		if(!fileExistSync(path.resolve(dir, yesterdayFile))) {
-			console.log("File not Found");
-			setTimeout(function(){
-				db.close();
-			}, 1000);
-			return;
-		}
-		fileOld = yesterdayFile;
-		console.log("Reading from Main File");
-	}
-	files.dir = dir;
-	files.fileNew = fileNew;
-	files.fileOld = fileOld;
-	files.numOfFiles = numOfFiles;
-	return files;
-}
-
 
 function saveData(asRoutine){
 	// process.chdir('/home/sico/data');
 	var cd = process.cwd();
-
 	// Save Buildings List 
 	var BuildingsFile = fs.readFileSync(require('path').resolve(__dirname , 'buildingsList.csv'), 'utf-8');
 	var BuildingsData = parse.parseBuildingsData(BuildingsFile);
 	// console.log(BuildingsData[0].code);
-	storeBuildings(BuildingsData);
+	storeDataUtils.storeBuildings(BuildingsData);
 	var ff = new Date(2014, 8, 10);
 	// db.dataDaily.remove({date:ff, code:"ELL"}, function(err, da) {
 	// 	console.log(err, da);
@@ -272,7 +51,8 @@ function saveData(asRoutine){
 
 
 	} else {
-		var files = selectFilesAuto();
+		var files = storeDataUtils.selectFilesAuto();
+		console.log(files)
 		var dir = files.dir;
 		var fileNew = files.fileNew;
 		var fileOld = files.fileOld;
@@ -303,7 +83,7 @@ function saveData(asRoutine){
 	var fileDay = String(fileNew).slice(2,4);
 	var fileMonth = String(fileNew).slice(0,2);
 	var fileYear = String(fileNew).slice(4,8);
-	var end = daysInMonth(fileMonth, fileYear);
+	var end = storeDataUtils.daysInMonth(fileMonth, fileYear);
 	var timeH = null;
 	var timeM = null;
 	var endOfDay = false;
@@ -314,6 +94,7 @@ function saveData(asRoutine){
 		monthArr[i-1] = dateable.format(d, 'MM/DD/YYYY');
 	};
 	
+	// save hourly TODO: move to utils
 	for (var i = 0; i < dataHourly.length; i++) {
 		
 		// save daily
@@ -327,16 +108,22 @@ function saveData(asRoutine){
 			endOfDay = true; 
 		}
 
-		// save hourly
-		var data = new Building(dataHourly[i].date, dataHourly[i].time, 
+		var data = new storeDataUtils.Building(dataHourly[i].date, dataHourly[i].time, 
 			dataHourly[i].code, dataHourly[i].status, dataHourly[i].value);
 
-		db.dataHour.insert(data, function(err, results) {
+		db.dataHour.findAndModify({
+			query: data,
+			update: {
+				$setOnInsert: data
+			},
+			new: true,
+			upsert:true
+		}, function(err, results) {
 			// ignoring duplicate key's error (Mongo:11000)
-			// console.log("dataHour ", data)
+			// console.log(err)
 			if (err || !results) {
 				if (err.code !== 11000){
-					onErr(err, callback);
+					// onErr(err);
 					console.log("Error Inserting data: ", err)
 				} 
 			}
@@ -344,7 +131,7 @@ function saveData(asRoutine){
 					
 	}
 	// save daily
-	storeDaily(endOfDay, dataHourly);
+	storeDataUtils.storeDaily(endOfDay, dataHourly);
 	console.log(parseInt(fileDay, 10), end);
 	// save Monthly
 	if (parseInt(fileDay, 10) === end && timeH === 23) {
@@ -372,8 +159,9 @@ function saveData(asRoutine){
 	return "Done";
 	callback();
 }
-module.exports = {
-	saveData: saveData()
-}
+saveData()
+// module.exports = {
+// 	saveData: saveData()
+// }
 
 

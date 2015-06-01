@@ -87,37 +87,7 @@ function loadComp() {
             }
         },
         navigation: {
-            // buttonOptions: {
-            //     theme: {
-            //         'stroke-width': 0,
-            //         stroke: 'silver',
-            //         r: 0,
-            //         states: {
-            //             hover: {
-            //                 fill: '#ffad00'
-            //             },
-            //             select: {
-            //                 stroke: '#039',
-            //                 fill: '#ffad00'
-            //             }
-            //         },
-            //         style: {
-            //             color: '#000'
-            //         }
-            //     }
-            // },
-            // menuItemStyle: {
-            //     fontWeight: 'normal',
-            //     background: 'none'
-            // },
-            // menuItemHoverStyle: {
-            //     fontWeight: 'bold',
-            //     background: 'none',
-            //     color: 'black'
-            // }
-            // buttonOptions: {
-            //     enabled: false
-            // }
+         
         },
         plotOptions: {
             line: {
@@ -177,7 +147,7 @@ function loadComp() {
     });
 
     var chart = $('#chart_1').highcharts();
-    var m =  $('#contentC #tab1 a[rel=' + chart.series[0].name + ']');
+    var m =  $('#contentComparison #tab1 a[rel=' + chart.series[0].name + ']');
     $(m).css('borderColor', chart.series[0].color)
     chart.showLoading(); 
     setTimeout(function(){
@@ -203,11 +173,11 @@ function loadBuildingsList_comparisons() {
     for (var i = 0,j = 0; i < builds.length; i++) {
         if (builds[i].available === "Active") {
             if (builds[i].type === "academic") {
-                $('#contentC #tab1').append('<a rel="' + builds[i].code + '"> <p>' + builds[i].name + '<input type="checkbox" id="' + builds[i].code + '" name="' + builds[i].name + '"/></p><img src="' + builds[i].image + '"/></a>');
+                $('#contentComparison #tab1').append('<a rel="' + builds[i].code + '"> <p>' + builds[i].name + '<input type="checkbox" id="' + builds[i].code + '" name="' + builds[i].name + '"/></p><img src="' + builds[i].image + '"/></a>');
                 if (builds[i].code === "BAC")  $('input').iCheck('check');
             } else if (builds[i].type === "residence") {
                 // console.log(builds[i].name);
-                $('#contentC #tab2').append('<a rel="' + builds[i].code + '"> <p>' + builds[i].name + '<input type="checkbox" id="' + builds[i].code + '" name="' + builds[i].name + '"/></p><img src="' + builds[i].image + '"/></a>');
+                $('#contentComparison #tab2').append('<a rel="' + builds[i].code + '"> <p>' + builds[i].name + '<input type="checkbox" id="' + builds[i].code + '" name="' + builds[i].name + '"/></p><img src="' + builds[i].image + '"/></a>');
             }
         } else if (builds[i].available === "inActive") {
             builds_inActive[j] = builds[i];
@@ -217,27 +187,27 @@ function loadBuildingsList_comparisons() {
     for (var i = 0; i < builds_inActive.length; i++) {
         // console.log(builds_inActive[i].type)
         if (builds_inActive[i].type === "academic") {    
-            $('#contentC #tab1').append('<a rel="' + builds_inActive[i].code + '" class="inActive" href="#" title="no data available at this time :("><p>' + builds_inActive[i].name + '</p><img src="' + builds_inActive[i].image + '"/></a>');
+            $('#contentComparison #tab1').append('<a rel="' + builds_inActive[i].code + '" class="inActive" href="#" title="no data available at this time :("><p>' + builds_inActive[i].name + '</p><img src="' + builds_inActive[i].image + '"/></a>');
             
         } else if (builds_inActive[i].type === "residence") {
-            $('#contentC #tab2').append('<a rel="' + builds_inActive[i].code + '" class="inActive" href="#" title="no data available at this time :("><p>' + builds_inActive[i].name + '</p><img src="' + builds_inActive[i].image + '"/></a>');
+            $('#contentComparison #tab2').append('<a rel="' + builds_inActive[i].code + '" class="inActive" href="#" title="no data available at this time :("><p>' + builds_inActive[i].name + '</p><img src="' + builds_inActive[i].image + '"/></a>');
         }
     };
 }
 
 function load_comparisons() {
     loadBuildingsList_comparisons();
-    $('#contentC #tab1 input').iCheck({
+    $('#contentComparison #tab1 input').iCheck({
         checkboxClass: 'icheckbox_square-green',
         increaseArea: '20%'
     });
 
-    $('#contentC #tab2 input').iCheck({
+    $('#contentComparison #tab2 input').iCheck({
         checkboxClass: 'icheckbox_square-green',
         increaseArea: '20%' 
     });   
 
-    $('.comp').each(
+    $('.comparison').each(
         function()
         {
             var currentTab, ul = $(this);
@@ -248,24 +218,24 @@ function load_comparisons() {
                         'click',
                         function()
                         {
-                           $("#contentC #tab1").hide();
-                           $(".comp li:first a").removeClass("currentC");
+                           $("#contentComparison #tab1").hide();
+                           $(".comp li:first a").removeClass("currentComparison");
                             if (currentTab) {
-                                ul.find('a.currentC').removeClass('currentC');
-                                $("#contentC #" + currentTab).hide();
+                                ul.find('a.currentComparison').removeClass('currentComparison');
+                                $("#contentComparison #" + currentTab).hide();
                             }
-                            currentTab = $(this).addClass('currentC').attr('name');
-                            $("#contentC #" + currentTab).show().jScrollPane({hideFocus:true, reinitialise: true});
+                            currentTab = $(this).addClass('currentComparison').attr('name');
+                            $("#contentComparison #" + currentTab).show().jScrollPane({hideFocus:true, reinitialise: true});
                             return false;
                         }
                     );
-                    $("#contentC #" + a.attr('name')).hide();
+                    $("#contentComparison #" + a.attr('name')).hide();
                 }
             );
         }
     );
-    $("#contentC #tab1").show().jScrollPane({hideFocus:true});
-    $(".comp li:first a").addClass("currentC");
+    $("#contentComparison #tab1").show().jScrollPane({hideFocus:true});
+    $(".comparison li:first a").addClass("currentComparison");
 
     var once = false;
 
@@ -286,8 +256,8 @@ function load_comparisons() {
         loadComp();
     }, 2000);
 
-    var currentTab = $('.comp .currentC').attr('name');
-    $('#contentC #tab1 input').on('ifChecked', function(event){
+    var currentTab = $('.comp .currentComparison').attr('name');
+    $('#contentComparison #tab1 input').on('ifChecked', function(event){
         var chart = $('#chart_1').highcharts();                
         chart.showLoading();
 
@@ -302,7 +272,7 @@ function load_comparisons() {
                     // $('#c1').iCheck('checked');
                 } else {
                     chart.series[i].show();
-                    var m =  $('#contentC #tab1 a[rel=' + chart.series[i].name + ']');
+                    var m =  $('#contentComparison #tab1 a[rel=' + chart.series[i].name + ']');
                     $(m).css('borderColor', chart.series[i].color);
                 }
                 break; 
@@ -321,7 +291,7 @@ function load_comparisons() {
 
             // $($('.highcharts-legend-item tspan')[0]).text('UNIVER')
             series.show();
-            var m =  $('#contentC #tab1 a[rel=' + series.name + ']');
+            var m =  $('#contentComparison #tab1 a[rel=' + series.name + ']');
             $(m).css('borderColor', series.color)
         } 
         setTimeout(function(){
@@ -329,21 +299,21 @@ function load_comparisons() {
         }, 100);
         
     });
-    $('#contentC #tab1 input').on('ifUnchecked', function(event){
+    $('#contentComparison #tab1 input').on('ifUnchecked', function(event){
         var chart = $('#chart_1').highcharts();
 
         for (var i = 0; i < chart.series.length; i++) {
             if (chart.series[i].name === $(this).attr('id')) {
                 if (chart.series[i].visible) {
                     chart.series[i].hide();
-                    var m =  $('#contentC #tab1 a[rel=' + chart.series[i].name + ']');
+                    var m =  $('#contentComparison #tab1 a[rel=' + chart.series[i].name + ']');
                     console.log(m.attr('rel'));
                     m.css('borderColor', 'rgb(79, 79, 79)');
                 } 
             }
         };
     }); 
-    $('#contentC #tab2 input').on('ifChecked', function(event){
+    $('#contentComparison #tab2 input').on('ifChecked', function(event){
         var chart = $('#chart_1').highcharts();                
         var exist = true;
         for (var i = 0; i < chart.series.length; i++) {
@@ -356,7 +326,7 @@ function load_comparisons() {
                     // $('#c1').iCheck('checked');
                 } else {
                     chart.series[i].show();
-                    var m =  $('#contentC #tab2 a[rel=' + chart.series[i].name + ']');
+                    var m =  $('#contentComparison #tab2 a[rel=' + chart.series[i].name + ']');
                     console.log(m);
                     $(m).css('borderColor', chart.series[i].color);
                 }
@@ -374,13 +344,13 @@ function load_comparisons() {
             });
             // $($('.highcharts-legend-item tspan')[0]).text('UNIVER')
             series.show();
-            var m =  $('#contentC #tab2 a[rel=' + series.name + ']');
+            var m =  $('#contentComparison #tab2 a[rel=' + series.name + ']');
             $(m).css('borderColor', series.color)
         } 
                     
         
     });
-    $('#contentC #tab2 input').on('ifUnchecked', function(event){
+    $('#contentComparison #tab2 input').on('ifUnchecked', function(event){
         var chart = $('#chart_1').highcharts();
 
         for (var i = 0; i < chart.series.length; i++) {
@@ -388,7 +358,7 @@ function load_comparisons() {
                 // console.log("SERIES EXISTS"); 
                 if (chart.series[i].visible) {
                     chart.series[i].hide();
-                    var m =  $('#contentC #tab2 a[rel=' + chart.series[i].name + ']');
+                    var m =  $('#contentComparison #tab2 a[rel=' + chart.series[i].name + ']');
                     console.log(m.attr('rel'));
                     m.css('borderColor', 'rgb(79, 79, 79)');
                 } 

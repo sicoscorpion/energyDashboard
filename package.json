@@ -7,13 +7,23 @@
     "type": "git",
     "url": "https://github.com/sicoscorpion/energyDashboard.git"
   },
+  "scripts": {
+    "start": "node ./bin/www"
+  },
   "dependencies": {
-    "express": "3.x.x",
+    "express": "~4.12.4",
+    "morgan": "~1.5.3",
+    "debug": "~2.2.0",
+    "serve-favicon": "*",
+    "cookie-parser": "*",
+    "body-parser": "*",
+    "express-session": "*",
+    "errorhandler": "*",
     "cron": "1.x.x",
     "dateable": "*",
     "ejs": "*",
-    "mongojs": "*",
-    "mongoose": "3.x.x",
+    "mongojs": "latest",
+    "mongoose": "latest",
     "sys": "*",
     "pass": "*",
     "passport" : "~0.1.17",     
@@ -24,9 +34,6 @@
     "connect-flash": "0.1.0"
   },
   "license": "GPL 2.0",
-  "engines": {
-    "node": "0.10.x"
-  },
   "devDependencies": {
       "grunt": "~0.4.1"
   }

@@ -1,183 +1,189 @@
 
-   
+
 <% include header %> 
-    <div class="spinner"></div>
-        <div class="extra">
-            <div class="main1"></div>
-            <div class="main2">
-        
-                <div class="grad1"></div>
-                <div id="clockbox"></div>
-            
-                <!--  Header  -->
-                <header>
-                    <a href="#" class="logo">
-                        <img src="images/logo.png">
-                        <div class="txt1">Acadia University</div>
-                        <div class="txt2">Energy Dashboard</div>
-                    </a>
-                </header>
-                <% include menu %>
-                <div class="mid">
-                    <h2 id="greeting" >Welcome, <%= user.username %>.</h2>
-                </div>
-                <article id="content">
-                    <ul>  
-                        <li id="page_SPLASH"></li>
-                        <li id="manager">
-                        <!-- <a class="leftbox" >
-                            <span class="txt1" id="totalM">Total campus consumption<br /></span>
-                            <span class="x1"></span>
-                          </a> -->
-                            <span class="clear"></span>
-                            <div class="box" style="padding:0px 0px 0px 0px !important">
-                                <div class="clear"></div>
-                                    <div class="admin-wrapper-box">
-                                        <h2>Buildings Manager</h2>
-                                        <em>Do not use spaces at the end of your input(s)</em><br/>
-                                        <label>Codes:</label> 
-                                        <select class="list">
-                                            <option selected>---</option>
-                                        </select> 
-                                        <div class="buildings-data">
-                                            <p>
-                                                <label>Type:</label> 
-                                                <input type="text" name="type" id="building_type"><em>"academic / residence"</em><br/>
-                                                <label>Name:</label> 
-                                                <input type="text" name="name" id="building_name"><em>"Building name"</em><br/>
-                                                <label>Size:</label> 
-                                                <input type="text" name="size" id="building_size"><em>"Building Size in sq. ft"</em><br/>
-                                                <label>Available:</label> 
-                                                <input type="text" name="available" id="building_available"><em>"Active / inActive"</em><br/>
-                                                <label>Profile:</label> 
-                                                <input type="text" name="profile" id="building_profile"><br/>
-                                                <label>Built:</label> 
-                                                <input type="text" name="built" id="building_built"><br/>
-                                                <label>Renovated:</label> 
-                                                <input type="text" name="renovated" id="building_renovated"><br/>
-                                                <label>Feature:</label> 
-                                                <input type="text" name="feature" id="building_feature"><br/>
-                                                <div id="notice"></div>
-                                                <button type="submit" id="updateBuildingInfo">Save</button>
-                                            </p>
-                                        </div>
-                                    </div>
-                                    <div class="admin-wrapper-box">
-                                        <h2>Update GHG emission factor</h2>
-                                        <div class="interface-data">
-                                            <p>
-                                            
-                                                <label>Factor:</label>
-                                                <input type="text" name="factor" id="factor"/><br/><em>"emmission factor in kg of co2"</em>
-                                                <div id="notice2"></div>
-                                                <button type="submit" id="updateGHGFactor">Save</button>
-                                            </p>
-                                        </div>
-                                    </div>
-                            </div>
-                        </li>
+<div class="spinner"></div>
+<div class="extra">
+  <div class="main1"></div>
+  <div class="main2">
 
-                        <li id="account">
-                        <!-- <a class="leftbox" >
-                            <span class="txt1" id="totalM">Total campus consumption<br /></span>
-                            <span class="x1"></span>
-                          </a> -->
-                            <span class="clear"></span>
-                            <div class="box" style="padding:0px 0px 0px 0px !important">
-                                <div class="clear"></div>
-                                <div class="admin-wrapper-box">
-                                    <h2>Account Information</h2>
-                                    <p>Username: <%= user.username %><br/>
-                                    Email: <%= user.email %><br/>
-                                    <% if (user.admin == true) { %>
-                                        Role: admin
-                                    <% } else { %>
-                                        Role: 
-                                    <% } %>
-                                    </p>
-                                </div>
-                                <div class="admin-wrapper-box">
-                                    <div id="editAccount">
-                                        <h2>Change Password</h2>
-                                        <form method="post">
-                                            <div id="formField">
-                                                <label>Username:</label>
-                                                <input type="text" name="username" /><br/>
-                                            </div>
-                                            <div id="formField">
-                                                <label>New Password:</label>
-                                                <input type="text" name="password" />
-                                            </div>
-                                            <div>
-                                                <div id="notice"></div>
-                                                <button type="submit" id="updateAccount">Save</button>
-                                            </div>
-                                        </form>
-                                    </div>
-                                </div>
+    <div class="grad1"></div>
+    <div id="clockbox"></div>
 
-                            </div>
-                        </li>
-                        <li id="competitions-manager">
-                        <!-- <a class="leftbox" >
-                            <span class="txt1" id="totalM">Total campus consumption<br /></span>
-                            <span class="x1"></span>
-                          </a> -->
-                            <span class="clear"></span>
-                            <div class="box" style="height:100%; padding:0px 0px 0px 0px !important">
-                                <div class="clear"></div>
-                                <div class="admin-wrapper-box">
-                                    <h2>Competitions Manager</h2>
-                                    <em>Do not use spaces at the end of your input(s)</em>
-
-                                    <div id="comp-manager">
-                                        <label>ID:</label> 
-                                       
-                                        <select id="comp_id">
-                                            <option selected>---</option>
-                                        </select> <em>"Competition ID - leave empty when creating new competitions"</em><br/>
-                                        <label>Name:</label> 
-                                        <input type="text" name="competition name" id="comp_name"><em>"Competition name"</em><br/>
-                                        <label>Start Date:</label> 
-                                        <input type="text" name="start date" id="start_date"><em>"Competition start date"</em><br/>
-                                        <label>End Date:</label> 
-                                        <input type="text" name="end date" id="end_date"><em>"Competition end date"</em><br/>
-                                        <label style="color:red"><i>Base period</i></label><br/>
-                                        <label>Start Date:</label> 
-                                        <input type="text" name="base week start date" id="base_start_date"><em>"Base week start date"</em><br/>
-                                        <label>End Date:</label> 
-                                        <input type="text" name="base week end date" id="base_end_date"><em>"Base week end date"</em><br/><br/>
-                                        <label>Buildings:</label>  <em>Double click the building to add/remove it from list</em><br/>
-                                        <div>
-                                            <select id="buildings" name="buildings" multiple="multiple">
-                                            </select>
-                                        </div><br/>
-                                        <label>Status:</label> 
-                                        <select id="comp_status">
-                                            <option selected>---</option>
-                                            <option value="new">New</option>
-                                            <option value="inBase">In Base Period</option>
-                                            <option value="active">Active</option>
-                                            <option value="done">Done</option>
-                                        </select><em>"Competition status - optional when creating new competitions"</em> <br/><br/>
-                                        <div id="notice"></div><br/>
-                                        <button type="submit" id="createCompetition">Create Competition</button>
-                                        <button type="submit" id="removeCompetition">Remove Competition</button>
-                                    </div>
-                                </div>
-                                <div class="clear"></div>
-
-                            </div>
-                        </li>
-
-                    </ul>
-                </article>
-        </div>
+    <!--  Header  -->
+    <header>
+      <a href="#" class="logo">
+        <img src="images/logo.png">
+        <div class="txt1">Acadia University</div>
+        <div class="txt2">Energy Dashboard</div>
+      </a>
+    </header>
+    <% include menu %>
+    <div class="mid">
+      <h2 id="greeting" >Welcome, <%= user.username %>.</h2>
+      <br/><br/>
+      <!-- <div id="mid_text"> -->
+      <input type="text" name="Home Page Message" id="home_txt" size="10" style="width:500px; height:200px;">
+      <!-- </div> -->
     </div>
-      
-        <!-- Mid Section -->
-        <!-- <div class="mid"> -->
-         
-       
-        <!-- </div> -->
+    <article id="content">
+      <ul>  
+        <li id="page_SPLASH"></li>
+        <li id="manager">
+          <!-- <a class="leftbox" >
+              <span class="txt1" id="totalM">Total campus consumption<br /></span>
+              <span class="x1"></span>
+            </a> -->
+            <span class="clear"></span>
+            <div class="box" style="padding:0px 0px 0px 0px !important">
+              <div class="clear"></div>
+              <div class="admin-wrapper-box">
+                <h2>Buildings Manager</h2>
+                <em>Do not use spaces at the end of your input(s)</em><br/>
+                <label>Codes:</label> 
+                <select class="list">
+                  <option selected>---</option>
+                </select> 
+                <div class="buildings-data">
+                  <p>
+                    <label>Type:</label> 
+                    <input type="text" name="type" id="building_type"><em>"academic / residence"</em><br/>
+                    <label>Name:</label> 
+                    <input type="text" name="name" id="building_name"><em>"Building name"</em><br/>
+                    <label>Size:</label> 
+                    <input type="text" name="size" id="building_size"><em>"Building Size in sq. ft"</em><br/>
+                    <label>Available:</label> 
+                    <input type="text" name="available" id="building_available"><em>"Active / inActive"</em><br/>
+                    <label>Profile:</label> 
+                    <input type="text" name="profile" id="building_profile"><br/>
+                    <label>Built:</label> 
+                    <input type="text" name="built" id="building_built"><br/>
+                    <label>Renovated:</label> 
+                    <input type="text" name="renovated" id="building_renovated"><br/>
+                    <label>Feature:</label> 
+                    <input type="text" name="feature" id="building_feature"><br/>
+                    <div id="notice"></div>
+                    <button type="submit" id="updateBuildingInfo">Save</button>
+                  </p>
+                </div>
+              </div>
+              <div class="admin-wrapper-box">
+                <h2>Update GHG emission factor</h2>
+                <div class="interface-data">
+                  <p>
+
+                    <label>Factor:</label>
+                    <input type="text" name="factor" id="factor"/><br/><em>"emmission factor in kg of co2"</em>
+                    <div id="notice2"></div>
+                    <button type="submit" id="updateGHGFactor">Save</button>
+                  </p>
+                </div>
+              </div>
+            </div>
+          </li>
+
+          <li id="account">
+        <!-- <a class="leftbox" >
+            <span class="txt1" id="totalM">Total campus consumption<br /></span>
+            <span class="x1"></span>
+          </a> -->
+          <span class="clear"></span>
+          <div class="box" style="padding:0px 0px 0px 0px !important">
+            <div class="clear"></div>
+            <div class="admin-wrapper-box">
+              <h2>Account Information</h2>
+              <p>Username: <%= user.username %><br/>
+                Email: <%= user.email %><br/>
+                <% if (user.admin == true) { %>
+                Role: admin
+                <% } else { %>
+                Role: 
+                <% } %>
+              </p>
+            </div>
+            <div class="admin-wrapper-box">
+              <div id="editAccount">
+                <h2>Change Password</h2>
+                <form method="post">
+                  <div id="formField">
+                    <label>Username:</label>
+                    <input type="text" name="username" /><br/>
+                  </div>
+                  <div id="formField">
+                    <label>New Password:</label>
+                    <input type="text" name="password" />
+                  </div>
+                  <div>
+                    <div id="notice"></div>
+                    <button type="submit" id="updateAccount">Save</button>
+                  </div>
+                </form>
+              </div>
+            </div>
+
+          </div>
+        </li>
+        <li id="competitions-manager">
+        <!-- <a class="leftbox" >
+            <span class="txt1" id="totalM">Total campus consumption<br /></span>
+            <span class="x1"></span>
+          </a> -->
+          <span class="clear"></span>
+          <div class="box" style="height:100%; padding:0px 0px 0px 0px !important">
+            <div class="clear"></div>
+            <div class="admin-wrapper-box">
+              <h2>Competitions Manager</h2>
+              <em>Do not use spaces at the end of your input(s)</em>
+
+              <div id="comp-manager">
+                <label>ID:</label> 
+
+                <select id="comp_id">
+                  <option selected>---</option>
+                </select> <em>"Competition ID - leave empty when creating new competitions"</em><br/>
+                <label>Name:</label> 
+                <input type="text" name="competition name" id="comp_name"><em>"Competition name"</em><br/>
+                <label>Start Date:</label> 
+                <input type="text" name="start date" id="start_date"><em>"Competition start date"</em><br/>
+                <label>End Date:</label> 
+                <input type="text" name="end date" id="end_date"><em>"Competition end date"</em><br/>
+                <label style="color:red"><i>Base period</i></label><br/>
+                <label>Start Date:</label> 
+                <input type="text" name="base week start date" id="base_start_date"><em>"Base week start date"</em><br/>
+                <label>End Date:</label> 
+                <input type="text" name="base week end date" id="base_end_date"><em>"Base week end date"</em><br/><br/>
+                <label>Buildings:</label>  <em>Double click the building to add/remove it from list</em><br/>
+                <div>
+                  <select id="buildings" name="buildings" multiple="multiple">
+                  </select>
+                </div><br/>
+                <label>Status:</label> 
+                <select id="comp_status">
+                  <option selected>---</option>
+                  <option value="new">New</option>
+                  <option value="inBase">In Base Period</option>
+                  <option value="pendingStart">Pending Start Period</option>
+                  <option value="active">Active</option>
+                  <option value="done">Done</option>
+                </select><em>"Competition status - optional when creating new competitions"</em> <br/><br/>
+                <div id="notice"></div><br/>
+                <button type="submit" id="createCompetition">Create Competition</button>
+                <button type="submit" id="updateCompetition">Update Competition</button>
+                <button type="submit" id="removeCompetition">Remove Competition</button>
+              </div>
+            </div>
+            <div class="clear"></div>
+
+          </div>
+        </li>
+
+      </ul>
+    </article>
+  </div>
+</div>
+
+<!-- Mid Section -->
+<!-- <div class="mid"> -->
+
+
+<!-- </div> -->
 <% include footer %>

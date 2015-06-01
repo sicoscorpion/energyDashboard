@@ -88,6 +88,28 @@ function createCompetition(data) {
     return data;
 }
 
+function updateCompetition(data) {
+    "use strict";
+    console.log(JSON.stringify(data))
+    $.ajax({
+        type: 'POST', 
+        contentType: 'application/json',
+        data: JSON.stringify(data),
+        url: '/updateCompetition',
+        success: function(data){
+            // data = msg;
+            $('#notice').html(data)
+            setTimeout(function() {
+                $('#notice').html("")
+            }, 3000)
+            
+            console.log(data);
+
+        }
+    });
+    return data;
+}
+
 function removeCompetition(val) {
     "use strict";
     console.log(JSON.stringify(val))
