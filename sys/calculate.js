@@ -24,9 +24,7 @@ var config = require('../config.json');
 // TODO seperate db connections 
 var collections = ["dataHour", "dataDaily", "dataMonthly", "Buildings"];
 
-var mongojs = require('mongojs');
-
-var db = mongojs("dashboard", collections);
+var db = require('mongojs').connect(config.db_address, collections);
 
 module.exports = {
 	getOld: function(oldData){
