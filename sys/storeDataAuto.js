@@ -9,7 +9,7 @@ var mongojs = require('mongojs');
 var collections = ["dataHour", "dataDaily", "dataMonthly", "Buildings"];
 
 var storeDataUtils = require('./storeDataUtils.js');
-var db = mongojs(config.db_address, collections);
+var db = mongojs("dashboard", collections);
 
 var parse = storeDataUtils.parse;
 var calc = storeDataUtils.calc;
