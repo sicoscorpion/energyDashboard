@@ -26,7 +26,7 @@ var collections = ["dataHour", "dataDaily", "dataMonthly", "Buildings"];
 
 var mongojs = require('mongojs');
 
-var db = mongojs(config.db_address, collections);
+var db = mongojs("dashboard", collections);
 
 module.exports = {
 	getOld: function(oldData){

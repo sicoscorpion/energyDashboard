@@ -14,7 +14,7 @@ var fs = require('fs'),
 // TODO seperate db connections 
 var collections = ["dataHour", "dataDaily", "dataMonthly", "Buildings"];
 
-var db = mongojs(config.db_address, collections);
+var db = mongojs("dashboard", collections);
 
 var getBuildingsList = function getBuildingsList(callback) { 
 	var buildings = new Array();
