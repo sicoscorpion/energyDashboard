@@ -23,9 +23,10 @@ var getBuildingsList = function getBuildingsList(callback) {
 	});	
 }
 
-db.on('error',function(err) {
-    console.log('database error', err);
+db.dataHourly.findOne({}, function(err, doc) {
+    console.log(err, doc);
 });
+
 
 function saveData(asRoutine){
 	// process.chdir('/home/sico/data');
