@@ -4,6 +4,8 @@ var fs = require('fs'),
 	dateable = require('dateable'),
 	config = require('../config.json');
 
+var mongojs = require('mongojs');
+
 var storeDataUtils = require('./storeDataUtils.js');
 var collections = ["dataHour", "dataDaily", "dataMonthly", "Buildings"];
 var db = mongojs("dashboard", collections);
