@@ -1,0 +1,40 @@
+{
+  "name": "Acadia-Energy-Dashboard",
+  "version": "0.6.5",
+  "author": "Fady Abdelmohsen <fady.abdelmohsen@gmail.com>",
+  "description": "Acadia Umiversity Energy Dashboard",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/sicoscorpion/energyDashboard.git"
+  },
+  "scripts": {
+    "start": "node ./bin/www"
+  },
+  "dependencies": {
+    "express": "~4.12.4",
+    "morgan": "~1.5.3",
+    "debug": "~2.2.0",
+    "serve-favicon": "*",
+    "cookie-parser": "*",
+    "body-parser": "*",
+    "express-session": "*",
+    "errorhandler": "*",
+    "cron": "1.x.x",
+    "dateable": "*",
+    "ejs": "*",
+    "mongojs": "latest",
+    "mongoose": "latest",
+    "sys": "*",
+    "pass": "*",
+    "passport" : "~0.1.17",     
+    "passport-local" : "~0.1.6",
+    "connect-flash" : "~0.1.1",   
+    "bcrypt" : "latest",
+    "ejs-locals" : "latest",
+    "connect-flash": "0.1.0"
+  },
+  "license": "GPL 2.0",
+  "devDependencies": {
+      "grunt": "~0.4.1"
+  }
+}

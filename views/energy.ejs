@@ -1,0 +1,70 @@
+<% include header %>
+	<li id="energy_use">
+          <a class="leftbox" >
+            <span class="txt1" id="totalE">Total campus consumption<br /></span>
+            <span class="x1"></span>
+          </a>
+
+          <div class="box">
+          <div class="clear"></div>
+            <div class="col1E">
+              <div class="bx-title">
+                <p>Electricity Consumption</p>
+              </div>
+              <ul id="tabs" class="elect">
+                  <li><a href="#" name="tab1">Academic/Service</a></li>
+                  <li><a href="#" name="tab2">Residence</a></li>   
+              </ul>
+              <div id="contentE">
+                <div class="sc_menu" id="tab1" >
+                  </div>
+                  <div class="sc_menu" id="tab2">
+                  </div>
+                </div>
+            </div>       
+            <div class="midBox">
+              <img src="images/CampusAerial.jpg"></img>
+            </div>
+            <div class="el" >
+              <!-- <button id="switch">FLIP</button> -->
+              <div id="spin" class="spin" style="display:none;">
+                <p></p>
+                <img id="img-spinner" src="images/pleasewait.gif" alt="Loading"/>
+              </div>
+              <div class="graph-name"><p></p></div>
+              <div class="col2">
+                <p id="noData">no data available at this time :(</p>
+                <div class="graph-name"><p></p></div>
+                <div id="buttons">
+                  <p>Timeline: 
+                    <button id="today" class="ui-state-highlight">Today</button>
+                    <button id="yesterday" class="ui-state-highlight">Yesterday</button>
+                    <button id="week" class="ui-state-highlight">Week</button> 
+                    <button id="month" class="ui-state-highlight">Month</button> 
+                    <button id="year" class="ui-state-highlight">Year</button>
+                    <a style="float:right; margin-top:5px; margin-right: 10px;" href="#" title="Greenhouse Gas Protocol Initiative methodology is used to calculate GHG emissions estimates for Acadia University. Nova Scotia GHG emissions factors are provided by Nova Scotia Power Inc. Current GHG emissions are calculated using the Nova Scotia emissions factor for the most recent year since emissions factors are not released"><img src="images/info.png"></a>
+                  </p>
+                </div>
+                <div id="container" style="width:565px; height:335px"></div> 
+              </div>
+              <div class="col3">
+                <div id="r-img" ></div>
+                <div class="total-box">
+                  <p id="head">CONSUMPTION SUMMARY</p>
+                  <div id="num1">0</div>
+                  <p id="kwh"></p>
+                  <div id="num2">0</div>
+                  <p id="ghg"></p>
+                </div>
+                
+                <div class="builProfile">
+                    <p id="head">BUILDING PROFILE</p>
+                    <p id="info"></p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <span class="clear"></span>
+      </li>
+
+<% include footer %>
