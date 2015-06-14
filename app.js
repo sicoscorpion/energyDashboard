@@ -41,7 +41,7 @@ var storeDataAuto = require('./sys/storeDataAuto.js');
 // process.env.NODE_ENV
 var env = process.env.NODE_ENV || 'development';
 
-if ('development' == env) {
+if ('development' == env || 'remote' == env) {
     // app.use(express.logger());
     // var db = Mongoose.connect(config.db_address);
     
