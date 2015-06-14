@@ -2,24 +2,25 @@ var Mongoose = require('mongoose')
    , Schema = Mongoose.Schema;
 
 Mongoose.model("dataHour", new Schema({
-    date            :  Date,
-    time            :  String, 
-    code            :  String,
+    date            :  { type: [Date], index: true },
+    time            :  { type: [String], index: true }, 
+    code            :  { type: [String], index: true },
     status          :  String,
     value           :  Number
 }, {collection  : "dataHour"} ));
 
 Mongoose.model("dataDaily", new Schema({
-    date            :  Date,
-    time            :  String, 
-    code            :  String,
+    date            :  { type: [Date], index: true },
+    time            :  { type: [String], index: true }, 
+    code            :  { type: [String], index: true },
     status          :  String,
     value           :  Number
 }, {collection  : "dataDaily"} ));
 
 Mongoose.model("dataMonthly", new Schema({
-    month           :  String, 
-    code            :  String,
+    month           :  { type: [String], index: true },
+    code            :  { type: [String], index: true }, 
+    year            :  { type: [String], index: true },
     status          :  String,
     value           :  Number
 }, {collection  : "dataMonthly"})); 

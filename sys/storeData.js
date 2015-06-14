@@ -6,9 +6,23 @@ var fs = require('fs'),
 
 var mongojs = require('mongojs');
 
+// var MongoClient = require('mongodb').MongoClient
+//   , assert = require('assert');
+
+
+//   // Connection URL
+// var url = 'mongodb://localhost:27017/dashboard';
+// // Use connect method to connect to the Server
+// MongoClient.connect(url, function(err, db) {
+//   assert.equal(null, err);
+//   console.log("Connected correctly to server");
+
+//   db.close();
+// });
+
 var storeDataUtils = require('./storeDataUtils.js');
 var collections = ["dataHour", "dataDaily", "dataMonthly", "Buildings"];
-var db = mongojs("mongodb://localhost/dashboard", ["dataHour", "dataDaily", "dataMonthly", "Buildings"]);
+var db = mongojs("mongodb://localhost:27017/dashboard", ["dataHour", "dataDaily", "dataMonthly", "Buildings"]);
 var parse = require('./parser.js');
 var calc = require('./calculate.js');
 var fileExistSync = require('./existsSync.js');
