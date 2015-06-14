@@ -108,7 +108,17 @@ var job2 = new cronJob({
     start: false
 });
 
-var jobHeroku = new cronJob({
+var jobRemote = new cronJob({
+    cronTime: '10 * * * *',
+    onTick: function(){
+        storeDataAuto.saveData();
+
+        console.log("Saved new set of data");
+    },
+    start: false
+});
+
+var jobRemoteBackup = new cronJob({
     cronTime: '22 * * * *',
     onTick: function(){
         storeDataAuto.saveData();
@@ -180,9 +190,10 @@ if (app.get('env') === 'development') {
   job2.start();
 }
 
-if (app.get('env') === 'heroku') {
+if (app.get('env') === 'remote') {
   /* starts CRON jobs responsible for running the storing routine */
-  jobHeroku.start();
+  jobRemote.start();
+  jobRemoteBackup.start();
 }
 
 // catch 404 and forward to error handler
