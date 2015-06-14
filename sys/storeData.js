@@ -5,8 +5,8 @@ var fs = require('fs'),
 	config = require('../config.json');
 
 var storeDataUtils = require('./storeDataUtils.js');
-var db = storeDataUtils.db;
-module.exports.db = db;
+var collections = ["dataHour", "dataDaily", "dataMonthly", "Buildings"];
+var db = mongojs("dashboard", collections);
 var parse = require('./parser.js');
 var calc = require('./calculate.js');
 var fileExistSync = require('./existsSync.js');
