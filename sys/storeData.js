@@ -8,7 +8,7 @@ var mongojs = require('mongojs');
 
 var storeDataUtils = require('./storeDataUtils.js');
 var collections = ["dataHour", "dataDaily", "dataMonthly", "Buildings"];
-var db = mongojs("dashboard", collections);
+var db = mongojs("mongodb://localhost/dashboard", collections);
 var parse = require('./parser.js');
 var calc = require('./calculate.js');
 var fileExistSync = require('./existsSync.js');
