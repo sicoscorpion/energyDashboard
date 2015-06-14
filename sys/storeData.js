@@ -23,9 +23,9 @@ var getBuildingsList = function getBuildingsList(callback) {
 	});	
 }
 
-db.dataHourly.findOne({}, function(err, doc) {
-    console.log(err, doc);
-});
+// db.dataHourly.findOne({}, function(err, doc) {
+//     console.log(err, doc);
+// });
 
 
 function saveData(asRoutine){
