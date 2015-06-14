@@ -10,7 +10,7 @@ script
 	export HOME="/root"
 
 	echo $$ > /var/run/node.pid    
-	exec NODE_ENV=development PORT=4000 DEBUG=aed-new npm start >> /var/log/dashboard.sys.log 2>&1
+	exec 'NODE_ENV=development PORT=4000 DEBUG=aed-new' npm start >> /var/log/dashboard.sys.log 2>&1
 end script
 
 pre-start script
