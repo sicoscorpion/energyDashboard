@@ -20,6 +20,7 @@
     "express-session": "*",
     "errorhandler": "*",
     "cron": "1.x.x",
+    "path": "*",
     "dateable": "*",
     "ejs": "*",
     "mongojs": "0.18.2",
