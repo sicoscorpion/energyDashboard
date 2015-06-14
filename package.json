@@ -22,7 +22,7 @@
     "cron": "1.x.x",
     "dateable": "*",
     "ejs": "*",
-    "mongojs": "latest",
+    "mongojs": "0.18.2",
     "mongoose": "latest",
     "sys": "*",
     "pass": "*",
