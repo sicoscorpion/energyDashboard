@@ -7,13 +7,14 @@ var fs = require('fs'),
 	sys = require('sys'),
 	exec = require('child_process').exec,
 	dateable = require('dateable'),
-	config = require('../config.json');
+	config = require('../config.json'),
+	mongojs = require('mongojs');
 
 
 // TODO seperate db connections 
 var collections = ["dataHour", "dataDaily", "dataMonthly", "Buildings"];
 
-var db = require('mongojs').connect(config.db_address, collections);
+var db = mongojs(config.db_address, collections);
 
 var getBuildingsList = function getBuildingsList(callback) { 
 	var buildings = new Array();
