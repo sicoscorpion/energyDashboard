@@ -58,7 +58,12 @@ module.exports = {
 				} else {
 					for (var m = 0; m < old.length; m++) {
 						if(data[i].code === old[m].code){
-							objects[x].value = (data[i].value - old[m].value) / 2;
+
+							if(data[i].value < old[m].value ){
+								objects[x].value = data[i].value;
+							}
+							else
+								objects[x].value = (data[i].value - old[m].value) / 2;
 						}
 					}
 				}
