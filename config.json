@@ -1,4 +1,4 @@
 {
-	"db_address" : "mongodb://aed:naEt5nkS@ds043022.mongolab.com:43022/heroku_app37387921",
+	"db_address" : "mongodb://localhost/aed",
 	"MEU_data" : "/home/zeratoul/data"
 }
