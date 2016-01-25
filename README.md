@@ -45,6 +45,10 @@ Storing routine
 
 Fast Queries
 ============
+// New API 
+  - /api/getBuildings
+  - /api/buildinginfo/:building_code
+// OLD AND DEPRCATED
   - /db/dataHour/-<i>date</i>-/-<i>building</i>-
   - /db/dataDaily/-<i>date-from</i>-/-<i>date-to</i>-/-<i>building</i>-
   - /db/dataForWeek/-<i>building</i>-
