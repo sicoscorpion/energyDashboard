@@ -189,8 +189,9 @@ $(document).ready(function() {
     start();
     $.when(buildElectricity(), 
         load_map(), 
-        load_comparisons(),
-        load_competitions()).done(function() {
+        load_comparisons()
+        // ,load_competitions()
+        ).done(function() {
         console.log("Done loading buildElectricity()");
         setTimeout(function () {
             $('.spinner').stop().animate({top:-2000},3000,'easeOutExpo');
