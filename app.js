@@ -111,7 +111,7 @@ var job2 = new cronJob({
 var jobRemote = new cronJob({
     cronTime: '10 * * * *',
     onTick: function(){
-        storeDataAuto.saveData();
+        // storeDataAuto.saveData();
 
         console.log("Saved new set of data");
     },
@@ -121,7 +121,7 @@ var jobRemote = new cronJob({
 var jobRemoteBackup = new cronJob({
     cronTime: '22 * * * *',
     onTick: function(){
-        storeDataAuto.saveData();
+        // storeDataAuto.saveData();
 
         console.log("Saved new set of data");
     },

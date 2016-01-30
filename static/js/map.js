@@ -13,9 +13,12 @@ function getAccum(date, code) {
     return accum;
 }
 
-function load_map() {
 	var list = getBuildings();
+function load_map() {
     console.log("LIST: ", list);
+    if (list == null) {
+      list = getBuildings();
+    }
     var builds = list.sort(dynamicSort("name"));
     console.log("LIST: ", builds[0]);
     var locations = []

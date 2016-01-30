@@ -188,8 +188,8 @@ $(window).load(function() {
 $(document).ready(function() {
     start();
     $.when(buildElectricity(), 
-        load_map(), 
-        load_comparisons()
+        load_comparisons(),
+        load_map() 
         // ,load_competitions()
         ).done(function() {
         console.log("Done loading buildElectricity()");
