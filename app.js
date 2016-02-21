@@ -109,7 +109,7 @@ var job2 = new cronJob({
 });
 
 var jobRemote = new cronJob({
-    cronTime: '10 * * * *',
+    cronTime: '12 * * * *',
     onTick: function(){
         // storeDataAuto.saveData();
 
