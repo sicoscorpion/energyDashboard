@@ -49,13 +49,13 @@ Fast Queries
   - /api/getBuildings
   - /api/buildinginfo/:building_code
 // OLD AND DEPRCATED
-  - /db/dataHour/-<i>date</i>-/-<i>building</i>-
-  - /db/dataDaily/-<i>date-from</i>-/-<i>date-to</i>-/-<i>building</i>-
-  - /db/dataForWeek/-<i>building</i>-
-  - /db/dataForMonth/-<i>building</i>-
-  - /db/dataForYear/-<i>building</i>-
-  - /db/campusConsumption <br/>
-  - /db/buildingInfo/-<i>building</i>-<br/>
+  - /api/dataHour/-<i>date</i>-/-<i>building</i>-
+  - /api/dataDaily/-<i>date-from</i>-/-<i>date-to</i>-/-<i>building</i>-
+  - /api/dataForWeek/-<i>building</i>-
+  - /api/dataForMonth/-<i>building</i>-
+  - /api/dataForYear/-<i>building</i>-
+  - /api/campusConsumption <br/>
+  - /api/buildingInfo/-<i>building</i>-<br/>
   <i>building</i>: refers to the building code<br/>
   <i>date</i>, <i>date-from</i>, <i>date-to</i>: the date formated 'mm-dd-yyyy'
 
